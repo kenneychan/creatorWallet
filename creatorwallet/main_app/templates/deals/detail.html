@@ -1,0 +1,41 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Deals Details</h1>
+
+<div class="row">
+  <div class="col s6">
+    <div class="card"></div>
+  </div>
+</div>
+
+{% for attachment in deal.attachment_set.all %}
+<img class="responsive-img card-panel" src="{{attachment.url}}" />
+{% empty %}
+<div class="card-panel teal-text center-align">No Attachment Uploaded</div>
+{% endfor %}
+
+<form
+  action="{% url 'add_attachment' deal.id %}"
+  enctype="multipart/form-data"
+  method="POST"
+  class="card-panel"
+>
+  {% csrf_token %}
+  <input type="file" name="attachment-file" />
+  <br /><br />
+  <button type="submit" class="btn">Upload Attachment</button>
+</form>
+
+<script>
+  const dateEl = document.getElementById("id_modified_on");
+  M.Datepicker.init(dateEl, {
+    format: "yyyy-mm-dd",
+    defaultDate: new Date(),
+    setDefaultDate: true,
+    autoClose: true,
+  });
+
+  const selectEl = document.getElementById("id_rating");
+  M.FormSelect.init(selectEl);
+</script>
+{% endblock %}

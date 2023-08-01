@@ -1,3 +1,6 @@
+import os
+import uuid
+import boto3
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView
 from django.contrib.auth import login
@@ -7,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 # Import the mixin for class-based views
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Deal
+from .models import Attachment
 
 # Create your views here.
 # Define the home view
@@ -43,6 +47,7 @@ class DealCreate(LoginRequiredMixin, CreateView):
   
   # This inherited method is called when a
   # valid deal form is being submitted
+  fields = ['name', 'amount', 'details', 'url', 'promo_code', 'done', 'due_date']
   def form_valid(self, form):
     # Assign the logged in user (self.request.user)
     form.instance.user = self.request.user  # form.instance is the deal
@@ -55,3 +60,37 @@ def deals_index(request):
   # You could also retrieve the logged in user's deals like this
   # deals = request.user.deal_set.all()
   return render(request, 'deals/index.html', { 'deals': deals })
+
+def deals_detail(request, deal_id):
+  deal = Deal.objects.get(id=deal_id)
+  # Get the stores the deal doesn't have...
+  # First, create a list of the store ids that the deal DOES have
+  # Now we can query for stores whose ids are not in the list using exclude
+  return render(request, 'deals/detail.html', {
+    'deal': deal
+  })
+
+# def add_attachment(request, deal_id):
+def add_attachment(request, deal_id):
+    # attachment-file will be the "name" attribute on the <input type="file">
+    attachment_file = request.FILES.get('attachment-file', None)
+    if attachment_file:
+        s3 = boto3.client('s3')
+        # need a unique "key" for S3 / needs image file extension too
+        key = uuid.uuid4().hex[:6] + attachment_file.name[attachment_file.name.rfind('.'):]
+        # just in case something goes wrong
+        try:
+            bucket = os.environ['S3_BUCKET']
+            s3.upload_fileobj(attachment_file, bucket, key)
+            # build the full url string
+            url = f"{os.environ['S3_BASE_URL']}{bucket}/{key}"
+            print ('url', url)
+            # we can assign to deal_id or deal (if you have a deal object)
+            Attachment.objects.create(url=url, deal_id=deal_id, filename=attachment_file.name)
+        except Exception as e:
+            print('An error occurred uploading file to S3')
+            print(e)
+
+    print (Attachment.objects.all())
+
+    return redirect('detail',  deal_id=deal_id)
