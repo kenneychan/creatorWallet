@@ -14,6 +14,10 @@
         <p>Done: {{ deal.done }}</p>
         <p>Created date: {{ deal.create_date }}</p>
       </div>
+      <div class="card-action">
+        <a href="{% url 'deals_update' deal.id %}">Edit</a>
+        <a href="{% url 'deals_delete' deal.id %}">Delete</a>
+      </div>
       <div class="card-action"></div>
     </div>
   </div>
