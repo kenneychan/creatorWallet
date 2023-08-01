@@ -40,18 +40,24 @@ def signup(request):
 
 class DealCreate(LoginRequiredMixin, CreateView):
   model = Deal
-  
   # This inherited method is called when a
   # valid deal form is being submitted
+  fields = ['name', 'amount', 'details', 'url', 'promo_code', 'create_date', 'done', 'due_date']
   def form_valid(self, form):
     # Assign the logged in user (self.request.user)
     form.instance.user = self.request.user  # form.instance is the deal
     # Let the CreateView do its job as usual
     return super().form_valid(form)
   
+
+
 @login_required
 def deals_index(request):
   deals = Deal.objects.filter(user=request.user)
   # You could also retrieve the logged in user's deals like this
   # deals = request.user.deal_set.all()
   return render(request, 'deals/index.html', { 'deals': deals })
+
+def deals_detail(request, deal_id):
+  deal = Deal.objects.get(id=deal_id)
+  return render(request, 'deals/detail.html', { 'deal': deal })

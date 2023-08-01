@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 # Import the User
 from django.contrib.auth.models import User
 
@@ -14,3 +15,9 @@ class Deal(models.Model):
   
     create_date = models.DateField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.name} ({self.id})"
+
+    def get_absolute_url(self):
+        return reverse("detail", kwargs={"deal_id": self.id})
