@@ -6,7 +6,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 # Import the mixin for class-based views
 from django.contrib.auth.mixins import LoginRequiredMixin
-# from .models import Cat
+from .models import Deal
 
 # Create your views here.
 # Define the home view
@@ -38,20 +38,20 @@ def signup(request):
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
 
-# class CatCreate(LoginRequiredMixin, CreateView):
-#   model = Cat
+class DealCreate(LoginRequiredMixin, CreateView):
+  model = Deal
   
-#   # This inherited method is called when a
-#   # valid cat form is being submitted
-#   def form_valid(self, form):
-#     # Assign the logged in user (self.request.user)
-#     form.instance.user = self.request.user  # form.instance is the cat
-#     # Let the CreateView do its job as usual
-#     return super().form_valid(form)
+  # This inherited method is called when a
+  # valid deal form is being submitted
+  def form_valid(self, form):
+    # Assign the logged in user (self.request.user)
+    form.instance.user = self.request.user  # form.instance is the deal
+    # Let the CreateView do its job as usual
+    return super().form_valid(form)
   
-# @login_required
-# def cats_index(request):
-#   cats = Cat.objects.filter(user=request.user)
-#   # You could also retrieve the logged in user's cats like this
-#   # cats = request.user.cat_set.all()
-#   return render(request, 'cats/index.html', { 'cats': cats })
+@login_required
+def deals_index(request):
+  deals = Deal.objects.filter(user=request.user)
+  # You could also retrieve the logged in user's deals like this
+  # deals = request.user.deal_set.all()
+  return render(request, 'deals/index.html', { 'deals': deals })
