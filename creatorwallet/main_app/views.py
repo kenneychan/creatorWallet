@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 # Import the login_required decorator
 from django.contrib.auth.decorators import login_required
 # Import the mixin for class-based views
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Deal
+from .models import Deal, Platform
 
 # Create your views here.
 # Define the home view
@@ -70,3 +71,36 @@ def deals_index(request):
 def deals_detail(request, deal_id):
   deal = Deal.objects.get(id=deal_id)
   return render(request, 'deals/detail.html', { 'deal': deal })
+
+
+class PlatformList(ListView):
+  model = Platform
+
+
+class PlatformDetail(DetailView):
+  model = Platform
+
+
+class PlatformCreate(CreateView):
+  model = Platform
+  fields = '__all__'
+
+
+class PlatformUpdate(UpdateView):
+  model = Platform
+  fields = ['name', 'color']
+
+
+class PlatformDelete(DeleteView):
+  model = Platform
+  success_url = '/platforms'
+
+
+def assoc_platform(request, finch_id, platform_id):
+  # Note that you can pass a platform's id instead of the whole platform object
+  Finch.objects.get(id=finch_id).platforms.add(platform_id)
+  return redirect('detail', finch_id=finch_id)
+def unassoc_platform(request, finch_id, platform_id):
+  # Note that you can pass a platform's id instead of the whole platform object
+  Finch.objects.get(id=finch_id).platforms.remove(platform_id)
+  return redirect('detail', finch_id=finch_id)
