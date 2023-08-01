@@ -12,7 +12,6 @@ class Deal(models.Model):
     url = models.URLField(max_length=100)
     promo_code = models.CharField(max_length=100)
     done = models.BooleanField(default=False)
-  
     create_date = models.DateField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
