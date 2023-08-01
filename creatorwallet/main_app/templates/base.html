@@ -23,13 +23,15 @@
         <div class="nav-wrapper">
           <ul>
             <li>
-              <a href="/" class="left brand-logo">&nbsp;&nbsp;Cat Collector</a>
+              <a href="/" class="left brand-logo">&nbsp;&nbsp;creatorWallet</a>
             </li>
           </ul>
           <ul class="right">
             <li><a href="/about">About</a></li>
             {% if user.is_authenticated %}
             <li><a href="{% url 'logout' %}">Log Out</a></li>
+            <li><a href="{% url 'deals_create' %}">Add a Deal</a></li>
+            <li><a href="{% url 'index' %}">View All My Deals</a></li>
             {% else %}
             <li><a href="{% url 'signup' %}">Sign Up</a></li>
             <li><a href="{% url 'login' %}">Log In</a></li>

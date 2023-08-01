@@ -1,5 +1,7 @@
 from datetime import date
 from django.db import models
+from django.urls import reverse
+from datetime import date
 # Import the User
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -14,7 +16,6 @@ class Deal(models.Model):
     url = models.URLField(max_length=100, blank=True, default='')
     promo_code = models.CharField(max_length=100, blank=True, default='')
     done = models.BooleanField(blank=True, default=False)
-  
     create_date = models.DateField(default=date.today)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
