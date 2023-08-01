@@ -20,25 +20,25 @@
       </div>
       <div class="card-action"></div>
     </div>
+    {% for attachment in deal.attachment_set.all %}
+    <a href="{{attachment.url}}">{{attachment.filename}}</a>
+    {% empty %}
+    <div class="card-panel teal-text center-align">No Attachment Uploaded</div>
+    {% endfor %}
+
+    <form
+      action="{% url 'add_attachment' deal.id %}"
+      enctype="multipart/form-data"
+      method="POST"
+      class="card-panel"
+    >
+      {% csrf_token %}
+      <input type="file" name="attachment-file" />
+      <br /><br />
+      <button type="submit" class="btn">Upload Attachment</button>
+    </form>
   </div>
 </div>
-{% for attachment in deal.attachment_set.all %}
-<a href="{{attachment.url}}">{{attachment.filename}}</a>
-{% empty %}
-<div class="card-panel teal-text center-align">No Attachment Uploaded</div>
-{% endfor %}
-
-<form
-  action="{% url 'add_attachment' deal.id %}"
-  enctype="multipart/form-data"
-  method="POST"
-  class="card-panel"
->
-  {% csrf_token %}
-  <input type="file" name="attachment-file" />
-  <br /><br />
-  <button type="submit" class="btn">Upload Attachment</button>
-</form>
 
 <script>
   const dateEl = document.getElementById("id_modified_on");
