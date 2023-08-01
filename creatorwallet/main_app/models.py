@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-class Platform(models.Model):
+class Platform_content(models.Model):
   name = models.CharField(max_length=50)
   url = models.URLField(max_length=100)
 
@@ -14,7 +14,7 @@ class Platform(models.Model):
     return self.name
 
   def get_absolute_url(self):
-    return reverse('platforms_detail', kwargs={'pk': self.id})
+    return reverse('platforms_content_detail', kwargs={'pk': self.id})
 
 
 class Deal(models.Model):

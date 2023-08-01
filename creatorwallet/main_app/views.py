@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 # Import the mixin for class-based views
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Deal, Platform
+from .models import Deal, Platform_content
 
 # Create your views here.
 # Define the home view
@@ -73,34 +73,34 @@ def deals_detail(request, deal_id):
   return render(request, 'deals/detail.html', { 'deal': deal })
 
 
-class PlatformList(ListView):
-  model = Platform
+class Platform_contentList(ListView):
+  model = Platform_content
 
 
-class PlatformDetail(DetailView):
-  model = Platform
+class Platform_contentDetail(DetailView):
+  model = Platform_content
 
 
-class PlatformCreate(CreateView):
-  model = Platform
+class Platform_contentCreate(CreateView):
+  model = Platform_content
   fields = '__all__'
 
 
-class PlatformUpdate(UpdateView):
-  model = Platform
-  fields = ['name', 'color']
+class Platform_contentUpdate(UpdateView):
+  model = Platform_content
+  fields = ['name', 'url']
 
 
-class PlatformDelete(DeleteView):
-  model = Platform
-  success_url = '/platforms'
+class Platform_contentDelete(DeleteView):
+  model = Platform_content
+  success_url = '/platforms_content'
 
 
-def assoc_platform(request, deal_id, platform_id):
+def assoc_platform_content(request, deal_id, platform_content_id):
   # Note that you can pass a platform's id instead of the whole platform object
-  Deal.objects.get(id=deal_id).platforms.add(platform_id)
+  Deal.objects.get(id=deal_id).platforms_content.add(platform_content_id)
   return redirect('detail', deal_id=deal_id)
-def unassoc_platform(request, deal_id, platform_id):
+def unassoc_platform_content(request, deal_id, platform_content_id):
   # Note that you can pass a platform's id instead of the whole platform object
-  Deal.objects.get(id=deal_id).platforms.remove(platform_id)
+  Deal.objects.get(id=deal_id).platforms_content.remove(platform_content_id)
   return redirect('detail', deal_id=deal_id)
