@@ -1,0 +1,23 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Contracts</h1>
+
+{% for contract in contracts.all %}
+<a href="{{contract.url}}">{{contract.filename}}</a>
+{% empty %}
+<div class="card-panel teal-text center-align">No Contracts Uploaded</div>
+{% endfor %}
+
+<form
+  action="{% url 'add_contract' %}"
+  enctype="multipart/form-data"
+  method="POST"
+  class="card-panel"
+>
+  {% csrf_token %}
+  <input type="file" name="contract-file" />
+  <br /><br />
+  <button type="submit" class="btn">Upload Contract</button>
+</form>
+
+{% endblock %}

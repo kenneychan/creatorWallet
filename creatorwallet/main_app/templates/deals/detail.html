@@ -19,7 +19,7 @@
   </div>
 </div>
 {% for attachment in deal.attachment_set.all %}
-<img class="responsive-img card-panel" src="{{attachment.url}}" />
+<a href="{{attachment.url}}">{{attachment.filename}}</a>
 {% empty %}
 <div class="card-panel teal-text center-align">No Attachment Uploaded</div>
 {% endfor %}
