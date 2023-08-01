@@ -96,11 +96,11 @@ class PlatformDelete(DeleteView):
   success_url = '/platforms'
 
 
-def assoc_platform(request, finch_id, platform_id):
+def assoc_platform(request, deal_id, platform_id):
   # Note that you can pass a platform's id instead of the whole platform object
-  Finch.objects.get(id=finch_id).platforms.add(platform_id)
-  return redirect('detail', finch_id=finch_id)
-def unassoc_platform(request, finch_id, platform_id):
+  Deal.objects.get(id=deal_id).platforms.add(platform_id)
+  return redirect('detail', deal_id=deal_id)
+def unassoc_platform(request, deal_id, platform_id):
   # Note that you can pass a platform's id instead of the whole platform object
-  Finch.objects.get(id=finch_id).platforms.remove(platform_id)
-  return redirect('detail', finch_id=finch_id)
+  Deal.objects.get(id=deal_id).platforms.remove(platform_id)
+  return redirect('detail', deal_id=deal_id)

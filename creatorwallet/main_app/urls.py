@@ -11,4 +11,11 @@ urlpatterns = [
   path('deals/create/', views.DealCreate.as_view(), name='deals_create'),
   path('deals/<int:pk>/update/', views.DealUpdate.as_view(), name='deals_update'),
   path('deals/<int:pk>/delete/', views.DealDelete.as_view(), name='deals_delete'),
+  path('deals/<int:deal_id>/assoc_platform/<int:platform_id>/', views.assoc_platform, name='assoc_platform'),
+  path('deals/<int:deal_id>/unassoc_platform/<int:platform_id>/', views.unassoc_platform, name='unassoc_platform'),
+  path('platforms/', views.PlatformList.as_view(), name='platforms_index'),
+  path('platforms/<int:pk>/', views.PlatformDetail.as_view(), name='platforms_detail'),
+  path('platforms/create/', views.PlatformCreate.as_view(), name='platforms_create'),
+  path('platforms/<int:pk>/update/', views.PlatformUpdate.as_view(), name='platforms_update'),
+  path('platforms/<int:pk>/delete/', views.PlatformDelete.as_view(), name='platforms_delete'),
 ]
