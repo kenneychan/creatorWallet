@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 # Import the login_required decorator
@@ -50,6 +50,15 @@ class DealCreate(LoginRequiredMixin, CreateView):
     return super().form_valid(form)
   
 
+class DealUpdate(UpdateView):
+    model = Deal
+    # Let's disallow the renaming of a deal by excluding the name field!
+    fields = ['name', 'amount', 'details', 'url', 'promo_code', 'create_date', 'done', 'due_date']
+  
+
+class DealDelete(DeleteView):
+    model = Deal
+    success_url = "/deals"
 
 @login_required
 def deals_index(request):
