@@ -1,12 +1,11 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>Deal List</h1>
-
-{% for deal in deals %}
-<a href="{% url 'detail' deal.id %}">
-  <div class="card">
-    <div class="card-content">
-      <span class="card-title">{{ deal.name }}</span>
+<h1>Deal Details</h1>
+<div class="row">
+  <div class="col s6">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{ deal.name }}</span>
       <p>Amount: {{ deal.amount }}</p>
       <p>Details: {{ deal.details|linebreaks }}</p>
       <p>Due date: {{ deal.due_date }}</p>
@@ -14,7 +13,9 @@
       <p>Promo code: {{ deal.promo_code }}</p>
       <p>Done: {{ deal.done }}</p>
       <p>Created date: {{ deal.create_date }}</p>
+      </div>
+      <div class="card-action">
+      </div>
     </div>
-  </div>
-</a>
-{% endfor %} {% endblock %}
+
+{% endblock %}

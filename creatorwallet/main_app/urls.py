@@ -7,4 +7,6 @@ urlpatterns = [
   # New url pattern below
   path('accounts/signup/', views.signup, name='signup'),
   path('deals/', views.deals_index, name='index'),
+  path('deals/<int:deal_id>/', views.deals_detail, name='detail'),
+  path('deals/create/', views.DealCreate.as_view(), name='deals_create'),
 ]
