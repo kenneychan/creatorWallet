@@ -1,7 +1,109 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>Home</h1>
-<hr />
-<p>Here!</p>
+<div id="index-banner" class="parallax-container">
+  <div class="section no-pad-bot">
+    <div class="container">
+      <br><br>
+      <h1 class="header center teal-text text-lighten-2">CreatorWallet</h1>
+      <div class="row center">
+        <h5 class="header col s12 light">A smart way to keep track of your deals!</h5>
+      </div>
+      <div class="row center">
+        <a href="{% url 'index' %}"
+          class="btn-large waves-effect waves-light teal lighten-1">Get Started</a>
+      </div>
+      <br><br>
+
+    </div>
+  </div>
+  <div class="parallax"><img class="parallax-img" src="static/images/parallax1.jpg" alt="Unsplashed background img 1"></div>
+</div>
+
+
+<div class="container">
+  <div class="section">
+
+    <!--   Icon Section   -->
+    <div class="row">
+      <div class="col s12 m4">
+        <div class="icon-block">
+          <h2 class="center brown-text"><i class="material-icons">flash_on</i></h2>
+          <h5 class="center">Phasellus mattis pharetra </h5>
+
+          <p class="light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mattis pharetra aliquam. Integer a nisi eget tortor
+          varius volutpat. Maecenas lectus odio, tempor id aliquam nec, porttitor et nibh. In hac habitasse platea dictumst. Proin
+          blandit augue et eros sollicitudin feugiat.</p>
+        </div>
+      </div>
+
+      <div class="col s12 m4">
+        <div class="icon-block">
+          <h2 class="center brown-text"><i class="material-icons">group</i></h2>
+          <h5 class="center">Sed eu aliquam mi</h5>
+
+          <p class="light">Nullam eu leo id metus molestie posuere porta sit amet mi. Sed eu aliquam mi. Suspendisse semper accumsan ex id aliquam.
+          Morbi scelerisque a sem eget commodo. Etiam a felis eu est rutrum eleifend. Sed viverra viverra tellus, vitae efficitur
+          dui consectetur sit amet. Ut commodo sodales lacinia. Duis dapibus quam non nibh luctus pretium.</p>
+        </div>
+      </div>
+
+      <div class="col s12 m4">
+        <div class="icon-block">
+          <h2 class="center brown-text"><i class="material-icons">settings</i></h2>
+          <h5 class="center">Donec tincidunt dolor erat</h5>
+
+          <p class="light">Fusce in dui nulla. Proin lacus erat, efficitur et magna ut, mattis ullamcorper nisl. Integer scelerisque lorem quis
+          quam maximus volutpat. Aenean pharetra enim finibus metus tempus, ut viverra nibh pharetra. Suspendisse efficitur enim
+          et nulla imperdiet, at mattis sapien aliquet.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="parallax-container valign-wrapper">
+  <div class="section no-pad-bot">
+    <div class="container">
+      <div class="row center">
+        <h5 class="header col s12 light">Donec tincidunt dolor erat</h5>
+      </div>
+    </div>
+  </div>
+  <div class="parallax"><img class="parallax-img" src="static/images/parallax2.jpg" alt="Unsplashed background img 2"></div>
+</div>
+
+<div class="container">
+  <div class="section">
+
+    <div class="row">
+      <div class="col s12 center">
+        <h3><i class="mdi-content-send brown-text"></i></h3>
+        <h4>Contact Us</h4>
+        <p class="left-align light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id
+          nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies
+          eros. Maecenas eros justo, ullamcorper a sapien id, viverra ultrices eros. Morbi sem neque, posuere et
+          pretium eget, bibendum sollicitudin lacus. Aliquam eleifend sollicitudin diam, eu mattis nisl maximus sed.
+          Nulla imperdiet semper molestie. Morbi massa odio, condimentum sed ipsum ac, gravida ultrices erat. Nullam
+          eget dignissim mauris, non tristique erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
+          posuere cubilia Curae;</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="parallax-container valign-wrapper">
+  <div class="section no-pad-bot">
+    <div class="container">
+      <div class="row center">
+        <h5 class="header col s12 light">Donec tincidunt dolor erat</h5>
+      </div>
+    </div>
+  </div>
+  <div class="parallax"><img class="parallax-img" src="static/images/parallax3.jpg" alt="Unsplashed background img 3"></div>
+</div>
 
 {% endblock %}
