@@ -29,6 +29,8 @@
             {% if user.is_authenticated %}
             <li><a href="{% url 'index' %}">View All My Deals</a></li>
             <li><a href="{% url 'logout' %}">Log Out</a></li>
+            <li><a href="{% url 'deals_create' %}">Add a Deal</a></li>
+            <li><a href="{% url 'index' %}">View All My Deals</a></li>
             {% else %}
             <li><a href="{% url 'signup' %}">Sign Up</a></li>
             <li><a href="{% url 'login' %}">Log In</a></li>
