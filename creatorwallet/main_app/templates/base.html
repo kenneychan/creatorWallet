@@ -7,28 +7,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>CreatorWallet</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'css/style.css' %}"
-    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script defer src="{% static 'javascripts/script.js' %}"></script>
   </head>
   <body>
     <header class="navbar-fixed">
       <nav>
-        <div class="nav-wrapper">
+        <div class="nav-wrapper white">
           <ul>
             <li>
-              <a href="/" class="left brand-logo">&nbsp;&nbsp;Cat Collector</a>
+              <a href="/" class="left brand-logo"><img id="logo" src="{% static 'images/logo-black.png' %}"
+                  alt="CreatorWallet"></a>
             </li>
           </ul>
           <ul class="right">
             <li><a href="/about">About</a></li>
             {% if user.is_authenticated %}
+            <li><a href="{% url 'index' %}">View All My Deals</a></li>
             <li><a href="{% url 'logout' %}">Log Out</a></li>
             {% else %}
             <li><a href="{% url 'signup' %}">Sign Up</a></li>
@@ -38,9 +37,40 @@
         </div>
       </nav>
     </header>
-    <main class="container">{% block content %} {% endblock %}</main>
-    <footer class="page-footer">
-      <div class="right">All Rights Reserved, &copy; 2023 &nbsp;</div>
+    <main>{% block content %} {% endblock %}</main>
+    <footer class="page-footer teal">
+      <!-- <div class="container">
+        <div class="row">
+          <div class="col l6 s12">
+            <h5 class="white-text">Company Bio</h5>
+            <p class="grey-text text-lighten-4">Quisque at congue tortor. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In
+            suscipit eget felis vel consectetur. Phasellus leo leo, hendrerit hendrerit augue eget, iaculis pharetra erat.</p>
+          </div>
+          <div class="col l3 s12">
+            <h5 class="white-text">Settings</h5>
+            <ul>
+              <li><a class="white-text" href="#!">Link 1</a></li>
+              <li><a class="white-text" href="#!">Link 2</a></li>
+              <li><a class="white-text" href="#!">Link 3</a></li>
+              <li><a class="white-text" href="#!">Link 4</a></li>
+            </ul>
+          </div>
+          <div class="col l3 s12">
+            <h5 class="white-text">Connect</h5>
+            <ul>
+              <li><a class="white-text" href="#!">Link 1</a></li>
+              <li><a class="white-text" href="#!">Link 2</a></li>
+              <li><a class="white-text" href="#!">Link 3</a></li>
+              <li><a class="white-text" href="#!">Link 4</a></li>
+            </ul>
+          </div>
+        </div>
+      </div> -->
+      <div class="footer-copyright">
+        <div class="container">
+          Made by
+        </div>
+      </div>
     </footer>
   </body>
 </html>
