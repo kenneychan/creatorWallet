@@ -47,10 +47,8 @@ nav .brand-logo {
   justify-content: space-between;
 }
 
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+#addDealModal {
+  max-width: 30%;
 }
 
 .deal-table th, td {

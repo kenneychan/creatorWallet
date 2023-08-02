@@ -19,4 +19,4 @@ class Deal(models.Model):
         return f"{self.name} ({self.id})"
 
     def get_absolute_url(self):
-        return reverse("detail", kwargs={"deal_id": self.id})
+        return reverse("index")
