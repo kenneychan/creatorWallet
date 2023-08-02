@@ -47,8 +47,12 @@ nav .brand-logo {
   justify-content: space-between;
 }
 
-#addDealModal, .deleteDealModal {
+#addDealModal {
   max-width: 30%;
+}
+
+.deleteDealModal {
+  max-width: 25%;
 }
 
 #closeDealModal {
