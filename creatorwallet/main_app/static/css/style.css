@@ -41,7 +41,7 @@ nav .brand-logo {
   height: 64px;
 }
 
-.deal-list-header {
+.deal-list-header, .platform-list-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -51,16 +51,25 @@ nav .brand-logo {
   max-width: 30%;
 }
 
-.deleteDealModal {
+.deleteDealModal, .deletePlatformModal {
   max-width: 25%;
 }
 
-#closeDealModal {
+#closeDealModal, #closePlatformModal {
   float: right;
 }
 
-#submitDealModal {
+#submitDealModalBtn {
   margin-right: -5px;
+}
+
+#addPlatformModal, .editPlatformModal {
+  max-width: 25%;
+}
+
+#platform-modal-body>.input-field>input:focus {
+  border-bottom: 1px solid #2196f3 !important;
+  box-shadow: 0 1px 0 0 #2196f3 !important;
 }
 
 .deal-table th, td {

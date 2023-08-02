@@ -27,7 +27,6 @@
           <ul class="right">
             <li><a href="/about">About</a></li>
             {% if user.is_authenticated %}
-            <li><a href="{% url 'platformscontent_create' %}">Add a Platform</a></li>
             <li><a href="{% url 'platformscontent_index' %}">View All Platforms</a></li>
             <li><a href="{% url 'index' %}">View All My Deals</a></li>
             <li><a href="{% url 'logout' %}">Log Out</a></li>
