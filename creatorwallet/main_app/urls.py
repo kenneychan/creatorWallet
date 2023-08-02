@@ -11,4 +11,5 @@ urlpatterns = [
   path('deals/create/', views.DealCreate.as_view(), name='deals_create'),
   path('deals/<int:pk>/update/', views.DealUpdate.as_view(), name='deals_update'),
   path('deals/<int:pk>/delete/', views.DealDelete.as_view(), name='deals_delete'),
+  path('deals/<int:deal_id>/add_attachment/', views.add_attachment, name='add_attachment'),
 ]

@@ -5,7 +5,9 @@
     <div class="col s4">
       <div class="card">
         <div class="card-content">
-          <span class="card-title" style="font-weight:bold;">{{ deal.name }}</span>
+          <span class="card-title" style="font-weight: bold"
+            >{{ deal.name }}</span
+          >
           <table class="striped deal-table">
             <tr>
               <th>Amount</th>
@@ -31,9 +33,9 @@
               <th>Done</th>
               <td>
                 {% if deal.done %}
-                <span style='font-size:15px;'>✔️</span>
+                <span style="font-size: 15px">✔️</span>
                 {% else %}
-                <span style='font-size:15px;'>❌</span>
+                <span style="font-size: 15px">❌</span>
                 {% endif %}
               </td>
             </tr>
@@ -48,7 +50,26 @@
           <a href="{% url 'deals_delete' deal.id %}">Delete</a>
         </div>
       </div>
+      <div class="card-action"></div>
     </div>
+    {% for attachment in deal.attachment_set.all %}
+    <a href="{{attachment.url}}">{{attachment.filename}}</a>
+    {% empty %}
+    <div class="card-panel teal-text center-align">No Attachment Uploaded</div>
+    {% endfor %}
+
+    <form
+      action="{% url 'add_attachment' deal.id %}"
+      enctype="multipart/form-data"
+      method="POST"
+      class="card-panel"
+    >
+      {% csrf_token %}
+      <input type="file" name="attachment-file" />
+      <br /><br />
+      <button type="submit" class="btn">Upload Attachment</button>
+    </form>
   </div>
 </div>
+
 {% endblock %}
