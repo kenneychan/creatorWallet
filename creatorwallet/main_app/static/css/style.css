@@ -41,6 +41,26 @@ nav .brand-logo {
   height: 64px;
 }
 
+.deal-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.deal-table th, td {
+  padding: 0px 5px;
+}
+
+.deal-table td {
+  text-align: right;
+}
+
 footer.page-footer {
   padding-top: 0;
   text-align: right;

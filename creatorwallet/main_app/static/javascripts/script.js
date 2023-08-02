@@ -1,8 +1,9 @@
 $(document).ready(function () {
   $('.parallax').parallax();
 
-  $('.login-field').children('label').each(function () {
-    const label = $(this).text().replace(':', '');
-    $(this).text(label);
-  });
+  $('#id_details').addClass('materialize-textarea');
+  $('#id_due_date').addClass('datepicker');
+
+  $('.datepicker').datepicker();
+  $('.modal').modal();
 });
