@@ -3,14 +3,14 @@ import uuid
 import boto3
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 # Import the login_required decorator
 from django.contrib.auth.decorators import login_required
 # Import the mixin for class-based views
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Deal
-from .models import Attachment
+from .models import Deal, PlatformContent, Attachment
 
 # Create your views here.
 # Define the home view
@@ -18,10 +18,12 @@ def home(request):
   # Include an .html file extension - unlike when rendering EJS templates
   return render(request, 'home.html')
 
+
 # Define the about view
 def about(request):
   # Include an .html file extension - unlike when rendering EJS templates
   return render(request, 'about.html')
+
 
 def signup(request):
   error_message = ''
@@ -41,6 +43,7 @@ def signup(request):
   form = UserCreationForm(label_suffix="")
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
+
 
 class DealCreate(LoginRequiredMixin, CreateView):
   model = Deal
@@ -62,10 +65,6 @@ class DealUpdate(UpdateView):
     fields = ['name', 'amount', 'url', 'promo_code', 'due_date', 'details', 'done']
   
 
-class DealDelete(DeleteView):
-    model = Deal
-    success_url = "/deals"
-
 @login_required
 def deals_index(request):
   deals = Deal.objects.filter(user=request.user)
@@ -73,14 +72,50 @@ def deals_index(request):
   # deals = request.user.deal_set.all()
   return render(request, 'deals/index.html', { 'deals': deals })
 
+
 def deals_detail(request, deal_id):
   deal = Deal.objects.get(id=deal_id)
-  # Get the stores the deal doesn't have...
-  # First, create a list of the store ids that the deal DOES have
-  # Now we can query for stores whose ids are not in the list using exclude
-  return render(request, 'deals/detail.html', {
-    'deal': deal
-  })
+  id_list = deal.platformscontent.values_list('id')
+  platformscontent_deal_doesnt_have = PlatformContent.objects.exclude(id__in = id_list)
+  return render(request, 'deals/detail.html', { 'deal': deal, 'platformscontent': platformscontent_deal_doesnt_have})
+
+class DealDelete(DeleteView):
+    model = Deal
+    success_url = "/deals"
+
+
+class PlatformContentList(ListView):
+  model = PlatformContent
+
+
+class PlatformContentDetail(DetailView):
+  model = PlatformContent
+
+
+class PlatformContentCreate(CreateView):
+  model = PlatformContent
+  fields = '__all__'
+
+
+class PlatformContentUpdate(UpdateView):
+  model = PlatformContent
+  fields = ['name', 'url']
+  
+
+
+class PlatformContentDelete(DeleteView):
+  model = PlatformContent
+  success_url = '/platformscontent'
+
+
+def assoc_platformcontent(request, deal_id, platformcontent_id):
+  # Note that you can pass a platform's id instead of the whole platform object
+  Deal.objects.get(id=deal_id).platformscontent.add(platformcontent_id)
+  return redirect('detail', deal_id=deal_id)
+def unassoc_platformcontent(request, deal_id, platformcontent_id):
+  # Note that you can pass a platform's id instead of the whole platform object
+  Deal.objects.get(id=deal_id).platformscontent.remove(platformcontent_id)
+  return redirect('detail', deal_id=deal_id)
 
 # def add_attachment(request, deal_id):
 def add_attachment(request, deal_id):

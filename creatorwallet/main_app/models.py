@@ -8,6 +8,18 @@ from django.urls import reverse
 
 
 # Create your models here.
+
+class PlatformContent(models.Model):
+  name = models.CharField(max_length=50)
+  url = models.URLField(max_length=100)
+
+  def __str__(self):
+    return self.name
+
+  def get_absolute_url(self):
+    return reverse('platformscontent_detail', kwargs={'pk': self.id})
+
+
 class Deal(models.Model):
     name = models.CharField(max_length=100)
     amount = models.DecimalField(decimal_places=2, max_digits=10, blank=True, default=0.00)
@@ -17,6 +29,7 @@ class Deal(models.Model):
     promo_code = models.CharField(max_length=100, blank=True, default='')
     done = models.BooleanField(blank=True, default=False)
     create_date = models.DateField(default=date.today)
+    platformscontent = models.ManyToManyField(PlatformContent)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

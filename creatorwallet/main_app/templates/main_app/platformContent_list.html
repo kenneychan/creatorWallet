@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Platform List</h1>
+
+{% for platformcontent in platformcontent_list %}
+  <a href="{% url 'platformscontent_detail' platformcontent.id %}">
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">{{ platformcontent.name }}</span>
+            <p>Url: {{ platformcontent.url }}</p>
+        </div>
+    </div>
+  </a>
+{% endfor %}
+
+{% endblock %}

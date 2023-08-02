@@ -83,8 +83,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'creatorwallet',
-        'USER': 'postgres',
-        'PASSWORD': '12345'
     }
 }
 
