@@ -9,7 +9,8 @@
         class="material-icons">add</i></a> -->
   </div>
 
-  <div class="modal modal-fixed-foote" id="addDealModal">
+  <!-- add modal -->
+  <div class="modal" id="addDealModal">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="modal-close btn-floating btn-small" id="closeDealModal">
@@ -42,83 +43,90 @@
           {% endfor %}
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary" type="submit" id="submitDealModal">Save</button>
+          <button class="btn btn-primary" type="submit" id="submitDealModalBtn">Save</button>
         </div>
       </form>
     </div>
   </div>
 
   <hr>
-  <div class="row">
-    {% for deal in deals %}
-      <div class="col s4">
-        <div class="card">
-          <div class="card-content">
-            <span class="card-title" style="font-weight:bold;">{{ deal.name }}</span>
-            <table class="striped deal-table">
-              <tr>
-                <th>Amount</th>
-                <td>{{ deal.amount }}</td>
-              </tr>
-              <tr>
-                <th>Campaign Url</th>
-                <td>{{ deal.url }}</td>
-              </tr>
-              <tr>
-                <th>Promo code</th>
-                <td>{{ deal.promo_code }}</td>
-              </tr>
-              <tr>
-                <th>Due date</th>
-                <td>{{ deal.due_date }}</td>
-              </tr>
-              <tr>
-                <th>Details</th>
-                <td>{{ deal.details|linebreaks }}</td>
-              </tr>
-              <tr>
-                <th>Done</th>
-                <td>
-                  {% if deal.done %}
-                  <span style='font-size:15px;'>✔️</span>
-                  {% else %}
-                  <span style='font-size:15px;'>❌</span>
-                  {% endif %}
-                </td>
-              </tr>
-              <tr>
-                <th>Created date</th>
-                <td>{{ deal.create_date }}</td>
-              </tr>
-            </table>
-          </div>
-          <div class="card-action">
-            <a href="{% url 'detail' deal.id %}">View Deal</a>
-            <a class="modal-trigger" href="#deleteDealModal_{{ deal.id }}">Delete</a>
+  
+  {% if deals.count %}
+    <div class="row">
+      {% for deal in deals %}
+        <div class="col s4">
+          <div class="card">
+            <div class="card-content">
+              <span class="card-title" style="font-weight:bold;">{{ deal.name }}</span>
+              <table class="striped deal-table">
+                <tr>
+                  <th>Amount</th>
+                  <td>{{ deal.amount }}</td>
+                </tr>
+                <tr>
+                  <th>Campaign Url</th>
+                  <td>{{ deal.url }}</td>
+                </tr>
+                <tr>
+                  <th>Promo code</th>
+                  <td>{{ deal.promo_code }}</td>
+                </tr>
+                <tr>
+                  <th>Due date</th>
+                  <td>{{ deal.due_date }}</td>
+                </tr>
+                <tr>
+                  <th>Details</th>
+                  <td>{{ deal.details|linebreaks }}</td>
+                </tr>
+                <tr>
+                  <th>Done</th>
+                  <td>
+                    {% if deal.done %}
+                    <span style='font-size:15px;'>✔️</span>
+                    {% else %}
+                    <span style='font-size:15px;'>❌</span>
+                    {% endif %}
+                  </td>
+                </tr>
+                <tr>
+                  <th>Created date</th>
+                  <td>{{ deal.create_date }}</td>
+                </tr>
+              </table>
+            </div>
+            <div class="card-action">
+              <a href="{% url 'detail' deal.id %}">View Deal</a>
+              <a class="modal-trigger" href="#deleteDealModal_{{ deal.id }}">Delete</a>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="modal modal-fixed-foote deleteDealModal" id="deleteDealModal_{{ deal.id }}">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="modal-close btn-floating btn-small" id="closeDealModal">
-              <span>&#10006;</span>
-            </button>
-            <h4 class="modal-title">Delete Deal</h4>
+
+        <!-- delete modal -->
+        <div class="modal deleteDealModal" id="deleteDealModal_{{ deal.id }}">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="modal-close btn-floating btn-small" id="closeDealModal">
+                <span>&#10006;</span>
+              </button>
+              <h4 class="modal-title">Delete Deal</h4>
+            </div>
+            <form action="{% url 'deals_delete' deal.id %}" method="POST">
+              <div class="modal-body">
+                <h5>Are you sure you want to delete <span class="teal-text">{{ deal.name }}</span>?</h5>
+                {% csrf_token %}
+              </div>
+              <div class="modal-footer">
+                <input type="submit" value="Yes - Delete!" class="btn">
+                <a class="modal-close">Cancel</a>
+              </div>
+            </form>
           </div>
-          <form action="{% url 'deals_delete' deal.id %}" method="POST">
-            <div class="modal-body">
-              <h5>Are you sure you want to delete <span class="teal-text">{{ deal.name }}</span>?</h5>
-              {% csrf_token %}
-            </div>
-            <div class="modal-footer">
-              <input type="submit" value="Yes - Delete!" class="btn">
-              <a class="modal-close">Cancel</a>
-            </div>
-          </form>
         </div>
-      </div>
-    {% endfor %}
-  </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <h5>Click <button class="btn-floating btn-small btn teal modal-trigger" href="#addDealModal"><i class="material-icons">add</i></button> to add a new deal! 🤝</h5>
+  {% endif %}
 </div>
 {% endblock %}

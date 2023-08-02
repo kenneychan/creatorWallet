@@ -1,13 +1,14 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container">
   <h1>Deal Details</h1>
+
+  <hr>
+
   <div class="row">
     <div class="col s4">
       <div class="card">
         <div class="card-content">
-          <span class="card-title" style="font-weight: bold"
-            >{{ deal.name }}</span
-          >
+          <span class="card-title" style="font-weight: bold">{{ deal.name }}</span>
           <table class="striped deal-table">
             <tr>
               <th>Amount</th>
@@ -52,6 +53,7 @@
       </div>
     </div>
   </div>
+  <!-- delete modal -->
   <div class="modal modal-fixed-foote deleteDealModal" id="deleteDealModal_{{ deal.id }}">
     <div class="modal-content">
       <div class="modal-header">
@@ -115,7 +117,7 @@
         </div>
       {% endfor %}
     {% else %}
-      <h5>No platforms 😿</h5>
+      <h5>No platforms</h5>
     {% endif %}
   </div>
   

@@ -95,11 +95,13 @@ class PlatformContentDetail(DetailView):
 class PlatformContentCreate(CreateView):
   model = PlatformContent
   fields = '__all__'
+  success_url = '/platformscontent'
 
 
 class PlatformContentUpdate(UpdateView):
   model = PlatformContent
   fields = ['name', 'url']
+  success_url = '/platformscontent'
   
 
 
