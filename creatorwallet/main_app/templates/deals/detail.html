@@ -57,7 +57,7 @@
       <div class="card">
         <div class="card-content">
           {% for attachment in deal.attachment_set.all %}
-            <li><a href="{{attachment.url}}">{{attachment.filename}}</a></li>
+            <li><a href="{{attachment.url}}" download>{{attachment.filename}}</a></li>
           {% empty %}
             <div class="card-panel teal-text center-align">No Attachment Uploaded</div>
           {% endfor %}
