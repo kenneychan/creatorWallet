@@ -51,6 +51,14 @@ nav .brand-logo {
   max-width: 30%;
 }
 
+#closeDealModal {
+  float: right;
+}
+
+#submitDealModal {
+  margin-right: -5px;
+}
+
 .deal-table th, td {
   padding: 0px 5px;
 }
