@@ -47,10 +47,20 @@ nav .brand-logo {
   justify-content: space-between;
 }
 
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+#addDealModal {
+  max-width: 30%;
+}
+
+.deleteDealModal {
+  max-width: 25%;
+}
+
+#closeDealModal {
+  float: right;
+}
+
+#submitDealModal {
+  margin-right: -5px;
 }
 
 .deal-table th, td {
