@@ -70,6 +70,8 @@ def deals_index(request):
 
 def deals_detail(request, deal_id):
   deal = Deal.objects.get(id=deal_id)
+  id_list = deal.platforms_content.values_list('id')
+  # platforms_content_deal_doesnt_have = Platform_content.objects.exclude(id__in = id_list)
   return render(request, 'deals/detail.html', { 'deal': deal })
 
 
