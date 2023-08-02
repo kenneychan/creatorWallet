@@ -72,8 +72,8 @@ def deals_index(request):
 def deals_detail(request, deal_id):
   deal = Deal.objects.get(id=deal_id)
   id_list = deal.platforms_content.values_list('id')
-  # platforms_content_deal_doesnt_have = Platform_content.objects.exclude(id__in = id_list)
-  return render(request, 'deals/detail.html', { 'deal': deal })
+  platforms_content_deal_doesnt_have = Platform_content.objects.exclude(id__in = id_list)
+  return render(request, 'deals/detail.html', { 'deal': deal, 'platforms_content': platforms_content_deal_doesnt_have})
 
 
 class DealDelete(DeleteView):
@@ -106,7 +106,7 @@ class Platform_contentDelete(DeleteView):
 
 def assoc_platform_content(request, deal_id, platform_content_id):
   # Note that you can pass a platform's id instead of the whole platform object
-  Deal.objects.get(id=deal_id).platform_content.add(platform_content_id)
+  Deal.objects.get(id=deal_id).platforms_content.add(platform_content_id)
   return redirect('detail', deal_id=deal_id)
 def unassoc_platform_content(request, deal_id, platform_content_id):
   # Note that you can pass a platform's id instead of the whole platform object

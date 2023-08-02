@@ -27,6 +27,7 @@ class Deal(models.Model):
     done = models.BooleanField(blank=True, default=False)
     create_date = models.DateField(default=date.today)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    platforms_content = models.ManyToManyField(Platform_content)
     def __str__(self):
         return f"{self.name} ({self.id})"
 
