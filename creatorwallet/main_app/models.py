@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-class Platform_content(models.Model):
+class PlatformContent(models.Model):
   name = models.CharField(max_length=50)
   url = models.URLField(max_length=100)
 
@@ -14,7 +14,7 @@ class Platform_content(models.Model):
     return self.name
 
   def get_absolute_url(self):
-    return reverse('platforms_content_detail', kwargs={'pk': self.id})
+    return reverse('platformsContent_detail', kwargs={'pk': self.id})
 
 
 class Deal(models.Model):
@@ -26,8 +26,8 @@ class Deal(models.Model):
     promo_code = models.CharField(max_length=100, blank=True, default='')
     done = models.BooleanField(blank=True, default=False)
     create_date = models.DateField(default=date.today)
+    platformsContent = models.ManyToManyField(PlatformContent)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    platforms_content = models.ManyToManyField(Platform_content)
     def __str__(self):
         return f"{self.name} ({self.id})"
 

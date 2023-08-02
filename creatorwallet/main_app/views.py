@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 # Import the mixin for class-based views
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Deal, Platform_content
+from .models import Deal, PlatformContent
 
 
 # Create your views here.
@@ -71,9 +71,9 @@ def deals_index(request):
 
 def deals_detail(request, deal_id):
   deal = Deal.objects.get(id=deal_id)
-  id_list = deal.platforms_content.values_list('id')
-  platforms_content_deal_doesnt_have = Platform_content.objects.exclude(id__in = id_list)
-  return render(request, 'deals/detail.html', { 'deal': deal, 'platforms_content': platforms_content_deal_doesnt_have})
+  id_list = deal.platformContent.values_list('id')
+  platformContent_deal_doesnt_have = PlatformContent.objects.exclude(id__in = id_list)
+  return render(request, 'deals/detail.html', { 'deal': deal, 'platformContent': platformContent_deal_doesnt_have})
 
 
 class DealDelete(DeleteView):
@@ -81,34 +81,34 @@ class DealDelete(DeleteView):
     success_url = "/deals"
 
 
-class Platform_contentList(ListView):
-  model = Platform_content
+class PlatformContentList(ListView):
+  model = PlatformContent
 
 
-class Platform_contentDetail(DetailView):
-  model = Platform_content
+class PlatformContentDetail(DetailView):
+  model = PlatformContent
 
 
-class Platform_contentCreate(CreateView):
-  model = Platform_content
+class PlatformContentCreate(CreateView):
+  model = PlatformContent
   fields = '__all__'
 
 
-class Platform_contentUpdate(UpdateView):
-  model = Platform_content
+class PlatformContentUpdate(UpdateView):
+  model = PlatformContent
   fields = ['name', 'url']
 
 
-class Platform_contentDelete(DeleteView):
-  model = Platform_content
-  success_url = '/platforms_content'
+class PlatformContentDelete(DeleteView):
+  model = PlatformContent
+  success_url = '/platformsContent'
 
 
-def assoc_platform_content(request, deal_id, platform_content_id):
+def assoc_platformContent(request, deal_id, platformContent_id):
   # Note that you can pass a platform's id instead of the whole platform object
-  Deal.objects.get(id=deal_id).platforms_content.add(platform_content_id)
+  Deal.objects.get(id=deal_id).platformsContent.add(platformContent_id)
   return redirect('detail', deal_id=deal_id)
-def unassoc_platform_content(request, deal_id, platform_content_id):
+def unassoc_platformContent(request, deal_id, platformContent_id):
   # Note that you can pass a platform's id instead of the whole platform object
-  Deal.objects.get(id=deal_id).platforms_content.remove(platform_content_id)
+  Deal.objects.get(id=deal_id).platformsContent.remove(platformContent_id)
   return redirect('detail', deal_id=deal_id)
