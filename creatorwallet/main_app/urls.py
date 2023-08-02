@@ -12,4 +12,11 @@ urlpatterns = [
   path('deals/<int:pk>/update/', views.DealUpdate.as_view(), name='deals_update'),
   path('deals/<int:pk>/delete/', views.DealDelete.as_view(), name='deals_delete'),
   path('deals/<int:deal_id>/add_attachment/', views.add_attachment, name='add_attachment'),
+
+  path('platforms/', views.PlatformList.as_view(), name='platforms_index'),
+  path('platforms/<int:platform_id>/', views.platforms_detail, name='platforms_detail'),
+  path('platforms/create/', views.PlatformCreate.as_view(), name='platforms_create'),
+  path('platforms/<int:pk>/update/', views.PlatformUpdate.as_view(), name='platforms_update'),
+  path('platforms/<int:pk>/delete/', views.PlatformDelete.as_view(), name='platforms_delete'),
+
 ]

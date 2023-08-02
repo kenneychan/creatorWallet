@@ -1,0 +1,26 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Platform Details</h1>
+
+<div class="row">
+  <div class="col s6 col-offset-3">
+    <div class="card">
+      <div class="card-content">
+        <img class="responsive-img card-panel" src="{{platform.logo}}" />
+        <span class="card-title"
+          ><a href="{{ platform.website }}">{{ platform.name }}</a></span
+        >
+        <p>Platform Name: {{ platform.platform_username }}</p>
+        <p>Type: {{ platform.get_platform_type_display }}</p>
+        {% for key, value in stats.items %}
+        <p>{{ key | capfirst }}: {{ value }}</p>
+        {% endfor %}
+      </div>
+      <div class="card-action">
+        <a href="{% url 'platforms_update' platform.id %}">Edit</a>
+        <a href="{% url 'platforms_delete' platform.id %}">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

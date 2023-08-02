@@ -3,6 +3,7 @@ import uuid
 import boto3
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 # Import the login_required decorator
@@ -11,6 +12,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Deal
 from .models import Attachment
+from .models import Platform
+from .models import PLATFORM_TYPE
+from .platformAPI.youTube import youTubeStats
+from .platformAPI.twitch import twitchStats
 
 # Create your views here.
 # Define the home view
@@ -48,7 +53,6 @@ class DealCreate(LoginRequiredMixin, CreateView):
   
   # This inherited method is called when a
   # valid deal form is being submitted
-  fields = ['name', 'amount', 'url', 'promo_code', 'due_date', 'details', 'done']
   def form_valid(self, form):
     # Assign the logged in user (self.request.user)
     form.instance.user = self.request.user  # form.instance is the deal
@@ -106,3 +110,44 @@ def add_attachment(request, deal_id):
     print (Attachment.objects.all())
 
     return redirect('detail',  deal_id=deal_id)
+
+class PlatformList(ListView):
+  model = Platform
+
+# class PlatformDetail(DetailView):
+#   model = Platform
+
+def platforms_detail(request, platform_id):
+  platform = Platform.objects.get(id=platform_id)
+  print ('platform.platform_type', platform.platform_type)
+  stats = {}
+  if platform.platform_type == PLATFORM_TYPE[1][0]:
+    stats = twitchStats(platform.platform_username)
+  elif platform.platform_type == PLATFORM_TYPE[0][0]:   
+    stats = youTubeStats(platform.platform_username)
+  print ('stats', stats)
+  return render(request, 'platforms/detail.html', {
+    'platform': platform, 'stats': stats
+  })
+
+class PlatformCreate(CreateView):
+  model = Platform
+  fields = '__all__'
+
+class PlatformUpdate(UpdateView):
+  model = Platform
+  fields = '__all__'
+
+class PlatformDelete(DeleteView):
+  model = Platform
+  success_url = '/platforms'
+
+def assoc_platform(request, deal_id, platform_id):
+  # Note that you can pass a platform's id instead of the whole platform object
+  # Deal.objects.get(id=deal_id).platforms.add(platform_id)
+  return redirect('detail', deal_id=deal_id)
+
+def remove_platform(request, deal_id, platform_id):
+  # Note that you can pass a platform's id instead of the whole platform object
+  # Deal.objects.get(id=deal_id).platforms.remove(platform_id)
+  return redirect('detail', deal_id=deal_id)
