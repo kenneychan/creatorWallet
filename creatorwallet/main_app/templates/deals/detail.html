@@ -1,22 +1,54 @@
 {% extends 'base.html' %} {% block content %}
-
-<h1>Deal Details</h1>
-<div class="row">
-  <div class="col s6">
-    <div class="card">
-      <div class="card-content">
-        <span class="card-title">{{ deal.name }}</span>
-        <p>Amount: {{ deal.amount }}</p>
-        <p>Details: {{ deal.details|linebreaks }}</p>
-        <p>Due date: {{ deal.due_date }}</p>
-        <p>Url: {{ deal.url }}</p>
-        <p>Promo code: {{ deal.promo_code }}</p>
-        <p>Done: {{ deal.done }}</p>
-        <p>Created date: {{ deal.create_date }}</p>
-      </div>
-      <div class="card-action">
-        <a href="{% url 'deals_update' deal.id %}">Edit</a>
-        <a href="{% url 'deals_delete' deal.id %}">Delete</a>
+<div class="container">
+  <h1>Deal Details</h1>
+  <div class="row">
+    <div class="col s4">
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title" style="font-weight: bold"
+            >{{ deal.name }}</span
+          >
+          <table class="striped deal-table">
+            <tr>
+              <th>Amount</th>
+              <td>{{ deal.amount }}</td>
+            </tr>
+            <tr>
+              <th>Campaign Url</th>
+              <td>{{ deal.url }}</td>
+            </tr>
+            <tr>
+              <th>Promo code</th>
+              <td>{{ deal.promo_code }}</td>
+            </tr>
+            <tr>
+              <th>Due date</th>
+              <td>{{ deal.due_date }}</td>
+            </tr>
+            <tr>
+              <th>Details</th>
+              <td>{{ deal.details|linebreaks }}</td>
+            </tr>
+            <tr>
+              <th>Done</th>
+              <td>
+                {% if deal.done %}
+                <span style="font-size: 15px">✔️</span>
+                {% else %}
+                <span style="font-size: 15px">❌</span>
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <th>Created date</th>
+              <td>{{ deal.create_date }}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="card-action">
+          <a href="{% url 'deals_update' deal.id %}">Edit</a>
+          <a href="{% url 'deals_delete' deal.id %}">Delete</a>
+        </div>
       </div>
       <div class="card-action"></div>
     </div>
@@ -40,16 +72,4 @@
   </div>
 </div>
 
-<script>
-  const dateEl = document.getElementById("id_modified_on");
-  M.Datepicker.init(dateEl, {
-    format: "yyyy-mm-dd",
-    defaultDate: new Date(),
-    setDefaultDate: true,
-    autoClose: true,
-  });
-
-  const selectEl = document.getElementById("id_rating");
-  M.FormSelect.init(selectEl);
-</script>
 {% endblock %}

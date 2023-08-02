@@ -38,7 +38,7 @@ def signup(request):
     else:
       error_message = 'Invalid sign up - try again'
   # A bad POST or a GET request, so render signup.html with an empty form
-  form = UserCreationForm()
+  form = UserCreationForm(label_suffix="")
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
 
@@ -48,6 +48,7 @@ class DealCreate(LoginRequiredMixin, CreateView):
   
   # This inherited method is called when a
   # valid deal form is being submitted
+  fields = ['name', 'amount', 'url', 'promo_code', 'due_date', 'details', 'done']
   def form_valid(self, form):
     # Assign the logged in user (self.request.user)
     form.instance.user = self.request.user  # form.instance is the deal
@@ -58,7 +59,7 @@ class DealCreate(LoginRequiredMixin, CreateView):
 class DealUpdate(UpdateView):
     model = Deal
     # Let's disallow the renaming of a deal by excluding the name field!
-    fields = ['name', 'amount', 'details', 'url', 'promo_code', 'create_date', 'done', 'due_date']
+    fields = ['name', 'amount', 'url', 'promo_code', 'due_date', 'details', 'done']
   
 
 class DealDelete(DeleteView):
