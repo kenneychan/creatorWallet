@@ -6,49 +6,120 @@
 
   <div class="row">
     <div class="col s4">
-      <div class="card">
-        <div class="card-content">
-          <span class="card-title" style="font-weight: bold">{{ deal.name }}</span>
-          <table class="striped deal-table">
-            <tr>
-              <th>Amount</th>
-              <td>{{ deal.amount }}</td>
-            </tr>
-            <tr>
-              <th>Campaign Url</th>
-              <td>{{ deal.url }}</td>
-            </tr>
-            <tr>
-              <th>Promo code</th>
-              <td>{{ deal.promo_code }}</td>
-            </tr>
-            <tr>
-              <th>Due date</th>
-              <td>{{ deal.due_date }}</td>
-            </tr>
-            <tr>
-              <th>Details</th>
-              <td>{{ deal.details|linebreaks }}</td>
-            </tr>
-            <tr>
-              <th>Done</th>
-              <td>
-                {% if deal.done %}
-                <span style="font-size: 15px">✔️</span>
-                {% else %}
-                <span style="font-size: 15px">❌</span>
-                {% endif %}
-              </td>
-            </tr>
-            <tr>
-              <th>Created date</th>
-              <td>{{ deal.create_date }}</td>
-            </tr>
-          </table>
+      <div class="row">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title" style="font-weight: bold">{{ deal.name }}</span>
+            <table class="striped deal-table">
+              <tr>
+                <th>Amount</th>
+                <td>{{ deal.amount }}</td>
+              </tr>
+              <tr>
+                <th>Campaign Url</th>
+                <td>{{ deal.url }}</td>
+              </tr>
+              <tr>
+                <th>Promo code</th>
+                <td>{{ deal.promo_code }}</td>
+              </tr>
+              <tr>
+                <th>Due date</th>
+                <td>{{ deal.due_date }}</td>
+              </tr>
+              <tr>
+                <th>Details</th>
+                <td>{{ deal.details|linebreaks }}</td>
+              </tr>
+              <tr>
+                <th>Done</th>
+                <td>
+                  {% if deal.done %}
+                  <span style="font-size: 15px">✔️</span>
+                  {% else %}
+                  <span style="font-size: 15px">❌</span>
+                  {% endif %}
+                </td>
+              </tr>
+              <tr>
+                <th>Created date</th>
+                <td>{{ deal.create_date }}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="card-action">
+            <a href="{% url 'deals_update' deal.id %}">Edit</a>
+            <a class="modal-trigger" href="#deleteDealModal_{{ deal.id }}">Delete</a>
+          </div>
         </div>
-        <div class="card-action">
-          <a href="{% url 'deals_update' deal.id %}">Edit</a>
-          <a class="modal-trigger" href="#deleteDealModal_{{ deal.id }}">Delete</a>
+        <div class="card">
+          <div class="card-content">
+            {% for attachment in deal.attachment_set.all %}
+            <li><a href="{{attachment.url}}" download>{{attachment.filename}}</a></li>
+            {% empty %}
+            <div class="card-panel teal-text center-align">No Attachment Uploaded</div>
+            {% endfor %}
+          </div>
+          <form action="{% url 'add_attachment' deal.id %}" enctype="multipart/form-data" method="POST" class="card-content">
+            {% csrf_token %}
+            <input type="file" name="attachment-file" />
+            <br /><br />
+            <button type="submit" class="btn">Upload Attachment</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col s8">
+      <div class="card-panel">
+        <div class="row">
+          <div class="col s6">
+            <h4 style="font-weight: bold">{{ deal.name }}'s Platforms</h4>
+            <hr>
+            {% if deal.platformscontent.count %}
+              {% for platformcontent in deal.platformscontent.all %}
+              <div class="card">
+                <div class="card-content">
+                  <span class="card-title">
+                    {{ platformcontent.name }}
+                  </span>
+                  <a href="{{ platformcontent.url }}" target="_blank">{{ platformcontent.url }}</a>
+                </div>
+                <div class="card-action">
+                  <form action="{% url 'unassoc_platformcontent' deal.id platformcontent.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">Remove</button>
+                  </form>
+                </div>
+              </div>
+              {% endfor %}
+            {% else %}
+              <b>No platforms 😢</b>
+            {% endif %}
+          </div>
+          <div class="col s6">
+            <h4 style="font-weight: bold">Available Platforms</h4>
+            <hr>
+            {% if platformscontent.count %}
+              {% for platformcontent in platformscontent.all %}
+              <div class="card">
+                <div class="card-content">
+                  <span class="card-title">
+                    {{ platformcontent.name }}
+                  </span>
+                  <a href="{{ platformcontent.url }}" target="_blank">{{ platformcontent.url }}</a>
+                </div>
+                <div class="card-action">
+                  <form action="{% url 'assoc_platformcontent' deal.id platformcontent.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn">Add</button>
+                  </form>
+                </div>
+              </div>
+              {% endfor %}
+            {% else %}
+              <b>All platforms has been added! 🎉</b>
+            {% endif %}
+          </div>
         </div>
       </div>
     </div>
@@ -73,75 +144,6 @@
         </div>
       </form>
     </div>
-  </div>
-  <div class="row">
-    <div class="col s4">
-      <div class="card">
-        <div class="card-content">
-          {% for attachment in deal.attachment_set.all %}
-            <li><a href="{{attachment.url}}" download>{{attachment.filename}}</a></li>
-          {% empty %}
-            <div class="card-panel teal-text center-align">No Attachment Uploaded</div>
-          {% endfor %}
-        </div>
-        <form action="{% url 'add_attachment' deal.id %}" enctype="multipart/form-data" method="POST" class="card-content">
-          {% csrf_token %}
-          <input type="file" name="attachment-file" />
-          <br /><br />
-          <button type="submit" class="btn">Upload Attachment</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-  <!-- This is all new markup to be added just above the <script> tag -->
-<hr>
-<div class="row">
-  <div class="col s6">
-    <h3>{{ deal.name }}'s Platforms</h3>
-    {% if deal.platformscontent.count %}
-      {% for platformcontent in deal.platformscontent.all %}
-        <div class="card">
-          <div class="card-content">
-            <span class="card-title">
-              A <span style>{{ platformcontent.name }}</span> {{ platformcontent.name }}
-            </span>
-          </div>
-          <div class="card-action">
-            <form action="{% url 'unassoc_platformcontent' deal.id platformcontent.id %}" method="POST">
-              {% csrf_token %}
-              <button type="submit" class="btn">Remove</button>
-            </form>
-          </div>
-        </div>
-      {% endfor %}
-    {% else %}
-      <h5>No platforms</h5>
-    {% endif %}
-  </div>
-  
-  <div class="col s6">
-    <h3>Available Platforms</h3>
-    {% if platformscontent.count %}
-    {% for platformcontent in platformscontent.all %}
-    <div class="card">
-      <div class="card-content">
-        <span class="card-title">
-          A <span>{{ platformcontent.name }}</span> {{ platformcontent.name }}
-        </span>
-      </div>
-      <div class="card-action">
-        <form action="{% url 'assoc_platformcontent' deal.id platformcontent.id %}" method="POST">
-          {% csrf_token %}
-          <button type="submit" class="btn">Add</button>
-        </form>
-      </div>
-    </div>
-    {% endfor %}
-    {% else %}
-    <h5>{{deal.name}} Already Has All Platforms Available</h5>
-    {% endif %}
   </div>
 </div>
 {% endblock %}

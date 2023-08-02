@@ -45,7 +45,7 @@
               <a href="{{ platformcontent.url }}" target="_blank">{{ platformcontent.url|linebreaks }}</a>
             </div>
             <div class="card-action">
-              <a class="modal-trigger" href="#editPlatformModal_{{ platformcontent.id }}">Edit</a>
+              <a class="modal-trigger" href="#editPlatformModal_{{ platformcontent.id }}" type="submit">Edit</a>
               <a class="modal-trigger" href="#deletePlatformModal_{{ platformcontent.id }}">Delete</a>
             </div>
           </div>
@@ -59,13 +59,18 @@
               </button>
               <h4 class="modal-title">Edit <span class="blue-text">{{ platformcontent.name }}</span></h4>
             </div>
-            <form action="{% url 'platformscontent_update' platformcontent.id %}" method="POST">
+            <form action="{% url 'platforms_form' platformcontent.id %}" method="POST">
               <div class="modal-body" id="platform-modal-body">
                 {% csrf_token %}
                 {% for field in PlatformForm %}
                   <div class="input-field">
                     {{ field.errors }}
-                    <label for="id_{{ field.name }}">{{ field.label }} <span style="color:red;">*</span></label> {{ field }}
+                    <label for="id_{{ field.name }}">{{ field.label }} <span style="color:red;">*</span></label>
+                    {% if field.name == "name" %}
+                      <input type="text" name="{{ field.name }}" maxlength="50" required id="id_{{ field.name }}" value="{{ platformcontent.name }}">
+                    {% else %}
+                      <input type="url" name="{{ field.name }}" maxlength="100" required="" id="id_{{ field.name }}" value="{{ platformcontent.url }}">
+                    {% endif %}
                   </div>
                 {% endfor %}
               </div>
