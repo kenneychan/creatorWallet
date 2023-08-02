@@ -14,7 +14,7 @@ class PlatformContent(models.Model):
     return self.name
 
   def get_absolute_url(self):
-    return reverse('platformsContent_detail', kwargs={'pk': self.id})
+    return reverse('platformscontent_detail', kwargs={'pk': self.id})
 
 
 class Deal(models.Model):
@@ -26,7 +26,7 @@ class Deal(models.Model):
     promo_code = models.CharField(max_length=100, blank=True, default='')
     done = models.BooleanField(blank=True, default=False)
     create_date = models.DateField(default=date.today)
-    platformsContent = models.ManyToManyField(PlatformContent)
+    platformscontent = models.ManyToManyField(PlatformContent)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     def __str__(self):
         return f"{self.name} ({self.id})"

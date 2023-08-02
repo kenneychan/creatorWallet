@@ -7,12 +7,12 @@
   <div class="col s6 col-offset-3">
     <div class="card">
       <div class="card-content">
-        <span class="card-title">{{ platformContent.name }}</span>
-        <p>Url: {{ platformContent.url }}</p>
+        <span class="card-title">{{ platformcontent.name }}</span>
+        <p>Url: {{ platformcontent.url }}</p>
       </div>
       <div class="card-action">
-        <a href="{% url 'platformsContent_update' platformContent.id %}">Edit</a>
-        <a href="{% url 'platformsContent_delete' platformContent.id %}">Delete</a>
+        <a href="{% url 'platformscontent_update' platformcontent.id %}">Edit</a>
+        <a href="{% url 'platformscontent_delete' platformcontent.id %}">Delete</a>
       </div>
     </div>
   </div>
