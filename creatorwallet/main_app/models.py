@@ -1,8 +1,11 @@
+from datetime import date
 from django.db import models
 from django.urls import reverse
 from datetime import date
 # Import the User
 from django.contrib.auth.models import User
+from django.urls import reverse
+
 
 # Create your models here.
 
@@ -28,8 +31,19 @@ class Deal(models.Model):
     create_date = models.DateField(default=date.today)
     platformscontent = models.ManyToManyField(PlatformContent)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
     def __str__(self):
-        return f"{self.name} ({self.id})"
+        return f'{self.name} ({self.id})'
 
     def get_absolute_url(self):
-        return reverse("detail", kwargs={"deal_id": self.id})
+        return reverse("index")
+    
+    
+class Attachment(models.Model):
+    filename = models.CharField(max_length=200)
+    url = models.CharField(max_length=200)
+    deal = models.ForeignKey(Deal, on_delete=models.CASCADE)
+
+    def __str__(self):
+        # return f"Contract for my_deal_id: {self.my_deal_id} @{self.url}"
+        return f"Attachment {self.filename} {self.url}"

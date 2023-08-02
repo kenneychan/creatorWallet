@@ -1,3 +1,6 @@
+import os
+import uuid
+import boto3
 from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
@@ -7,8 +10,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 # Import the mixin for class-based views
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Deal, PlatformContent
-
+from .models import Deal, PlatformContent, Attachment
 
 # Create your views here.
 # Define the home view
@@ -38,16 +40,18 @@ def signup(request):
     else:
       error_message = 'Invalid sign up - try again'
   # A bad POST or a GET request, so render signup.html with an empty form
-  form = UserCreationForm()
+  form = UserCreationForm(label_suffix="")
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
 
 
 class DealCreate(LoginRequiredMixin, CreateView):
   model = Deal
+  fields = ['name', 'amount', 'details', 'url', 'promo_code', 'done', 'due_date']
+  
   # This inherited method is called when a
   # valid deal form is being submitted
-  fields = ['name', 'amount', 'details', 'url', 'promo_code', 'create_date', 'done', 'due_date']
+  fields = ['name', 'amount', 'url', 'promo_code', 'due_date', 'details', 'done']
   def form_valid(self, form):
     # Assign the logged in user (self.request.user)
     form.instance.user = self.request.user  # form.instance is the deal
@@ -58,7 +62,7 @@ class DealCreate(LoginRequiredMixin, CreateView):
 class DealUpdate(UpdateView):
     model = Deal
     # Let's disallow the renaming of a deal by excluding the name field!
-    fields = ['name', 'amount', 'details', 'url', 'promo_code', 'create_date', 'done', 'due_date']
+    fields = ['name', 'amount', 'url', 'promo_code', 'due_date', 'details', 'done']
   
 
 @login_required
@@ -74,7 +78,6 @@ def deals_detail(request, deal_id):
   id_list = deal.platformscontent.values_list('id')
   platformscontent_deal_doesnt_have = PlatformContent.objects.exclude(id__in = id_list)
   return render(request, 'deals/detail.html', { 'deal': deal, 'platformscontent': platformscontent_deal_doesnt_have})
-
 
 class DealDelete(DeleteView):
     model = Deal
@@ -113,3 +116,28 @@ def unassoc_platformcontent(request, deal_id, platformcontent_id):
   # Note that you can pass a platform's id instead of the whole platform object
   Deal.objects.get(id=deal_id).platformscontent.remove(platformcontent_id)
   return redirect('detail', deal_id=deal_id)
+
+# def add_attachment(request, deal_id):
+def add_attachment(request, deal_id):
+    # attachment-file will be the "name" attribute on the <input type="file">
+    attachment_file = request.FILES.get('attachment-file', None)
+    if attachment_file:
+        s3 = boto3.client('s3')
+        # need a unique "key" for S3 / needs image file extension too
+        key = uuid.uuid4().hex[:6] + attachment_file.name[attachment_file.name.rfind('.'):]
+        # just in case something goes wrong
+        try:
+            bucket = os.environ['S3_BUCKET']
+            s3.upload_fileobj(attachment_file, bucket, key)
+            # build the full url string
+            url = f"{os.environ['S3_BASE_URL']}{bucket}/{key}"
+            print ('url', url)
+            # we can assign to deal_id or deal (if you have a deal object)
+            Attachment.objects.create(url=url, deal_id=deal_id, filename=attachment_file.name)
+        except Exception as e:
+            print('An error occurred uploading file to S3')
+            print(e)
+
+    print (Attachment.objects.all())
+
+    return redirect('detail',  deal_id=deal_id)

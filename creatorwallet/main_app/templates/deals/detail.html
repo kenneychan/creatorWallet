@@ -1,24 +1,97 @@
 {% extends 'base.html' %} {% block content %}
-
-<h1>Deal Details</h1>
-<div class="row">
-  <div class="col s6">
-    <div class="card">
-      <div class="card-content">
-        <span class="card-title">{{ deal.name }}</span>
-      <p>Amount: {{ deal.amount }}</p>
-      <p>Details: {{ deal.details|linebreaks }}</p>
-      <p>Due date: {{ deal.due_date }}</p>
-      <p>Url: {{ deal.url }}</p>
-      <p>Promo code: {{ deal.promo_code }}</p>
-      <p>Done: {{ deal.done }}</p>
-      <p>Created date: {{ deal.create_date }}</p>
-      </div>
-      <div class="card-action">
-        <a href="{% url 'deals_update' deal.id %}">Edit</a>
-        <a href="{% url 'deals_delete' deal.id %}">Delete</a>
+<div class="container">
+  <h1>Deal Details</h1>
+  <div class="row">
+    <div class="col s4">
+      <div class="card">
+        <div class="card-content">
+          <span class="card-title" style="font-weight: bold"
+            >{{ deal.name }}</span
+          >
+          <table class="striped deal-table">
+            <tr>
+              <th>Amount</th>
+              <td>{{ deal.amount }}</td>
+            </tr>
+            <tr>
+              <th>Campaign Url</th>
+              <td>{{ deal.url }}</td>
+            </tr>
+            <tr>
+              <th>Promo code</th>
+              <td>{{ deal.promo_code }}</td>
+            </tr>
+            <tr>
+              <th>Due date</th>
+              <td>{{ deal.due_date }}</td>
+            </tr>
+            <tr>
+              <th>Details</th>
+              <td>{{ deal.details|linebreaks }}</td>
+            </tr>
+            <tr>
+              <th>Done</th>
+              <td>
+                {% if deal.done %}
+                <span style="font-size: 15px">✔️</span>
+                {% else %}
+                <span style="font-size: 15px">❌</span>
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <th>Created date</th>
+              <td>{{ deal.create_date }}</td>
+            </tr>
+          </table>
+        </div>
+        <div class="card-action">
+          <a href="{% url 'deals_update' deal.id %}">Edit</a>
+          <a class="modal-trigger" href="#deleteDealModal_{{ deal.id }}">Delete</a>
+        </div>
       </div>
     </div>
+  </div>
+  <div class="modal modal-fixed-foote deleteDealModal" id="deleteDealModal_{{ deal.id }}">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="modal-close btn-floating btn-small" id="closeDealModal">
+          <span>&#10006;</span>
+        </button>
+        <h4 class="modal-title">Delete Deal</h4>
+      </div>
+      <form action="{% url 'deals_delete' deal.id %}" method="POST">
+        <div class="modal-body">
+          <h5>Are you sure you want to delete <span class="teal-text">{{ deal.name }}</span>?</h5>
+          {% csrf_token %}
+        </div>
+        <div class="modal-footer">
+          <input type="submit" value="Yes - Delete!" class="btn">
+          <a class="modal-close">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s4">
+      <div class="card">
+        <div class="card-content">
+          {% for attachment in deal.attachment_set.all %}
+            <li><a href="{{attachment.url}}" download>{{attachment.filename}}</a></li>
+          {% empty %}
+            <div class="card-panel teal-text center-align">No Attachment Uploaded</div>
+          {% endfor %}
+        </div>
+        <form action="{% url 'add_attachment' deal.id %}" enctype="multipart/form-data" method="POST" class="card-content">
+          {% csrf_token %}
+          <input type="file" name="attachment-file" />
+          <br /><br />
+          <button type="submit" class="btn">Upload Attachment</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
   <!-- This is all new markup to be added just above the <script> tag -->
 <hr>
