@@ -47,9 +47,29 @@
         </div>
         <div class="card-action">
           <a href="{% url 'deals_update' deal.id %}">Edit</a>
-          <a href="{% url 'deals_delete' deal.id %}">Delete</a>
+          <a class="modal-trigger" href="#deleteDealModal_{{ deal.id }}">Delete</a>
         </div>
       </div>
+    </div>
+  </div>
+  <div class="modal modal-fixed-foote deleteDealModal" id="deleteDealModal_{{ deal.id }}">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="modal-close btn-floating btn-small" id="closeDealModal">
+          <span>&#10006;</span>
+        </button>
+        <h4 class="modal-title">Delete Deal</h4>
+      </div>
+      <form action="{% url 'deals_delete' deal.id %}" method="POST">
+        <div class="modal-body">
+          <h5>Are you sure you want to delete <span class="teal-text">{{ deal.name }}</span>?</h5>
+          {% csrf_token %}
+        </div>
+        <div class="modal-footer">
+          <input type="submit" value="Yes - Delete!" class="btn">
+          <a class="modal-close">Cancel</a>
+        </div>
+      </form>
     </div>
   </div>
   <div class="row">
