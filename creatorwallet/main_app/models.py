@@ -23,9 +23,9 @@ class Deal(models.Model):
         return f'{self.name} ({self.id})'
 
     def get_absolute_url(self):
-        # return reverse('index')
-        return reverse('detail', kwargs={'deal_id': self.id})
-
+        return reverse("index")
+    
+    
 class Attachment(models.Model):
     filename = models.CharField(max_length=200)
     url = models.CharField(max_length=200)

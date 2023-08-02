@@ -3,29 +3,54 @@
 
   <div class="deal-list-header">
     <h1>Deal List</h1>
-    <!-- <a class="btn-floating btn teal modal-trigger" href="#modal1" style="margin-top: 20px;"><i class="material-icons">add</i></a> -->
-    <a class="btn-floating btn teal" href="{% url 'deals_create' %}" style="margin-top: 20px;"><i class="material-icons">add</i></a>
+    <a class="btn-floating btn teal modal-trigger" href="#addDealModal" style="margin-top: 20px;"><i
+        class="material-icons">add</i></a>
+    <!-- <a class="btn-floating btn teal" href="{% url 'deals_create' %}" style="margin-top: 20px;"><i
+        class="material-icons">add</i></a> -->
   </div>
 
-  <!-- <div class="modal modal-fixed-foote" id="modal1">
+  <div class="modal modal-fixed-foote" id="addDealModal">
     <div class="modal-content">
       <div class="modal-header">
+        <button type="button" class="modal-close btn-floating btn-small" id="closeDealModal">
+          <span>&#10006;</span>
+        </button>
         <h4 class="modal-title">Add Deal</h4>
       </div>
-      <div class="modal-body">
-
-        
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-primary modal-close" type="button">Save</button>
-        <button class="btn btn-light modal-close" type="button">Close</button>
-      </div>
+      <form action="{% url 'deals_create' %}" method="POST">
+        <div class="modal-body">
+          {% csrf_token %}
+          {% for field in DealForm %}
+            {% if field.name != "done" %}
+                {% if field.name == "name" %}
+                  <div class="input-field">
+                    {{ field.errors }}
+                    <label for="id_{{ field.name }}">{{ field.label }} <span style="color:red;">*</span></label> {{ field }}
+                  </div>
+                {% else %}
+                  <div class="input-field">
+                    {{ field.errors }}
+                    <label for="id_{{ field.name }}">{{ field.label }}</label> {{ field }}
+                  </div>
+                {% endif %}
+            {% else %}
+              <label for="id_{{ field.name }}">
+                {{field}}
+                <span>{{field.label}}</span>
+              </label>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" type="submit" id="submitDealModal">Save</button>
+        </div>
+      </form>
     </div>
-  </div> -->
-  
+  </div>
+
   <hr>
-  {% for deal in deals %}
-    <div class="row">
+  <div class="row">
+    {% for deal in deals %}
       <div class="col s4">
         <div class="card">
           <div class="card-content">
@@ -55,9 +80,9 @@
                 <th>Done</th>
                 <td>
                   {% if deal.done %}
-                    <span style='font-size:15px;'>✔️</span>
+                  <span style='font-size:15px;'>✔️</span>
                   {% else %}
-                    <span style='font-size:15px;'>❌</span>
+                  <span style='font-size:15px;'>❌</span>
                   {% endif %}
                 </td>
               </tr>
@@ -72,6 +97,7 @@
           </div>
         </div>
       </div>
-    </div>
+    {% endfor %}
+  </div>
 </div>
-{% endfor %} {% endblock %}
+{% endblock %}
