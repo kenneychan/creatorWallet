@@ -11,8 +11,8 @@
         <p>Url: {{ platform_content.url }}</p>
       </div>
       <div class="card-action">
-        <a href="{% url 'platforms_content_update' toy.id %}">Edit</a>
-        <a href="{% url 'platforms_content_delete' toy.id %}">Delete</a>
+        <a href="{% url 'platforms_content_update' platform_content.id %}">Edit</a>
+        <a href="{% url 'platforms_content_delete' platform_content.id %}">Delete</a>
       </div>
     </div>
   </div>
