@@ -1,34 +1,29 @@
-{% extends 'base.html' %}
-
-{% block content %}
-  <div class="container">
-    <div class="row">
-      <div class="col s4 offset-s4 center-align">
-        {% if object %}
-          <h1>Edit <span class="teal-text">{{object.name}}</span></h1>
+{% extends 'base.html' %} {% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col s4 offset-s4 center-align">
+      {% if object %}
+      <h1>Edit <span class="teal-text">{{object.name}}</span></h1>
+      {% else %}
+      <h1>Add Deal</h1>
+      {% endif %}
+      <form action="" method="POST">
+        {% csrf_token %} {% for field in form %} {% if field.name != "done" %}
+        <div class="input-field">
+          {{ field.errors }}
+          <label for="id_{{ field.name }}">{{ field.label }}</label> {{ field }}
+        </div>
         {% else %}
-          <h1>Add Deal</h1>
-        {% endif %}
-        <form action="" method="POST">
-          {% csrf_token %}
-          {% for field in form %}
-            {% if field.name != "done" %}
-              <div class="input-field">
-                {{ field.errors }}
-                <label for="id_{{ field.name }}">{{ field.label }}</label> {{ field }}
-              </div>
-            {% else %}
-              <label for="id_{{ field.name }}">
-                {{field}}
-                <span>{{field.label}}</span>
-              </label>
-            {% endif %}
-          {% endfor %}
-          <br>
-          <br>
-          <input type="submit" value="Submit!" class="btn col s12">
-        </form>
-      </div>
+        <label for="id_{{ field.name }}">
+          {{field}}
+          <span>{{field.label}}</span>
+        </label>
+        {% endif %} {% endfor %}
+        <br />
+        <br />
+        <input type="submit" value="Submit!" class="btn col s12" />
+      </form>
     </div>
   </div>
+</div>
 {% endblock %}
