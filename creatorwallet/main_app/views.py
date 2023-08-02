@@ -42,7 +42,7 @@ class DealCreate(LoginRequiredMixin, CreateView):
   model = Deal
   # This inherited method is called when a
   # valid deal form is being submitted
-  fields = ['name', 'amount', 'details', 'url', 'promo_code', 'create_date', 'done', 'due_date']
+  fields = ['name', 'amount', 'url', 'promo_code', 'due_date', 'details', 'done']
   def form_valid(self, form):
     # Assign the logged in user (self.request.user)
     form.instance.user = self.request.user  # form.instance is the deal
@@ -53,7 +53,7 @@ class DealCreate(LoginRequiredMixin, CreateView):
 class DealUpdate(UpdateView):
     model = Deal
     # Let's disallow the renaming of a deal by excluding the name field!
-    fields = ['name', 'amount', 'details', 'url', 'promo_code', 'create_date', 'done', 'due_date']
+    fields = ['name', 'amount', 'url', 'promo_code', 'due_date', 'details', 'done']
   
 
 class DealDelete(DeleteView):
