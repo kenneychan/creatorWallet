@@ -51,6 +51,10 @@ nav .brand-logo {
   max-width: 30%;
 }
 
+.deleteDealModal {
+  max-width: 25%;
+}
+
 #closeDealModal {
   float: right;
 }
