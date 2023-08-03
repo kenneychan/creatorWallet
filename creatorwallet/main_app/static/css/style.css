@@ -47,6 +47,20 @@ nav .brand-logo {
   justify-content: space-between;
 }
 
+.platform-cards {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.platform-cards-left {
+  margin-left: -15px;
+}
+
+.platform-cards-right {
+  margin-right:-15px;
+}
+
 #addDealModal, .editDealModal {
   max-width: 45%;
 }

@@ -11,7 +11,7 @@
   <div class="modal" id="addPlatformModal">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="modal-close btn-floating btn-small blue" id="closePlatformModal">
+        <button type="button" class="modal-close btn-floating btn-small blue waves-effect" id="closePlatformModal">
           <span>&#10006;</span>
         </button>
         <h4 class="modal-title">Add Platform</h4>
@@ -27,7 +27,7 @@
           {% endfor %}
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary btn-floating btn-large blue" type="submit" id="submitPlatformModal"><i class="material-icons">save</i></button>
+          <button class="btn btn-primary btn-floating btn-large blue waves-effect waves-light" type="submit" id="submitPlatformModal"><i class="material-icons">save</i></button>
         </div>
       </form>
     </div>
@@ -45,8 +45,8 @@
               <a href="{{ platformcontent.url }}" target="_blank">{{ platformcontent.url|linebreaks }}</a>
             </div>
             <div class="card-action">
-              <a class="modal-trigger btn-floating blue" href="#editPlatformModal_{{ platformcontent.id }}" type="submit"><i class="material-icons">edit</i></a>
-              <a class="modal-trigger btn-floating blue" href="#deletePlatformModal_{{ platformcontent.id }}"><i class="material-icons">delete</i></a>
+              <a class="modal-trigger btn-floating waves-effect waves-light blue" href="#editPlatformModal_{{ platformcontent.id }}" type="submit"><i class="material-icons">edit</i></a>
+              <a class="modal-trigger btn-floating waves-effect blue" href="#deletePlatformModal_{{ platformcontent.id }}"><i class="material-icons">delete</i></a>
             </div>
           </div>
         </div>
@@ -54,7 +54,7 @@
         <div class="modal editPlatformModal" id="editPlatformModal_{{ platformcontent.id }}">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="modal-close btn-floating btn-small blue" id="closePlatformModal">
+              <button type="button" class="modal-close btn-floating btn-small waves-effect blue" id="closePlatformModal">
                 <span>&#10006;</span>
               </button>
               <h4 class="modal-title">Edit <span class="blue-text">{{ platformcontent.name }}</span></h4>
@@ -75,7 +75,7 @@
                 {% endfor %}
               </div>
               <div class="modal-footer">
-                <button class="btn btn-primary btn-floating btn-large blue" type="submit" id="submitPlatformModal"><i class="material-icons">save</i></button>
+                <button class="btn btn-primary btn-floating btn-large blue waves-effect waves-light" type="submit" id="submitPlatformModal"><i class="material-icons">save</i></button>
               </div>
             </form>
           </div>
@@ -84,7 +84,7 @@
         <div class="modal deletePlatformModal" id="deletePlatformModal_{{ platformcontent.id }}">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="modal-close btn-floating btn-small blue" id="closePlatformModal">
+              <button type="button" class="modal-close btn-floating btn-small waves-effect blue" id="closePlatformModal">
                 <span>&#10006;</span>
               </button>
               <h4 class="modal-title">Delete <span class="blue-text">{{ platformcontent.name }}</span></h4>
@@ -95,7 +95,7 @@
                 {% csrf_token %}
               </div>
               <div class="modal-footer">
-                <input type="submit" value="Yes - Delete!" class="btn blue">
+                <button type="submit" class="btn waves-effect waves-light blue">Yes - Delete!</button>
                 <a class="modal-close">Cancel</a>
               </div>
             </form>
@@ -104,7 +104,7 @@
       {% endfor %}
     </div>
   {% else %}
-    <h5>Click <button class="btn-floating btn-small btn blue modal-trigger" href="#addPlatformModal"><i
+    <h5>Click <button class="btn btn-floating btn-small blue modal-trigger" href="#addPlatformModal"><i
           class="material-icons">add</i></button> to add a new platform! 👾</h5>
   {% endif %}
 </div>
