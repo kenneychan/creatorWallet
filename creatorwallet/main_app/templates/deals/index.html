@@ -57,10 +57,17 @@
         <div class="col s4">
           <div class="card">
             <div class="card-content">
+              <span style='font-size:30px; float:right;'>
+                {% if deal.done %}
+                ✔️
+                {% else %}
+                🚧
+                {% endif %}
+              </span>
               <span class="card-title" style="font-weight:bold;">{{ deal.name }}</span>
               <table class="striped deal-table">
                 <tr>
-                  <th>Amount</th>
+                  <th style="width: 25%;">Amount</th>
                   <td>{{ deal.amount }}</td>
                 </tr>
                 <tr>
@@ -79,21 +86,8 @@
                   <th>Details</th>
                   <td>{{ deal.details|linebreaks }}</td>
                 </tr>
-                <tr>
-                  <th>Done</th>
-                  <td>
-                    {% if deal.done %}
-                    <span style='font-size:15px;'>✔️</span>
-                    {% else %}
-                    <span style='font-size:15px;'>❌</span>
-                    {% endif %}
-                  </td>
-                </tr>
-                <tr>
-                  <th>Created date</th>
-                  <td>{{ deal.create_date }}</td>
-                </tr>
               </table>
+              <small style="float:right;">Created on: {{ deal.created_date}}</small>
             </div>
             <div class="card-action">
               <a href="{% url 'detail' deal.id %}">View Deal</a>

@@ -20,4 +20,5 @@ urlpatterns = [
   path('platformscontent/<int:pk>/delete/', views.PlatformContentDelete.as_view(), name='platformscontent_delete'),
   path('deals/<int:deal_id>/add_attachment/', views.add_attachment, name='add_attachment'),
   path('platformscontent/<int:pk>/update/', context.platforms_form, name='platforms_form'),
+  path('deals/<int:pk>/update/', context.deals_form, name='deals_form'),
 ]

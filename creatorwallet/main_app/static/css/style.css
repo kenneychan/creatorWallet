@@ -47,8 +47,8 @@ nav .brand-logo {
   justify-content: space-between;
 }
 
-#addDealModal {
-  max-width: 30%;
+#addDealModal, .editDealModal {
+  max-width: 45%;
 }
 
 .deleteDealModal, .deletePlatformModal {
@@ -72,12 +72,17 @@ nav .brand-logo {
   box-shadow: 0 1px 0 0 #2196f3 !important;
 }
 
+.deal-table {
+  table-layout: fixed;
+}
+
 .deal-table th, td {
   padding: 0px 5px;
 }
 
 .deal-table td {
   text-align: right;
+  word-wrap: break-word;
 }
 
 footer.page-footer {

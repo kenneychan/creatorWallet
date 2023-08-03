@@ -9,10 +9,17 @@
       <div class="row">
         <div class="card">
           <div class="card-content">
+            <span style='font-size:30px; float:right;'>
+              {% if deal.done %}
+                ✔️
+              {% else %}
+                🚧
+              {% endif %}
+            </span>
             <span class="card-title" style="font-weight: bold">{{ deal.name }}</span>
             <table class="striped deal-table">
               <tr>
-                <th>Amount</th>
+                <th style="width: 25%;">Amount</th>
                 <td>{{ deal.amount }}</td>
               </tr>
               <tr>
@@ -31,25 +38,72 @@
                 <th>Details</th>
                 <td>{{ deal.details|linebreaks }}</td>
               </tr>
-              <tr>
-                <th>Done</th>
-                <td>
-                  {% if deal.done %}
-                  <span style="font-size: 15px">✔️</span>
-                  {% else %}
-                  <span style="font-size: 15px">❌</span>
-                  {% endif %}
-                </td>
-              </tr>
-              <tr>
-                <th>Created date</th>
-                <td>{{ deal.create_date }}</td>
-              </tr>
             </table>
+            <small style="float:right;">Created on: {{ deal.created_date}}</small>
           </div>
           <div class="card-action">
-            <a href="{% url 'deals_update' deal.id %}">Edit</a>
+            <a class="modal-trigger" href="#editDealModal_{{ deal.id }}">Edit</a>
             <a class="modal-trigger" href="#deleteDealModal_{{ deal.id }}">Delete</a>
+          </div>
+        </div>
+        <!-- edit modal -->
+        <div class="modal editDealModal" id="editDealModal_{{ deal.id }}">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="modal-close btn-floating btn-small teal" id="closeDealModal">
+                <span>&#10006;</span>
+              </button>
+              <h4 class="modal-title">Edit <span class="teal-text">{{ deal.name }}</span></h4>
+            </div>
+            <form action="{% url 'deals_form' deal.id %}" method="POST">
+              <div class="modal-body">
+                {% csrf_token %}
+                {% for field in DealForm %}
+                
+                  {{ field.errors }}
+                  {% if field.name == "name" %}
+                    <div class="input-field">
+                      <label for="id_{{ field.name }}">{{ field.label }} <span style="color:red;">*</span></label>
+                      <input type="text" name="{{ field.name }}" maxlength="100" required id="id_{{ field.name }}" value="{{ deal.name }}">
+                    </div>
+                  {% elif field.name == "amount" %}
+                    <div class="input-field">
+                      <label for="id_{{ field.name }}">{{ field.label }}</label>
+                      <input type="number" name="{{ field.name }}" step="0.01" id="id_{{ field.name }}" value="{{ deal.amount }}">
+                    </div>
+                  {% elif field.name == "url" %}
+                    <div class="input-field">
+                      <label for="id_{{ field.name }}">{{ field.label }}</label>
+                      <input type="url" name="{{ field.name }}" maxlength="100" id="id_{{ field.name }}" value="{{ deal.url }}">
+                    </div>
+                  {% elif field.name == "promo_code" %}
+                    <div class="input-field">
+                      <label for="id_{{ field.name }}">{{ field.label }}</label>
+                      <input type="text" name="{{ field.name }}" maxlength="100" id="id_{{ field.name }}" value="{{ deal.promo_code }}">
+                    </div>
+                  {% elif field.name == "due_date" %}
+                    <div class="input-field">
+                      <label for="id_{{ field.name }}">{{ field.label }}</label>
+                      <input type="text" name="{{ field.name }}" id="id_{{ field.name }}" value='{{ deal.due_date|date:"M j, Y" }}' class="datepicker">
+                    </div>
+                  {% elif field.name == "details" %}
+                    <div class="input-field">
+                      <label for="id_{{ field.name }}">{{ field.label }}</label>
+                      <textarea name="{{ field.name }}" cols="40" rows="10" maxlength="500" id="id_{{ field.name }}" class="materialize-textarea">{{ deal.details }}</textarea>
+                    </div>
+                  {% elif field.name == "done" %}
+                    <label for="id_{{ field.name }}">
+                      <input type="checkbox" name="{{ field.name }}" id="id_{{ field.name }}" {% if deal.done == True %}checked{% endif %}>
+                      <span>{{field.label}}</span>
+                    </label>
+                  {% else %}
+                  {% endif %}
+                {% endfor %}
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-primary" type="submit" id="submitDealModalBtn">Save</button>
+              </div>
+            </form>
           </div>
         </div>
         <div class="card">
