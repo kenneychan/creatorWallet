@@ -111,13 +111,18 @@ class PlatformContentList(LoginRequiredMixin, ListView):
       return PlatformContent.objects.filter(user=self.request.user)
 
 
-class PlatformContentDetail(LoginRequiredMixin, DetailView):
-  model = PlatformContent
-
+# class PlatformContentDetail(LoginRequiredMixin, DetailView):
+#   model = PlatformContent
+def platformContents_detail(request, platformContent_id):
+  print ('platformContent_id', platformContent_id)
+  platformcontent = PlatformContent.objects.get(id=platformContent_id)
+  return render(request, 'platformContent/detail.html', {
+    'platformcontent': platformcontent
+  })
 
 class PlatformContentCreate(LoginRequiredMixin, CreateView):
   model = PlatformContent
-  fields = ['name', 'url']
+  fields = ['name', 'url', 'platform_username']
   success_url = '/platformscontent'
 
   def form_valid(self, form):

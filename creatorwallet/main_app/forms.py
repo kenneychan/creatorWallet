@@ -9,7 +9,7 @@ class DealForm(ModelForm):
 class PlatformForm(ModelForm):
   class Meta:
     model = PlatformContent
-    fields = ['name', 'url', 'platform_username', 'platform_type']
+    fields = ['name', 'url', 'platform_username']
     
 class ActivityForm(ModelForm):
   class Meta:

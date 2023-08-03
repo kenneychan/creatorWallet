@@ -37,30 +37,30 @@
 
   {% if platformcontent_list.count %}
     <div class="row">
-      {% for platformcontent in platformcontent_list %}
+      {% for platformContent in platformcontent_list %}
         <div class="col s4">
           <div class="card">
             <div class="card-content">
-              <span class="card-title" style="font-weight:bold;">{{ platformcontent.name }}</span>
-              <a href="{{ platformcontent.url }}" target="_blank">{{ platformcontent.url|linebreaks }}</a>
+              <span class="card-title" style="font-weight:bold;">{{ platformContent.name }}</span>
+              <a href="{{ platformContent.url }}" target="_blank">{{ platformContent.url|linebreaks }}</a>
             </div>
             <div class="card-action">
-              <a class="modal-trigger btn-floating waves-effect waves-light blue" href="#detailsPlatformModal_{{ platformcontent.id }}" type="submit"><i class="material-icons">details</i></a>
-              <a class="modal-trigger btn-floating waves-effect waves-light blue" href="#editPlatformModal_{{ platformcontent.id }}" type="submit"><i class="material-icons">edit</i></a>
-              <a class="modal-trigger btn-floating waves-effect blue" href="#deletePlatformModal_{{ platformcontent.id }}"><i class="material-icons">delete</i></a>
+              <a class="btn-floating waves-effect waves-light blue" href={% url 'platformscontent_detail' platformContent.id %}><i class="material-icons">details</i></a>
+              <a class="modal-trigger btn-floating waves-effect waves-light blue" href="#editPlatformModal_{{ platformContent.id }}" type="submit"><i class="material-icons">edit</i></a>
+              <a class="modal-trigger btn-floating waves-effect blue" href="#deletePlatformModal_{{ platformContent.id }}"><i class="material-icons">delete</i></a>
             </div>
           </div>
         </div>
         <!-- edit modal -->
-        <div class="modal editPlatformModal" id="editPlatformModal_{{ platformcontent.id }}">
+        <div class="modal editPlatformModal" id="editPlatformModal_{{ platformContent.id }}">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="modal-close btn-floating btn-small waves-effect blue" id="closePlatformModal">
                 <span>&#10006;</span>
               </button>
-              <h4 class="modal-title">Edit <span class="blue-text">{{ platformcontent.name }}</span></h4>
+              <h4 class="modal-title">Edit <span class="blue-text">{{ platformContent.name }}</span></h4>
             </div>
-            <form action="{% url 'platforms_form' platformcontent.id %}" method="POST">
+            <form action="{% url 'platforms_form' platformContent.id %}" method="POST">
               <div class="modal-body" id="platform-modal-body">
                 {% csrf_token %}
                 {% for field in PlatformForm %}
@@ -68,13 +68,11 @@
                     {{ field.errors }}
                     <label for="id_{{ field.name }}">{{ field.label }} <span style="color:red;">*</span></label>
                     {% if field.name == "name" %}
-                      <input type="text" name="{{ field.name }}" maxlength="50" required id="id_{{ field.name }}" value="{{ platformcontent.name }}">
+                      <input type="text" name="{{ field.name }}" maxlength="50" required id="id_{{ field.name }}" value="{{ platformContent.name }}">
                     {% elif field.name == "url" %}
-                      <input type="url" name="{{ field.name }}" maxlength="100" required="" id="id_{{ field.name }}" value="{{ platformcontent.url }}">
+                      <input type="url" name="{{ field.name }}" maxlength="100" required="" id="id_{{ field.name }}" value="{{ platformContent.url }}">
                     {% elif field.name == "platform_username" %}
-                      <input type="text" name="{{ field.name }}" maxlength="100" id="id_{{ field.name }}" value="{{ platformcontent.platform_username }}">
-                    {% elif field.name == "platform_type" %}
-                      <input type="text" name="{{ field.name }}" maxlength="1" id="id_{{ field.name }}" value="{{ platformcontent.platform_type }}">
+                      <input type="text" name="{{ field.name }}" maxlength="50" id="id_{{ field.name }}" value="{{ platformContent.platform_username }}">
                     {% endif %}
                   </div>
                 {% endfor %}
@@ -86,17 +84,17 @@
           </div>
         </div>
         <!-- delete modal -->
-        <div class="modal deletePlatformModal" id="deletePlatformModal_{{ platformcontent.id }}">
+        <div class="modal deletePlatformModal" id="deletePlatformModal_{{ platformContent.id }}">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="modal-close btn-floating btn-small waves-effect blue" id="closePlatformModal">
                 <span>&#10006;</span>
               </button>
-              <h4 class="modal-title">Delete <span class="blue-text">{{ platformcontent.name }}</span></h4>
+              <h4 class="modal-title">Delete <span class="blue-text">{{ platformContent.name }}</span></h4>
             </div>
-            <form action="{% url 'platformscontent_delete' platformcontent.id %}" method="POST">
+            <form action="{% url 'platformscontent_delete' platformContent.id %}" method="POST">
               <div class="modal-body">
-                <h5>Are you sure you want to delete <span class="blue-text">{{ platformcontent.name }}</span>?</h5>
+                <h5>Are you sure you want to delete <span class="blue-text">{{ platformContent.name }}</span>?</h5>
                 {% csrf_token %}
               </div>
               <div class="modal-footer">

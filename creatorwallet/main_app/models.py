@@ -6,22 +6,12 @@ from datetime import date
 from django.contrib.auth.models import User
 from django.urls import reverse
 
-PLATFORM_TYPE = (
-    ('Y', 'YouTube'),
-    ('T', 'Twitch'),  
-)
-
 # Create your models here.
 class PlatformContent(models.Model):
   name = models.CharField(max_length=50)
   url = models.URLField(max_length=100)
   platform_username = models.CharField(max_length=50, blank=True, default='')
-  platform_type = models.CharField(
-    max_length=1, blank=True, default='',
-    # add the 'choices' field option
-    # choices=PLATFORM_TYPE
 
-  )
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   
   def __str__(self):
