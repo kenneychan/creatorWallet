@@ -127,7 +127,7 @@
       <div class="card-panel">
         <div class="row">
           <div class="col s6">
-            <h4 style="font-weight: bold">{{ deal.name }}'s Platforms</h4>
+            <span style="font-weight: bold; font-size: 24px;">{{ deal.name }}'s Platforms</span>
             <hr>
             {% if deal.platformscontent.count %}
               {% for platformcontent in deal.platformscontent.all %}
@@ -148,7 +148,7 @@
             {% endif %}
           </div>
           <div class="col s6">
-            <h4 style="font-weight: bold">Available Platforms</h4>
+            <span style="font-weight: bold; font-size: 24px;">Available Platforms</span>
             <hr>
             {% if platformscontent.count %}
               {% for platformcontent in platformscontent.all %}
