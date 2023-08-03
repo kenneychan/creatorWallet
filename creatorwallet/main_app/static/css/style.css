@@ -30,10 +30,28 @@ nav .brand-logo {
 }
 
 .parallax-container {
+  min-height: 380px;
+  line-height: 0;
+  height: auto;
   color: rgba(255, 255, 255, .9);
 }
 
+.parallax-text {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .parallax-img {
+  filter: brightness(80%);
+}
+
+.carousel {
+  color: rgba(255, 255, 255, .9);
+}
+
+.carousel-img {
   filter: brightness(80%);
 }
 
