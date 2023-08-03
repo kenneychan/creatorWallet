@@ -15,11 +15,11 @@ PLATFORM_TYPE = (
 class PlatformContent(models.Model):
   name = models.CharField(max_length=50)
   url = models.URLField(max_length=100)
-  platform_name = models.CharField(max_length=50, blank=True, default='')
+  platform_username = models.CharField(max_length=50, blank=True, default='')
   platform_type = models.CharField(
     max_length=1, blank=True, default='',
     # add the 'choices' field option
-    choices=PLATFORM_TYPE
+    # choices=PLATFORM_TYPE
 
   )
   user = models.ForeignKey(User, on_delete=models.CASCADE)
