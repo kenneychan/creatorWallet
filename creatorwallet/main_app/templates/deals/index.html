@@ -3,7 +3,7 @@
 
   <div class="deal-list-header">
     <h1>Deal List</h1>
-    <a class="btn-floating btn teal modal-trigger" href="#addDealModal" style="margin-top: 20px;"><i
+    <a class="btn-floating btn teal modal-trigger pulse" href="#addDealModal" style="margin-top: 20px;"><i
         class="material-icons">add</i></a>
     <!-- <a class="btn-floating btn teal" href="{% url 'deals_create' %}" style="margin-top: 20px;"><i
         class="material-icons">add</i></a> -->
@@ -43,7 +43,7 @@
           {% endfor %}
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary" type="submit" id="submitDealModalBtn">Save</button>
+          <button class="btn btn-primary btn-floating btn-large" type="submit" id="submitDealModalBtn"><i class="material-icons">save</i></button>
         </div>
       </form>
     </div>
@@ -90,8 +90,8 @@
               <small style="float:right;">Created on: {{ deal.created_date}}</small>
             </div>
             <div class="card-action">
-              <a href="{% url 'detail' deal.id %}">View Deal</a>
-              <a class="modal-trigger" href="#deleteDealModal_{{ deal.id }}">Delete</a>
+              <a class="btn-floating teal" href="{% url 'detail' deal.id %}"><i class="material-icons">description</i></a>
+              <a class="modal-trigger btn-floating teal" href="#deleteDealModal_{{ deal.id }}"><i class="material-icons">delete</i></a>
             </div>
           </div>
         </div>
@@ -103,7 +103,7 @@
               <button type="button" class="modal-close btn-floating btn-small" id="closeDealModal">
                 <span>&#10006;</span>
               </button>
-              <h4 class="modal-title">Delete Deal</h4>
+              <h4 class="modal-title">Delete <span class="teal-text">{{ deal.name }}</span></h4>
             </div>
             <form action="{% url 'deals_delete' deal.id %}" method="POST">
               <div class="modal-body">

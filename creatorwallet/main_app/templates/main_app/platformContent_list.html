@@ -4,7 +4,7 @@
 <div class="container">
   <div class="platform-list-header">
     <h1>Platform List</h1>
-    <a class="btn-floating btn blue modal-trigger" href="#addPlatformModal" style="margin-top: 20px;"><i
+    <a class="btn-floating btn blue modal-trigger pulse" href="#addPlatformModal" style="margin-top: 20px;"><i
         class="material-icons">add</i></a>
   </div>
   <!-- add modal -->
@@ -27,7 +27,7 @@
           {% endfor %}
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary blue" type="submit" id="submitPlatformModal">Save</button>
+          <button class="btn btn-primary btn-floating btn-large blue" type="submit" id="submitPlatformModal"><i class="material-icons">save</i></button>
         </div>
       </form>
     </div>
@@ -45,8 +45,8 @@
               <a href="{{ platformcontent.url }}" target="_blank">{{ platformcontent.url|linebreaks }}</a>
             </div>
             <div class="card-action">
-              <a class="modal-trigger" href="#editPlatformModal_{{ platformcontent.id }}" type="submit">Edit</a>
-              <a class="modal-trigger" href="#deletePlatformModal_{{ platformcontent.id }}">Delete</a>
+              <a class="modal-trigger btn-floating blue" href="#editPlatformModal_{{ platformcontent.id }}" type="submit"><i class="material-icons">edit</i></a>
+              <a class="modal-trigger btn-floating blue" href="#deletePlatformModal_{{ platformcontent.id }}"><i class="material-icons">delete</i></a>
             </div>
           </div>
         </div>
@@ -75,7 +75,7 @@
                 {% endfor %}
               </div>
               <div class="modal-footer">
-                <button class="btn btn-primary blue" type="submit" id="submitPlatformModal">Save</button>
+                <button class="btn btn-primary btn-floating btn-large blue" type="submit" id="submitPlatformModal"><i class="material-icons">save</i></button>
               </div>
             </form>
           </div>
@@ -87,7 +87,7 @@
               <button type="button" class="modal-close btn-floating btn-small blue" id="closePlatformModal">
                 <span>&#10006;</span>
               </button>
-              <h4 class="modal-title">Delete Platform</h4>
+              <h4 class="modal-title">Delete <span class="blue-text">{{ platformcontent.name }}</span></h4>
             </div>
             <form action="{% url 'platformscontent_delete' platformcontent.id %}" method="POST">
               <div class="modal-body">

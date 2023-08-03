@@ -42,8 +42,8 @@
             <small style="float:right;">Created on: {{ deal.created_date}}</small>
           </div>
           <div class="card-action">
-            <a class="modal-trigger" href="#editDealModal_{{ deal.id }}">Edit</a>
-            <a class="modal-trigger" href="#deleteDealModal_{{ deal.id }}">Delete</a>
+            <a class="modal-trigger btn-floating" href="#editDealModal_{{ deal.id }}"><i class="material-icons">edit</i></a>
+            <a class="modal-trigger btn-floating" href="#deleteDealModal_{{ deal.id }}"><i class="material-icons">delete</i></a>
           </div>
         </div>
         <!-- edit modal -->
@@ -101,7 +101,7 @@
                 {% endfor %}
               </div>
               <div class="modal-footer">
-                <button class="btn btn-primary" type="submit" id="submitDealModalBtn">Save</button>
+                <button class="btn btn-primary btn-floating btn-large" type="submit" id="submitDealModalBtn"><i class="material-icons">save</i></button>
               </div>
             </form>
           </div>
@@ -118,7 +118,7 @@
             {% csrf_token %}
             <input type="file" name="attachment-file" />
             <br /><br />
-            <button type="submit" class="btn">Upload Attachment</button>
+            <button type="submit" class="btn-floating"><i class="material-icons dp48">file_upload</i></button>
           </form>
         </div>
       </div>
@@ -132,7 +132,7 @@
             {% if deal.platformscontent.count %}
               {% for platformcontent in deal.platformscontent.all %}
               <div class="card">
-                <div class="card-content">
+                <div class="card-content"remove
                   <span class="card-title">
                     {{ platformcontent.name }}
                   </span>
@@ -141,7 +141,7 @@
                 <div class="card-action">
                   <form action="{% url 'unassoc_platformcontent' deal.id platformcontent.id %}" method="POST">
                     {% csrf_token %}
-                    <button type="submit" class="btn">Remove</button>
+                    <button type="submit" class="btn-floating" style="margin-left: auto;"><i class="material-icons">remove</i></button>
                   </form>
                 </div>
               </div>
@@ -165,7 +165,7 @@
                 <div class="card-action">
                   <form action="{% url 'assoc_platformcontent' deal.id platformcontent.id %}" method="POST">
                     {% csrf_token %}
-                    <button type="submit" class="btn">Add</button>
+                    <button type="submit" class="btn-floating"><i class="material-icons">add</i></button>
                   </form>
                 </div>
               </div>
@@ -185,7 +185,7 @@
         <button type="button" class="modal-close btn-floating btn-small" id="closeDealModal">
           <span>&#10006;</span>
         </button>
-        <h4 class="modal-title">Delete Deal</h4>
+        <h4 class="modal-title">Delete <span class="teal-text">{{ deal.name }}</span></h4>
       </div>
       <form action="{% url 'deals_delete' deal.id %}" method="POST">
         <div class="modal-body">
