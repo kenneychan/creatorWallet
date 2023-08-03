@@ -80,7 +80,7 @@ def deals_detail(request, deal_id):
   deal = Deal.objects.get(id=deal_id)
   id_list = deal.platformscontent.values_list('id').filter(user=request.user)
   platformscontent_deal_doesnt_have = PlatformContent.objects.exclude(id__in = id_list).filter(user=request.user)
-  return render(request, 'deals/detail.html', { 'deal': deal, 'platformscontent': platformscontent_deal_doesnt_have})
+  return render(request, 'deals/detail.html', { 'deal': deal, 'platformscontent': platformscontent_deal_doesnt_have, 'platformcount': id_list.count})
 
 class DealDelete(LoginRequiredMixin, DeleteView):
     model = Deal

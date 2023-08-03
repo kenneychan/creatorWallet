@@ -47,7 +47,7 @@
             <a class="modal-trigger btn-floating waves-effect" href="#deleteDealModal_{{ deal.id }}"><i class="material-icons">delete</i></a>
           </div>
         </div>
-        <!-- edit modal -->
+        <!-- edit deal modal -->
         <div class="modal editDealModal" id="editDealModal_{{ deal.id }}">
           <div class="modal-content">
             <div class="modal-header">
@@ -166,15 +166,18 @@
               </div>
               {% endfor %}
             {% else %}
-              <p>{{ id_list }}</p>
-              <b>All platforms has been added! 🎉</b>
+              {% if platformcount == 0 %}
+                <b>Go <a href="{% url 'platformscontent_index' %}">here</a> to add platforms!</b>
+              {% else %}
+                <b>All platforms has been added! 🎉</b>
+              {% endif %}
             {% endif %}
           </div>
         </div>
       </div>
     </div>
   </div>
-  <!-- delete modal -->
+  <!-- delete deal modal -->
   <div class="modal modal-fixed-foote deleteDealModal" id="deleteDealModal_{{ deal.id }}">
     <div class="modal-content">
       <div class="modal-header">
