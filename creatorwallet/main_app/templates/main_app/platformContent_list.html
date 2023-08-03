@@ -39,7 +39,7 @@
     <div class="row">
       {% for platformcontent in platformcontent_list %}
         <div class="col s4">
-          <div class="card">
+          <div class="card hoverable">
             <div class="card-content">
               <span class="card-title" style="font-weight:bold;">{{ platformcontent.name }}</span>
               <a href="{{ platformcontent.url }}" target="_blank">{{ platformcontent.url|linebreaks }}</a>

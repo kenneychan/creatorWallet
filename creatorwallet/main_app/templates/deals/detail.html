@@ -7,7 +7,7 @@
   <div class="row">
     <div class="col s4">
       <div class="row">
-        <div class="card">
+        <div class="card hoverable">
           <div class="card-content">
             <span style='font-size:30px; float:right;'>
               {% if deal.done %}
@@ -107,7 +107,7 @@
             </form>
           </div>
         </div>
-        <div class="card">
+        <div class="card hoverable">
           <div class="card-content">
             {% for attachment in deal.attachment_set.all %}
             <li><a href="{{attachment.url}}" download>{{attachment.filename}}</a></li>
@@ -125,7 +125,7 @@
       </div>
     </div>
     <div class="col s4">
-      <div class="card-panel">
+      <div class="card-panel hoverable">
         <div class="row">
           <div class="col s6">
             <span style="font-weight: bold; font-size: 24px;">{{ deal.name }}'s Platforms</span>
