@@ -1,14 +1,12 @@
 from datetime import date
 from django.db import models
 from django.urls import reverse
-from datetime import date
-# Import the User
 from django.contrib.auth.models import User
-from django.urls import reverse
+
+
 
 
 # Create your models here.
-
 class PlatformContent(models.Model):
   name = models.CharField(max_length=50)
   url = models.URLField(max_length=100)
@@ -47,3 +45,15 @@ class Attachment(models.Model):
     def __str__(self):
         # return f"Contract for my_deal_id: {self.my_deal_id} @{self.url}"
         return f"Attachment {self.filename} {self.url}"
+    
+
+class Activity(models.Model):
+    date = models.DateField('Activity Date')
+    notes = models.CharField(max_length=200)
+    deal = models.ForeignKey(Deal, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.get_activity_display()} on {self.date}"
+    
+    class Meta:
+        ordering = ['-date']

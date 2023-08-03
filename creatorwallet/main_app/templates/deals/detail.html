@@ -93,6 +93,33 @@
   </div>
 </div>
 
+<div class="col s6">
+    <form action="{% url 'add_activity' deal.id %}" method="POST">
+      {% csrf_token %}
+      <!-- Render the inputs -->
+      {{ activity_form.as_p }}
+      <input type="submit" class="btn" value="Add Activity">
+    </form>
+    <br>
+    <table class="striped">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>deal</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for activity in deal.add_activity_set.all %}
+        <tr>
+          <td>{{activity.date}}</td>
+          <td>{{activity.get_deal_display}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+
   <!-- This is all new markup to be added just above the <script> tag -->
 <hr>
 <div class="row">
