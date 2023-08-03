@@ -79,8 +79,8 @@ def deals_index(request):
 
 def deals_detail(request, deal_id):
   deal = Deal.objects.get(id=deal_id)
-  id_list = deal.platformscontent.values_list('id')
-  platformscontent_deal_doesnt_have = PlatformContent.objects.exclude(id__in = id_list)
+  id_list = deal.platformscontent.values_list('id').filter(user=request.user)
+  platformscontent_deal_doesnt_have = PlatformContent.objects.exclude(id__in = id_list).filter(user=request.user)
 
   activity_form = ActivityForm()
   return render(request, 'deals/detail.html', { 'deal': deal, "activity_form": activity_form, 'platformscontent': platformscontent_deal_doesnt_have  })
@@ -99,8 +99,6 @@ def add_activity(request, deal_id):
     return redirect("detail", deal_id=deal_id)
 
 
-
-
 class DealDelete(DeleteView):
     model = Deal
     success_url = "/deals"
@@ -109,6 +107,9 @@ class DealDelete(DeleteView):
 class PlatformContentList(ListView):
   model = PlatformContent
 
+  def get_queryset(self):
+      return PlatformContent.objects.filter(user=self.request.user)
+
 
 class PlatformContentDetail(DetailView):
   model = PlatformContent
@@ -116,8 +117,16 @@ class PlatformContentDetail(DetailView):
 
 class PlatformContentCreate(CreateView):
   model = PlatformContent
-  fields = '__all__'
+  fields = ['name', 'url']
   success_url = '/platformscontent'
+
+  def form_valid(self, form):
+    # Assign the logged in user (self.request.user)
+    print ('self.request.user', self.request.user)
+    form.instance.user = self.request.user  # form.instance is the cat
+    # Let the CreateView do its job as usual
+    return super().form_valid(form)
+
 
 
 class PlatformContentUpdate(UpdateView):
@@ -147,8 +156,7 @@ def add_attachment(request, deal_id):
     attachment_file = request.FILES.get('attachment-file', None)
     if attachment_file:
         s3 = boto3.client('s3')
-        # need a unique "key" for S3 / needs image file extension too
-        key = uuid.uuid4().hex[:6] + attachment_file.name[attachment_file.name.rfind('.'):]
+        key = uuid.uuid4().hex[:6] + "/" + attachment_file.name
         # just in case something goes wrong
         try:
             bucket = os.environ['S3_BUCKET']
