@@ -56,8 +56,8 @@ class Activity(models.Model):
     activity = models.CharField(max_length=200)
     deal = models.ForeignKey(Deal, on_delete=models.CASCADE)
 
-    # def __str__(self):
-    #     return f"{self.get_activity_display()} on {self.date}"
+    def __str__(self):
+        return f"{self.get_activity_display()} on {self.date}"
     
     class Meta:
         ordering = ['-date']

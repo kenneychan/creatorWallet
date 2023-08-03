@@ -205,19 +205,22 @@
     <table class="striped">
       <thead>
         <tr>
+          <th>Activity</th>
+          <th>Date</th>
+          <th>Notes</th>
         </tr>
       </thead>
       <tbody>
         {% for activity in deal.activity_set.all %}
         <tr>
-          <td>Activity:  {{activity.activity}}</td>
-          <td>Date:  {{activity.date}}</td>
-          <td>Notes:  {{activity.notes}}</td>
+          <td>{{activity.activity}}</td>
+          <td>{{activity.date}}</td>
+          <td>{{activity.notes}}</td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
-
+</div>
 
 {% endblock %}
