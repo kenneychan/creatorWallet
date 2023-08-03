@@ -13,7 +13,7 @@
   <div class="modal" id="addDealModal">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="modal-close btn-floating btn-small" id="closeDealModal">
+        <button type="button" class="modal-close btn-floating waves-effect btn-small" id="closeDealModal">
           <span>&#10006;</span>
         </button>
         <h4 class="modal-title">Add Deal</h4>
@@ -43,7 +43,7 @@
           {% endfor %}
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary btn-floating btn-large" type="submit" id="submitDealModalBtn"><i class="material-icons">save</i></button>
+          <button class="btn btn-primary btn-floating btn-large waves-effect waves-light" type="submit" id="submitDealModalBtn"><i class="material-icons">save</i></button>
         </div>
       </form>
     </div>
@@ -90,8 +90,8 @@
               <small style="float:right;">Created on: {{ deal.created_date}}</small>
             </div>
             <div class="card-action">
-              <a class="btn-floating teal" href="{% url 'detail' deal.id %}"><i class="material-icons">description</i></a>
-              <a class="modal-trigger btn-floating teal" href="#deleteDealModal_{{ deal.id }}"><i class="material-icons">delete</i></a>
+              <a class="btn-floating waves-effect waves-light teal" href="{% url 'detail' deal.id %}"><i class="material-icons">description</i></a>
+              <a class="modal-trigger btn-floating waves-effect teal" href="#deleteDealModal_{{ deal.id }}"><i class="material-icons">delete</i></a>
             </div>
           </div>
         </div>
@@ -100,7 +100,7 @@
         <div class="modal deleteDealModal" id="deleteDealModal_{{ deal.id }}">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="modal-close btn-floating btn-small" id="closeDealModal">
+              <button type="button" class="modal-close btn-floating waves-effect btn-small" id="closeDealModal">
                 <span>&#10006;</span>
               </button>
               <h4 class="modal-title">Delete <span class="teal-text">{{ deal.name }}</span></h4>
@@ -111,7 +111,7 @@
                 {% csrf_token %}
               </div>
               <div class="modal-footer">
-                <input type="submit" value="Yes - Delete!" class="btn">
+                <button type="submit" class="btn waves-effect waves-light">Yes - Delete!</button>
                 <a class="modal-close">Cancel</a>
               </div>
             </form>
