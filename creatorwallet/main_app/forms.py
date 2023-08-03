@@ -14,5 +14,5 @@ class PlatformForm(ModelForm):
 class ActivityForm(ModelForm):
   class Meta:
     model = Activity
-    fields = ['date', 'notes', 'activity']
+    fields = ['activity', 'date', 'notes']
     
