@@ -2,7 +2,7 @@
 <div class="container">
 
   <div class="deal-list-header">
-    <h1>Deal List</h1>
+    <h2>Deal List</h2>
     <a class="btn-floating btn teal modal-trigger pulse" href="#addDealModal" style="margin-top: 20px;"><i
         class="material-icons">add</i></a>
     <!-- <a class="btn-floating btn teal" href="{% url 'deals_create' %}" style="margin-top: 20px;"><i
@@ -55,7 +55,7 @@
     <div class="row">
       {% for deal in deals %}
         <div class="col s4">
-          <div class="card">
+          <div class="card hoverable">
             <div class="card-content">
               <span style='font-size:30px; float:right;'>
                 {% if deal.done %}
@@ -65,6 +65,7 @@
                 {% endif %}
               </span>
               <span class="card-title" style="font-weight:bold;">{{ deal.name }}</span>
+              <hr>
               <table class="striped deal-table">
                 <tr>
                   <th style="width: 25%;">Amount</th>

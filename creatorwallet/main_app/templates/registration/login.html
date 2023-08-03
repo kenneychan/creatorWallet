@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col s4 offset-s4 center-align">
       <h2>Log In</h2>
-
+      <span>Doesn't have an account yet? <a href="{% url 'signup' %}"><b>Sign Up</b></a></span>
       <!-- Add the login form -->
       <form method="POST" action="{% url 'login' %}">
         {% csrf_token %}

@@ -80,7 +80,8 @@ nav .brand-logo {
 }
 
 #addDealModal, .editDealModal {
-  max-width: 45%;
+  max-height: 100%;
+  max-width: 50%;
 }
 
 .deleteDealModal, .deletePlatformModal {
@@ -114,6 +115,19 @@ nav .brand-logo {
 
 .deal-table td {
   text-align: right;
+  word-wrap: break-word;
+}
+
+.activity-table {
+  table-layout: fixed;
+}
+
+.activity-table th,
+td {
+  padding: 0px 5px;
+}
+
+.activity-table td {
   word-wrap: break-word;
 }
 

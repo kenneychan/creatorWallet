@@ -61,7 +61,7 @@ class DealCreate(LoginRequiredMixin, CreateView):
     return super().form_valid(form)
   
 
-class DealUpdate(UpdateView):
+class DealUpdate(LoginRequiredMixin, UpdateView):
     model = Deal
     # Let's disallow the renaming of a deal by excluding the name field!
     fields = ['name', 'amount', 'url', 'promo_code', 'due_date', 'details', 'done']
@@ -76,7 +76,7 @@ def deals_index(request):
   # deals = request.user.deal_set.all()
   return render(request, 'deals/index.html', { 'deals': deals })
 
-
+@login_required
 def deals_detail(request, deal_id):
   deal = Deal.objects.get(id=deal_id)
   id_list = deal.platformscontent.values_list('id').filter(user=request.user)
@@ -99,23 +99,23 @@ def add_activity(request, deal_id):
     return redirect("detail", deal_id=deal_id)
 
 
-class DealDelete(DeleteView):
+class DealDelete(LoginRequiredMixin, DeleteView):
     model = Deal
     success_url = "/deals"
 
 
-class PlatformContentList(ListView):
+class PlatformContentList(LoginRequiredMixin, ListView):
   model = PlatformContent
 
   def get_queryset(self):
       return PlatformContent.objects.filter(user=self.request.user)
 
 
-class PlatformContentDetail(DetailView):
+class PlatformContentDetail(LoginRequiredMixin, DetailView):
   model = PlatformContent
 
 
-class PlatformContentCreate(CreateView):
+class PlatformContentCreate(LoginRequiredMixin, CreateView):
   model = PlatformContent
   fields = ['name', 'url']
   success_url = '/platformscontent'
@@ -129,22 +129,24 @@ class PlatformContentCreate(CreateView):
 
 
 
-class PlatformContentUpdate(UpdateView):
+class PlatformContentUpdate(LoginRequiredMixin, UpdateView):
   model = PlatformContent
   fields = ['name', 'url']
   success_url = '/platformscontent'
   
 
 
-class PlatformContentDelete(DeleteView):
+class PlatformContentDelete(LoginRequiredMixin, DeleteView):
   model = PlatformContent
   success_url = '/platformscontent'
 
-
+@login_required
 def assoc_platformcontent(request, deal_id, platformcontent_id):
   # Note that you can pass a platform's id instead of the whole platform object
   Deal.objects.get(id=deal_id).platformscontent.add(platformcontent_id)
   return redirect('detail', deal_id=deal_id)
+
+@login_required
 def unassoc_platformcontent(request, deal_id, platformcontent_id):
   # Note that you can pass a platform's id instead of the whole platform object
   Deal.objects.get(id=deal_id).platformscontent.remove(platformcontent_id)

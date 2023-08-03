@@ -3,7 +3,7 @@
 
 <div class="container">
   <div class="platform-list-header">
-    <h1>Platform List</h1>
+    <h2>Platform List</h2>
     <a class="btn-floating btn blue modal-trigger pulse" href="#addPlatformModal" style="margin-top: 20px;"><i
         class="material-icons">add</i></a>
   </div>
@@ -39,7 +39,7 @@
     <div class="row">
       {% for platformcontent in platformcontent_list %}
         <div class="col s4">
-          <div class="card">
+          <div class="card hoverable">
             <div class="card-content">
               <span class="card-title" style="font-weight:bold;">{{ platformcontent.name }}</span>
               <a href="{{ platformcontent.url }}" target="_blank">{{ platformcontent.url|linebreaks }}</a>
