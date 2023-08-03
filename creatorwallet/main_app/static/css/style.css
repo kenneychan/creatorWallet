@@ -83,6 +83,11 @@ nav .brand-logo {
   margin-right:-15px;
 }
 
+.card .card-action {
+  display: flex;
+  justify-content: space-evenly;
+}
+
 #addDealModal, .editDealModal {
   max-height: 100%;
   max-width: 50%;
