@@ -91,7 +91,6 @@ class PlatformContentList(ListView):
   model = PlatformContent
 
   def get_queryset(self):
-      print('self.request.user', self.request.user)
       return PlatformContent.objects.filter(user=self.request.user)
 
 
