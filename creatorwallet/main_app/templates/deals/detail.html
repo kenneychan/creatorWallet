@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container">
-  <h1>Deal Details</h1>
+  <h2>Deal Details</h2>
 
   <hr>
 
@@ -17,6 +17,7 @@
               {% endif %}
             </span>
             <span class="card-title" style="font-weight: bold">{{ deal.name }}</span>
+            <hr>
             <table class="striped deal-table">
               <tr>
                 <th style="width: 25%;">Amount</th>
@@ -165,6 +166,7 @@
               </div>
               {% endfor %}
             {% else %}
+              <p>{{ id_list }}</p>
               <b>All platforms has been added! 🎉</b>
             {% endif %}
           </div>
