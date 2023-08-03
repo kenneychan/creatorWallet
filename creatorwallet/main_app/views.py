@@ -114,8 +114,13 @@ class PlatformContentList(LoginRequiredMixin, ListView):
 # class PlatformContentDetail(LoginRequiredMixin, DetailView):
 #   model = PlatformContent
 def platformContents_detail(request, platformcontent_id):
-  print ('platformContent_id', platformcontent_id)
   platformContent = PlatformContent.objects.get(id=platformcontent_id)
+  print ('url', platformContent.url.lower())
+  if "youtube.com" in platformContent.url.lower():
+    print ('youtube')
+  elif "twitch.tv" in platformContent.url.lower():
+    print ('twitch')
+
   return render(request, 'platformContents/details.html', {
     'platformContent': platformContent
   })
