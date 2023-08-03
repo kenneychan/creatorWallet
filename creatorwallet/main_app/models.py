@@ -13,6 +13,7 @@ from django.urls import reverse
 class PlatformContent(models.Model):
   name = models.CharField(max_length=50)
   url = models.URLField(max_length=100)
+  platform_name = models.CharField(max_length=50)
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   
   def __str__(self):
