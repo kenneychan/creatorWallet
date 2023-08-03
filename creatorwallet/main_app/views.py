@@ -113,11 +113,11 @@ class PlatformContentList(LoginRequiredMixin, ListView):
 
 # class PlatformContentDetail(LoginRequiredMixin, DetailView):
 #   model = PlatformContent
-def platformContents_detail(request, platformContent_id):
-  print ('platformContent_id', platformContent_id)
-  platformcontent = PlatformContent.objects.get(id=platformContent_id)
-  return render(request, 'platformContent/detail.html', {
-    'platformcontent': platformcontent
+def platformContents_detail(request, platformcontent_id):
+  print ('platformContent_id', platformcontent_id)
+  platformContent = PlatformContent.objects.get(id=platformcontent_id)
+  return render(request, 'platformContents/details.html', {
+    'platformContent': platformContent
   })
 
 class PlatformContentCreate(LoginRequiredMixin, CreateView):
