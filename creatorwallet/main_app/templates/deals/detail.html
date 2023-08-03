@@ -133,12 +133,12 @@
               {% for platformcontent in deal.platformscontent.all %}
               <div class="card">
                 <div class="card-content platform-cards">
-                  <span class="card-title platform-cards-left">
+                  <span class="platform-cards-left">
                     <b>{{ platformcontent.name }}</b>
                   </span>
                   <form class="platform-cards-right" action="{% url 'unassoc_platformcontent' deal.id platformcontent.id %}" method="POST">
                     {% csrf_token %}
-                    <button type="submit" class="btn-floating waves-effect"><i class="material-icons">remove</i></button>
+                    <button type="submit" class="btn-floating btn-small waves-effect"><i class="material-icons">remove</i></button>
                   </form>
                 </div>
               </div>
@@ -156,9 +156,9 @@
                 <div class="card-content platform-cards">
                   <form class="platform-cards-left" action="{% url 'assoc_platformcontent' deal.id platformcontent.id %}" method="POST">
                     {% csrf_token %}
-                    <button type="submit" class="btn-floating waves-effect waves-light"><i class="material-icons">add</i></button>
+                    <button type="submit" class="btn-floating btn-small waves-effect waves-light"><i class="material-icons">add</i></button>
                   </form>
-                  <span class="card-title platform-cards-right">
+                  <span class="platform-cards-right" >
                     <b>{{ platformcontent.name }}</b>
                   </span>
                 </div>
