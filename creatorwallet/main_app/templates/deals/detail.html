@@ -198,5 +198,35 @@
       </form>
     </div>
   </div>
+  
+  <h1>Deal Timeline</h1>
+<div class="col s6">
+    <form action="{% url 'add_activity' deal.id %}" method="POST">
+      {% csrf_token %}
+      <!-- Render the inputs -->
+      {{ activity_form.as_p }}
+      <input type="submit" class="btn" value="Add Activity">
+    </form>
+    <br>
+    <table class="striped">
+      <thead>
+        <tr>
+          <th>Activity</th>
+          <th>Date</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for activity in deal.activity_set.all %}
+        <tr>
+          <td>{{activity.activity}}</td>
+          <td>{{activity.date}}</td>
+          <td>{{activity.notes}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </div>
+
 {% endblock %}

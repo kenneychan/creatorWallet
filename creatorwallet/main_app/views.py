@@ -12,6 +12,7 @@ from django.contrib.auth.decorators import login_required
 # Import the mixin for class-based views
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Deal, PlatformContent, Attachment
+from .forms import ActivityForm
 
 # Create your views here.
 # Define the home view
@@ -80,7 +81,23 @@ def deals_detail(request, deal_id):
   deal = Deal.objects.get(id=deal_id)
   id_list = deal.platformscontent.values_list('id').filter(user=request.user)
   platformscontent_deal_doesnt_have = PlatformContent.objects.exclude(id__in = id_list).filter(user=request.user)
-  return render(request, 'deals/detail.html', { 'deal': deal, 'platformscontent': platformscontent_deal_doesnt_have, 'platformcount': id_list.count})
+
+  activity_form = ActivityForm()
+  return render(request, 'deals/detail.html', { 'deal': deal, "activity_form": activity_form, 'platformscontent': platformscontent_deal_doesnt_have  })
+
+
+def add_activity(request, deal_id):
+    # create a ModelForm instance using the data in data that was submitted
+    form = ActivityForm(request.POST)
+    # validate the form
+    if form.is_valid():
+        # don't save the form to the db until it
+        # has the deal_id assigned
+        new_activity = form.save(commit=False)
+        new_activity.deal_id = deal_id
+        new_activity.save()
+    return redirect("detail", deal_id=deal_id)
+
 
 class DealDelete(LoginRequiredMixin, DeleteView):
     model = Deal
