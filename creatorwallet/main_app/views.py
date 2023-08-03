@@ -90,6 +90,9 @@ class DealDelete(LoginRequiredMixin, DeleteView):
 class PlatformContentList(LoginRequiredMixin, ListView):
   model = PlatformContent
 
+  def get_queryset(self):
+      return PlatformContent.objects.filter(user=self.request.user)
+
 
 class PlatformContentDetail(LoginRequiredMixin, DetailView):
   model = PlatformContent
