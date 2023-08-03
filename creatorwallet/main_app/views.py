@@ -2,6 +2,7 @@ import os
 import uuid
 import boto3
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from django.contrib.auth import login
@@ -64,6 +65,8 @@ class DealUpdate(UpdateView):
     model = Deal
     # Let's disallow the renaming of a deal by excluding the name field!
     fields = ['name', 'amount', 'url', 'promo_code', 'due_date', 'details', 'done']
+    def get_success_url(self):
+      return reverse('detail', args=(self.object.pk,))
   
 
 @login_required
@@ -114,11 +117,13 @@ class PlatformContentDetail(DetailView):
 class PlatformContentCreate(CreateView):
   model = PlatformContent
   fields = '__all__'
+  success_url = '/platformscontent'
 
 
 class PlatformContentUpdate(UpdateView):
   model = PlatformContent
   fields = ['name', 'url']
+  success_url = '/platformscontent'
   
 
 

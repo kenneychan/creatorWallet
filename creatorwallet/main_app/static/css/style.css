@@ -30,10 +30,28 @@ nav .brand-logo {
 }
 
 .parallax-container {
+  min-height: 380px;
+  line-height: 0;
+  height: auto;
   color: rgba(255, 255, 255, .9);
 }
 
+.parallax-text {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .parallax-img {
+  filter: brightness(80%);
+}
+
+.carousel {
+  color: rgba(255, 255, 255, .9);
+}
+
+.carousel-img {
   filter: brightness(80%);
 }
 
@@ -41,26 +59,53 @@ nav .brand-logo {
   height: 64px;
 }
 
-.deal-list-header {
+.deal-list-header, .platform-list-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-#addDealModal {
-  max-width: 30%;
+.platform-cards {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.deleteDealModal {
+.platform-cards-left {
+  margin-left: -15px;
+}
+
+.platform-cards-right {
+  margin-right:-15px;
+}
+
+#addDealModal, .editDealModal {
+  max-width: 45%;
+}
+
+.deleteDealModal, .deletePlatformModal {
   max-width: 25%;
 }
 
-#closeDealModal {
+#closeDealModal, #closePlatformModal {
   float: right;
 }
 
-#submitDealModal {
+#submitDealModalBtn {
   margin-right: -5px;
+}
+
+#addPlatformModal, .editPlatformModal {
+  max-width: 25%;
+}
+
+#platform-modal-body>.input-field>input:focus {
+  border-bottom: 1px solid #2196f3 !important;
+  box-shadow: 0 1px 0 0 #2196f3 !important;
+}
+
+.deal-table {
+  table-layout: fixed;
 }
 
 .deal-table th, td {
@@ -69,6 +114,7 @@ nav .brand-logo {
 
 .deal-table td {
   text-align: right;
+  word-wrap: break-word;
 }
 
 footer.page-footer {
