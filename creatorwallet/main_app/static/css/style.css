@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   display: flex;
   min-height: 100vh;
@@ -118,17 +122,9 @@ nav .brand-logo {
   word-wrap: break-word;
 }
 
-.activity-table {
-  table-layout: fixed;
-}
-
-.activity-table th,
-td {
-  padding: 0px 5px;
-}
-
-.activity-table td {
+.activity-notes {
   word-wrap: break-word;
+  white-space: normal;
 }
 
 footer.page-footer {

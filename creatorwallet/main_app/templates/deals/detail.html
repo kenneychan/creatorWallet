@@ -192,24 +192,16 @@
               <input type="submit" class="btn" value="Add Activity">
             </form>
             <br>
-            <table class="striped activity-table">
-              <thead>
-                <tr>
-                  <th>Activity</th>
-                  <th>Date</th>
-                  <th>Notes</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for activity in deal.activity_set.all %}
-                <tr>
-                  <td>{{ activity.activity }}</td>
-                  <td>{{ activity.date }}</td>
-                  <td>{{ activity.notes }}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
+            <ul class="collection">
+              {% for activity in deal.activity_set.all %}
+                <li class="collection-item">
+                  <span class="title"><b>{{ activity.activity }}</b></span>
+                  <small>on {{ activity.date }}</small>
+                  <br>
+                  <p class="activity-notes">{{ activity.notes }}</p>
+                </li>
+              {% endfor %}
+            </ul>
           </div>
         </div>
       </div>
