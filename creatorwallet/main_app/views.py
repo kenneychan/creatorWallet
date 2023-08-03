@@ -136,8 +136,7 @@ def add_attachment(request, deal_id):
     attachment_file = request.FILES.get('attachment-file', None)
     if attachment_file:
         s3 = boto3.client('s3')
-        # need a unique "key" for S3 / needs image file extension too
-        key = uuid.uuid4().hex[:6] + attachment_file.name[attachment_file.name.rfind('.'):]
+        key = uuid.uuid4().hex[:6] + "/" + attachment_file.name
         # just in case something goes wrong
         try:
             bucket = os.environ['S3_BUCKET']
