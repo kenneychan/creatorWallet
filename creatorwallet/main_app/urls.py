@@ -3,6 +3,7 @@ from . import views, context
 
 urlpatterns = [
   path('', views.home, name='home'),
+  path('dashboard/', views.dashboard, name='dashboard'),
   path('about/', views.about, name='about'),
   # New url pattern below
   path('accounts/signup/', views.signup, name='signup'),

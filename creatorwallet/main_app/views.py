@@ -29,6 +29,10 @@ def about(request):
   # Include an .html file extension - unlike when rendering EJS templates
   return render(request, 'about.html')
 
+def dashboard(request):
+  # Include an .html file extension - unlike when rendering EJS templates
+  return render(request, 'dashboard.html')
+
 
 def signup(request):
   error_message = ''
