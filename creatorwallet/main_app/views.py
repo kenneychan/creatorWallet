@@ -20,14 +20,16 @@ from .platformAPI.youtube import youtubeStats
 # Create your views here.
 # Define the home view
 def home(request):
-  # Include an .html file extension - unlike when rendering EJS templates
   return render(request, 'home.html')
 
 
 # Define the about view
 def about(request):
-  # Include an .html file extension - unlike when rendering EJS templates
   return render(request, 'about.html')
+
+# Definte the dashboard view
+def dashboard(request):
+  return render(request, 'dashboard.html')
 
 
 def signup(request):
