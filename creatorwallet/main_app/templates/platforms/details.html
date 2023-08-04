@@ -61,13 +61,18 @@
                   {% if sub_key == "title" %}
                     <b>{{ sub_value }}</b>
                   {% elif sub_key == "thumbnail" %}
+                    {% if '404' in sub_value %}
+                      <small><i>Thumbnail processing</i></small>
+                      <img class="responsive-img" src="https://media.tenor.com/bCfpwMjfAi0AAAAC/cat-typing.gif">
+                    {% else %}
                     <img class="responsive-img" src="{{ sub_value }}">
+                    {% endif %}
                   {% elif sub_key == "url" %}
                     <a href="{{ sub_value }}" target="_blank">{{ sub_value }}</a>
                   {% else %}
-                    <br>
                     <small>{{ sub_key | capfirst }}: {{ sub_value }}</small>
                   {% endif %}
+                  <br>
                 {% endfor %}
               </div>
             </div>
