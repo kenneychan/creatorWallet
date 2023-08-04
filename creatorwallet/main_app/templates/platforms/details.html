@@ -6,9 +6,9 @@
   <div class="col s6 col-offset-3">
     <div class="card">
       <div class="card-content">
-        <span class="card-title">{{ platformContent.name }}</span>
-        <p>Url: {{ platformContent.url }}</p>
-        <p>Platform Userame: {{ platformContent.platform_username }}</p>
+        <span class="card-title">{{ platform.name }}</span>
+        <p>Url: {{ platform.url }}</p>
+        <p>Platform Userame: {{ platform.platform_username }}</p>
 
         {% if stats %} {% for key, value in stats.0.items %}
         <p>{{ key | capfirst }}: {{ value }}</p>
@@ -16,10 +16,10 @@
       </div>
       {% endif %}
       <div class="card-action">
-        <a href="{% url 'platformscontent_update' platformContent.id %}"
+        <a href="{% url 'platforms_update' platform.id %}"
           >Edit</a
         >
-        <a href="{% url 'platformscontent_delete' platformContent.id %}"
+        <a href="{% url 'platforms_delete' platform.id %}"
           >Delete</a
         >
       </div>

@@ -6,7 +6,7 @@ from googleapiclient.discovery import build
 environ.Env()
 environ.Env.read_env()
 
-def youTubeStats(user):
+def youtubeStats(user):
     api_key = os.environ['YOUTUBE_API_KEY']
     api_service_name = "youtube"
     api_version = "v3"

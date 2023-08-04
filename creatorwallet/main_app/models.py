@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 
 # Create your models here.
-class PlatformContent(models.Model):
+class Platform(models.Model):
   name = models.CharField(max_length=50)
   url = models.URLField(max_length=100)
   platform_username = models.CharField(max_length=50, blank=True, null=True)
@@ -18,7 +18,7 @@ class PlatformContent(models.Model):
     return self.name
 
   def get_absolute_url(self):
-    return reverse('platformscontent_detail', kwargs={'pk': self.id})
+    return reverse('platforms_detail', kwargs={'pk': self.id})
 
 
 class Deal(models.Model):
@@ -30,7 +30,7 @@ class Deal(models.Model):
     promo_code = models.CharField(max_length=100, blank=True, default='')
     done = models.BooleanField(blank=True, default=False)
     created_date = models.DateField(default=date.today)
-    platformscontent = models.ManyToManyField(PlatformContent)
+    platforms = models.ManyToManyField(Platform)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

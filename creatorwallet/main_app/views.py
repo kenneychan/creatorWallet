@@ -11,10 +11,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 # Import the mixin for class-based views
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Deal, PlatformContent, Attachment
+from .models import Deal, Platform, Attachment
 from .forms import ActivityForm
 from .platformAPI.twitch import twitchStats
-from .platformAPI.youTube import youTubeStats
+from .platformAPI.youtube import youtubeStats
 
 
 # Create your views here.
@@ -82,11 +82,11 @@ def deals_index(request):
 @login_required
 def deals_detail(request, deal_id):
   deal = Deal.objects.get(id=deal_id)
-  id_list = deal.platformscontent.values_list('id').filter(user=request.user)
-  platformscontent_deal_doesnt_have = PlatformContent.objects.exclude(id__in = id_list).filter(user=request.user)
+  id_list = deal.platforms.values_list('id').filter(user=request.user)
+  platforms_deal_doesnt_have = Platform.objects.exclude(id__in = id_list).filter(user=request.user)
 
   activity_form = ActivityForm()
-  return render(request, 'deals/detail.html', { 'deal': deal, "activity_form": activity_form, 'platformscontent': platformscontent_deal_doesnt_have  })
+  return render(request, 'deals/detail.html', { 'deal': deal, "activity_form": activity_form, 'platforms': platforms_deal_doesnt_have  })
 
 
 def add_activity(request, deal_id):
@@ -107,29 +107,29 @@ class DealDelete(LoginRequiredMixin, DeleteView):
     success_url = "/deals"
 
 
-class PlatformContentList(LoginRequiredMixin, ListView):
-  model = PlatformContent
+class PlatformList(LoginRequiredMixin, ListView):
+  model = Platform
 
   def get_queryset(self):
-      return PlatformContent.objects.filter(user=self.request.user)
+      return Platform.objects.filter(user=self.request.user)
 
 @login_required
-def platformContents_detail(request, platformcontent_id):
-  platformContent = PlatformContent.objects.get(id=platformcontent_id)
-  print ('url', platformContent.url.lower())
-  if "youtube.com" in platformContent.url.lower():
-    stats = youTubeStats(platformContent.platform_username)
-  elif "twitch.tv" in platformContent.url.lower():
-    stats = twitchStats(platformContent.platform_username)
+def platforms_detail(request, platform_id):
+  platform = Platform.objects.get(id=platform_id)
+  print ('url', platform.url.lower())
+  if "youtube.com" in platform.url.lower():
+    stats = youtubeStats(platform.platform_username)
+  elif "twitch.tv" in platform.url.lower():
+    stats = twitchStats(platform.platform_username)
 
-  return render(request, 'platformContents/details.html', {
-    'platformContent': platformContent, 'stats': stats
+  return render(request, 'platforms/details.html', {
+    'platform': platform, 'stats': stats
   })
 
-class PlatformContentCreate(LoginRequiredMixin, CreateView):
-  model = PlatformContent
+class PlatformCreate(LoginRequiredMixin, CreateView):
+  model = Platform
   fields = ['name', 'url', 'platform_username']
-  success_url = '/platformscontent'
+  success_url = '/platforms'
 
   def form_valid(self, form):
     # Assign the logged in user (self.request.user)
@@ -140,27 +140,27 @@ class PlatformContentCreate(LoginRequiredMixin, CreateView):
 
 
 
-class PlatformContentUpdate(LoginRequiredMixin, UpdateView):
-  model = PlatformContent
+class PlatformUpdate(LoginRequiredMixin, UpdateView):
+  model = Platform
   fields = ['name', 'url']
-  success_url = '/platformscontent'
+  success_url = '/platforms'
   
 
 
-class PlatformContentDelete(LoginRequiredMixin, DeleteView):
-  model = PlatformContent
-  success_url = '/platformscontent'
+class PlatformDelete(LoginRequiredMixin, DeleteView):
+  model = Platform
+  success_url = '/platforms'
 
 @login_required
-def assoc_platformcontent(request, deal_id, platformcontent_id):
+def assoc_platform(request, deal_id, platform_id):
   # Note that you can pass a platform's id instead of the whole platform object
-  Deal.objects.get(id=deal_id).platformscontent.add(platformcontent_id)
+  Deal.objects.get(id=deal_id).platforms.add(platform_id)
   return redirect('detail', deal_id=deal_id)
 
 @login_required
-def unassoc_platformcontent(request, deal_id, platformcontent_id):
+def unassoc_platform(request, deal_id, platform_id):
   # Note that you can pass a platform's id instead of the whole platform object
-  Deal.objects.get(id=deal_id).platformscontent.remove(platformcontent_id)
+  Deal.objects.get(id=deal_id).platforms.remove(platform_id)
   return redirect('detail', deal_id=deal_id)
 
 # def add_attachment(request, deal_id):
