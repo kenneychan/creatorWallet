@@ -19,12 +19,21 @@ def twitchStats(user):
                 'Authorization' : 'Bearer ' + app_token})
     user_id = validateRequest.json()['data'][0]['id']
 
+    context = []
+
+    validateRequest = requests.get(f'https://api.twitch.tv/helix/channels/followers?broadcaster_id={user_id}&broadcastType=null', 
+            headers = {
+                'Client-ID' : client_id, 
+                'Authorization' : 'Bearer ' + app_token})
+    total = validateRequest.json()['total']
+
     validateRequest = requests.get(f'https://api.twitch.tv/helix/videos?user_id={user_id}&broadcastType=null', 
             headers = {
                 'Client-ID' : client_id, 
                 'Authorization' : 'Bearer ' + app_token})
-    # print ( validateRequest.json()['data'][0]  )
+    print ( validateRequest.json()['data'][0]  )
     context = {
+        'total': total,
         'title': validateRequest.json()['data'][0]['title'],
         'view_count': validateRequest.json()['data'][0]['view_count'],
         'thumbnail_url': validateRequest.json()['data'][0]['thumbnail_url'],
