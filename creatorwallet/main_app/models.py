@@ -49,7 +49,9 @@ class Attachment(models.Model):
         # return f"Contract for my_deal_id: {self.my_deal_id} @{self.url}"
         return f"Attachment {self.filename} {self.url}"
     
-
+    def get_absolute_url(self):
+        return reverse("index")
+    
 class Activity(models.Model):
     date = models.DateField()
     notes = models.CharField(max_length=200)

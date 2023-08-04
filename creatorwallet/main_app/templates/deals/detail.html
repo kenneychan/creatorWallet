@@ -117,7 +117,32 @@
         <div class="card hoverable">
           <div class="card-content">
             {% for attachment in deal.attachment_set.all %}
-            <li><a href="{{attachment.url}}" download>{{attachment.filename}}</a></li>
+            <li>
+              <a href="{{attachment.url}}" download>{{attachment.filename}}</a>
+              <a class="modal-trigger btn-floating waves-effect" href="#deleteAttachmentModal_{{ deal.id }}_{{ attachment.id }}"><i class="material-icons">delete</i></a>
+            </li>
+            <!-- delete attachment modal -->
+            <div class="modal modal-fixed-foote deleteAttachmentModal" id="deleteAttachmentModal_{{ deal.id }}_{{attachment.id }}">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="modal-close btn-floating btn-small" id="closeDealModal">
+                    <span>&#10006;</span>
+                  </button>
+                  <h4 class="modal-title">Delete <span class="teal-text">{{ attachement.filename }}</span></h4>
+                </div>
+                <form action="{% url 'delete_attachment' deal.id attachment.id %}" method="POST">
+                  <div class="modal-body">
+                    <h5>Are you sure you want to delete <span class="teal-text">{{ attachment.filename }}</span>?</h5>
+                    {% csrf_token %}
+                  </div>
+                  <div class="modal-footer">
+                    <input type="submit" value="Yes - Delete!" class="btn">
+                    <a class="modal-close">Cancel</a>
+                  </div>
+                </form>
+              </div>
+            </div>
+
             {% empty %}
             <div class="card-panel teal-text center-align">No Attachment Uploaded</div>
             {% endfor %}
