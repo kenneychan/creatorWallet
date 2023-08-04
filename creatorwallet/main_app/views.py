@@ -113,9 +113,7 @@ class PlatformContentList(LoginRequiredMixin, ListView):
   def get_queryset(self):
       return PlatformContent.objects.filter(user=self.request.user)
 
-
-# class PlatformContentDetail(LoginRequiredMixin, DetailView):
-#   model = PlatformContent
+@login_required
 def platformContents_detail(request, platformcontent_id):
   platformContent = PlatformContent.objects.get(id=platformcontent_id)
   print ('url', platformContent.url.lower())

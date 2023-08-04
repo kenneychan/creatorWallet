@@ -14,9 +14,7 @@ urlpatterns = [
   path('deals/<int:deal_id>/assoc_platformcontent/<int:platformcontent_id>/', views.assoc_platformcontent, name='assoc_platformcontent'),
   path('deals/<int:deal_id>/unassoc_platformcontent/<int:platformcontent_id>/', views.unassoc_platformcontent, name='unassoc_platformcontent'),
   path('platformscontent/', views.PlatformContentList.as_view(), name='platformscontent_index'),
-  
   path('platformscontent/<int:platformcontent_id>/', views.platformContents_detail, name='platformscontent_detail'),
-  
   path('platformscontent/create/', views.PlatformContentCreate.as_view(), name='platformscontent_create'),
   path('platformscontent/<int:pk>/update/', views.PlatformContentUpdate.as_view(), name='platformscontent_update'),
   path('platformscontent/<int:pk>/delete/', views.PlatformContentDelete.as_view(), name='platformscontent_delete'),
