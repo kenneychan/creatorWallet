@@ -49,15 +49,13 @@ class Attachment(models.Model):
         # return f"Contract for my_deal_id: {self.my_deal_id} @{self.url}"
         return f"Attachment {self.filename} {self.url}"
     
-
 class Activity(models.Model):
     date = models.DateField()
     notes = models.CharField(max_length=200)
     activity = models.CharField(max_length=200)
     deal = models.ForeignKey(Deal, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f"{self.get_activity_display()} on {self.date}"
+    
     
     class Meta:
         ordering = ['-date']

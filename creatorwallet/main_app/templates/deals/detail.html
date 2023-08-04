@@ -146,7 +146,29 @@
                   <small>on {{ activity.date }}</small>
                   <br>
                   <p class="activity-notes">{{ activity.notes }}</p>
+                  <a class="modal-trigger btn-floating btn-small waves-effect waves-light" href="#deleteActivityModal_{{ deal.id }}_{{activity.id }}"><i class="material-icons">delete</i></a>
                 </li>
+                <!-- delete attachment modal -->
+                <div class="modal modal-fixed-foote deleteActivityModal" id="deleteActivityModal_{{ deal.id }}_{{activity.id }}">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="modal-close btn-floating btn-small" id="closeDealModal">
+                        <span>&#10006;</span>
+                      </button>
+                      <h4 class="modal-title">Delete <span class="teal-text">{{ activity.activity }}</span></h4>
+                    </div>
+                    <form action="{% url 'delete_activity' activity.id %}" method="POST">
+                      <div class="modal-body">
+                        <h5>Are you sure you want to delete <span class="teal-text">{{ activity.activity }}</span>?</h5>
+                        {% csrf_token %}
+                      </div>
+                      <div class="modal-footer">
+                        <input type="submit" value="Yes - Delete!" class="btn">
+                        <a class="modal-close">Cancel</a>
+                      </div>
+                    </form>
+                  </div>
+                </div>
               {% endfor %}
             </ul>
           </div>
