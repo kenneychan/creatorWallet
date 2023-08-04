@@ -2,8 +2,47 @@
 {% block content %}
 
 <div class="container">
-  <div class="">
-    <h2>Dashboard</h2>
+  <div class="row">
+    <div class="col s4">
+      <h4 class="header">Most recent activities</h4>
+        {% for deal in deals %}
+          <ul class="card collection with-header hoverable">
+            <li class="collection-header">
+              <b>{{deal.name}}</b><a href="{% url 'detail' deal.id %}" class="secondary-content"><i class="material-icons">send</i></a>
+            </li>
+            {% for activity in deal.activity_set.all %}
+            {% if forloop.first %}
+            <li class="collection-item">
+              <div>{{activity.activity}} <small>on {{activity.date}}</small></div>
+            </li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+        {% endfor %}
+    </div>
+    <div class="col s4">
+      <h4 class="header">Deals in progress</h4>
+      {% for deal in deals %}
+      {% if not deal.done %}
+        <div class="card hoverable">
+          <div class="card-content">
+            <b>{{deal.name}} </b><small>due on {{deal.due_date}}</small>
+            <a href="{% url 'detail' deal.id %}" class="secondary-content"><i
+                class="material-icons">send</i></a>
+          </div>
+        </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12">
+      <div class="card">
+        
+      </div>
+    </div>
+
   </div>
 </div>
+
 {% endblock %}
