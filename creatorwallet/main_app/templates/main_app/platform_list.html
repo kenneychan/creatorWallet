@@ -33,7 +33,13 @@
     </div>
   </div>
 
-  <hr>
+  <nav>
+    <div class="nav-wrapper blue">
+      <div class="col s12">
+        <a href="" class="breadcrumb" style="pointer-events: none;">All Platforms</a>
+      </div>
+    </div>
+  </nav>
 
   {% if platform_list.count %}
     <div class="row">
@@ -45,7 +51,7 @@
               <a href="{{ platform.url }}" target="_blank">{{ platform.url|linebreaks }}</a>
             </div>
             <div class="card-action">
-              <a class="btn-floating waves-effect waves-light blue" href="{% url 'platforms_detail' platform.id %}"><i class="material-icons">details</i></a>
+              <a class="btn-floating waves-effect waves-light blue" href="{% url 'platforms_detail' platform.id %}"><i class="material-icons">description</i></a>
               <a class="modal-trigger btn-floating waves-effect waves-light blue" href="#editPlatformModal_{{ platform.id }}" type="submit"><i class="material-icons">edit</i></a>
               <a class="modal-trigger btn-floating waves-effect blue" href="#deletePlatformModal_{{ platform.id }}"><i class="material-icons">delete</i></a>
             </div>
