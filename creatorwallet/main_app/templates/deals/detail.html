@@ -100,10 +100,10 @@
                       <textarea name="{{ field.name }}" cols="40" rows="10" maxlength="500" id="id_{{ field.name }}" class="materialize-textarea">{{ deal.details }}</textarea>
                     </div>
                   {% elif field.name == "done" %}
-                    <label for="id_{{ field.name }}">
-                      <input type="checkbox" name="{{ field.name }}" id="id_{{ field.name }}" {% if deal.done == True %}checked{% endif %}>
-                      <span>{{field.label}}</span>
-                    </label>
+                  <label for="id_{{ field.name }}">
+                    <input type="checkbox" name="{{ field.name }}" id="id_{{ field.name }}" {% if deal.done %}checked{% endif %}>
+                    <span>{{ field.label }}</span>
+                  </label>
                   {% else %}
                   {% endif %}
                 {% endfor %}

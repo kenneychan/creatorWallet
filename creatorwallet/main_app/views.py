@@ -49,6 +49,9 @@ def signup(request):
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
 
+# Number checking function
+def has_numbers(inputString):
+    return any(char.isdigit() for char in inputString)
 
 class DealCreate(LoginRequiredMixin, CreateView):
   model = Deal
@@ -69,11 +72,16 @@ class DealUpdate(LoginRequiredMixin, UpdateView):
     # Let's disallow the renaming of a deal by excluding the name field!
     fields = ['name', 'amount', 'url', 'promo_code', 'due_date', 'details', 'done']
     def get_success_url(self):
-      return reverse('detail', args=(self.object.pk,))
+      is_details_page = self.request.session.get('is_details_page')
+      if is_details_page:
+        return reverse('detail', args=(self.object.pk,))
+      else:
+        return reverse('index')
   
 
 @login_required
 def deals_index(request):
+  request.session['is_details_page'] = has_numbers(request.get_full_path())
   deals = Deal.objects.filter(user=request.user)
   # You could also retrieve the logged in user's deals like this
   # deals = request.user.deal_set.all()
@@ -81,6 +89,7 @@ def deals_index(request):
 
 @login_required
 def deals_detail(request, deal_id):
+  request.session['is_details_page'] = has_numbers(request.get_full_path())
   deal = Deal.objects.get(id=deal_id)
   id_list = deal.platforms.values_list('id').filter(user=request.user)
   platforms_deal_doesnt_have = Platform.objects.exclude(id__in = id_list).filter(user=request.user)
@@ -105,10 +114,6 @@ def add_activity(request, deal_id):
 class DealDelete(LoginRequiredMixin, DeleteView):
     model = Deal
     success_url = "/deals"
-
-# Number checking 
-def has_numbers(inputString):
-    return any(char.isdigit() for char in inputString)
 
 class PlatformList(LoginRequiredMixin, ListView):
   model = Platform
