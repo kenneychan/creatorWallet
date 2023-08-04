@@ -2,7 +2,7 @@ import os
 import uuid
 import boto3
 from django.shortcuts import render, redirect
-from django.urls import reverse, resolve
+from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from django.contrib.auth import login
