@@ -2,7 +2,14 @@
 <div class="container">
   <h2>Deal Details</h2>
 
-  <hr>
+  <nav>
+    <div class="nav-wrapper teal">
+      <div class="col s12">
+        <a href="{% url 'index' %}" class="breadcrumb">All Deals</a>
+        <a href="" class="breadcrumb" style="pointer-events: none;">{{ deal.name }}</a>
+      </div>
+    </div>
+  </nav>
 
   <div class="row">
     <div class="col s4">
