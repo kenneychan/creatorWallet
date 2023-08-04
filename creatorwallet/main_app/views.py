@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 # Import the mixin for class-based views
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Deal, Platform, Attachment, Activity
-from .forms import ActivityForm, DealForm
+from .forms import ActivityForm 
 from .platformAPI.twitch import twitchStats
 from .platformAPI.youtube import youtubeStats
 
@@ -90,8 +90,7 @@ def deals_detail(request, deal_id):
   platforms_deal_doesnt_have = Platform.objects.exclude(id__in = id_list).filter(user=request.user)
 
   activity_form = ActivityForm()
-  deal_form = DealForm()
-  return render(request, 'deals/detail.html', { 'deal': deal, "activity_form": activity_form, 'platforms': platforms_deal_doesnt_have, 'deal_form': deal_form  })
+  return render(request, 'deals/detail.html', { 'deal': deal, "activity_form": activity_form, 'platforms': platforms_deal_doesnt_have,  })
 
 
 def add_activity(request, deal_id):
