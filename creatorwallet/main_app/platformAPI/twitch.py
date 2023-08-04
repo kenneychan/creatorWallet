@@ -11,9 +11,7 @@ def twitchStats(user):
     client_id = os.environ['TWITCH_CLIENT_ID']
     app_token = os.environ['TWITCH_APP_TOKEN']
 
-    user_name = 'smacksmackk'
-
-    validateRequest = requests.get(f'https://api.twitch.tv/helix/users?login={user_name}', 
+    validateRequest = requests.get(f'https://api.twitch.tv/helix/users?login={user}', 
             headers = {
                 'Client-ID' : client_id, 
                 'Authorization' : 'Bearer ' + app_token})
