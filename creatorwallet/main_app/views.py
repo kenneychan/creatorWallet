@@ -176,7 +176,21 @@ def unassoc_platform(request, deal_id, platform_id):
   Deal.objects.get(id=deal_id).platforms.remove(platform_id)
   return redirect('detail', deal_id=deal_id)
 
-# def add_attachment(request, deal_id):
+
+@login_required
+def delete_attachment(request, deal_id, attachment_id):
+  if request.method == 'POST':
+    attachment = Attachment.objects.get(id=attachment_id)
+    client = boto3.client('s3')
+    key = attachment.url.split('/')[-2]+"/"+attachment.url.split('/')[-1]
+    bucket = os.environ['S3_BUCKET']
+    client.delete_object(Bucket=bucket, Key=key)
+
+    attachment.delete()
+
+  return redirect('detail', deal_id=deal_id)
+
+
 def add_attachment(request, deal_id):
     # attachment-file will be the "name" attribute on the <input type="file">
     attachment_file = request.FILES.get('attachment-file', None)
@@ -195,7 +209,5 @@ def add_attachment(request, deal_id):
         except Exception as e:
             print('An error occurred uploading file to S3')
             print(e)
-
-    print (Attachment.objects.all())
 
     return redirect('detail',  deal_id=deal_id)

@@ -20,6 +20,7 @@ urlpatterns = [
   path('platforms/<int:pk>/update/', views.PlatformUpdate.as_view(), name='platforms_update'),
   path('platforms/<int:pk>/delete/', views.PlatformDelete.as_view(), name='platforms_delete'),
   path('deals/<int:deal_id>/add_attachment/', views.add_attachment, name='add_attachment'),
+  path('deals/<int:deal_id>/delete_attachment/<int:attachment_id>/', views.delete_attachment, name='delete_attachment'),
   path('deals/<int:deal_id>/add_activity/', views.add_activity, name='add_activity'),
   path('platforms/<int:pk>/update/', context.platforms_form, name='platforms_form'),
   path('activities/<int:pk>/delete/', views.ActivityDelete.as_view(), name='delete_activity'),
