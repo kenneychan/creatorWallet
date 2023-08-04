@@ -90,7 +90,7 @@ def deals_detail(request, deal_id):
   platforms_deal_doesnt_have = Platform.objects.exclude(id__in = id_list).filter(user=request.user)
 
   activity_form = ActivityForm()
-  return render(request, 'deals/detail.html', { 'deal': deal, "activity_form": activity_form, 'platforms': platforms_deal_doesnt_have })
+  return render(request, 'deals/detail.html', { 'deal': deal, "activity_form": activity_form, 'platforms': platforms_deal_doesnt_have  })
 
 
 def add_activity(request, deal_id):
