@@ -46,9 +46,11 @@ def youtubeStats(user):
     # print(statistics)
 
     context = {
-        'view_count': statistics['viewCount'],
-        'subscriber_count': statistics['subscriberCount'],
-        'video_count': statistics['videoCount']
+        'stats': {
+            'total views': statistics['viewCount'],
+            'total subscribers': statistics['subscriberCount'],
+            'total videos': statistics['videoCount']
+        }
     }
 
     return [context]
