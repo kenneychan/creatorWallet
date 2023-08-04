@@ -49,10 +49,6 @@ def signup(request):
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
 
-# Number checking function
-def has_numbers(inputString):
-    return any(char.isdigit() for char in inputString)
-
 class DealCreate(LoginRequiredMixin, CreateView):
   model = Deal
   fields = ['name', 'amount', 'details', 'url', 'promo_code', 'done', 'due_date']
@@ -72,16 +68,13 @@ class DealUpdate(LoginRequiredMixin, UpdateView):
     # Let's disallow the renaming of a deal by excluding the name field!
     fields = ['name', 'amount', 'url', 'promo_code', 'due_date', 'details', 'done']
     def get_success_url(self):
-      is_details_page = self.request.session.get('is_details_page')
-      if is_details_page:
-        return reverse('detail', args=(self.object.pk,))
-      else:
-        return reverse('index')
+      path = self.request.session.get('path')
+      return path
   
 
 @login_required
 def deals_index(request):
-  request.session['is_details_page'] = has_numbers(request.get_full_path())
+  request.session['path'] = request.get_full_path()
   deals = Deal.objects.filter(user=request.user)
   # You could also retrieve the logged in user's deals like this
   # deals = request.user.deal_set.all()
@@ -89,7 +82,7 @@ def deals_index(request):
 
 @login_required
 def deals_detail(request, deal_id):
-  request.session['is_details_page'] = has_numbers(request.get_full_path())
+  request.session['path'] = request.get_full_path()
   deal = Deal.objects.get(id=deal_id)
   id_list = deal.platforms.values_list('id').filter(user=request.user)
   platforms_deal_doesnt_have = Platform.objects.exclude(id__in = id_list).filter(user=request.user)
@@ -119,12 +112,12 @@ class PlatformList(LoginRequiredMixin, ListView):
   model = Platform
 
   def get_queryset(self):
-      self.request.session['is_details_page'] = has_numbers(self.request.get_full_path())
+      self.request.session['path'] = self.request.get_full_path()
       return Platform.objects.filter(user=self.request.user)
 
 @login_required
 def platforms_detail(request, platform_id):
-  request.session['is_details_page'] = has_numbers(request.get_full_path())
+  request.session['path'] = request.get_full_path()
 
   platform = Platform.objects.get(id=platform_id)
   if "youtube.com" in platform.url.lower():
@@ -154,12 +147,9 @@ class PlatformUpdate(LoginRequiredMixin, UpdateView):
   model = Platform
   fields = ['name', 'url']
   def get_success_url(self):
-    is_details_page = self.request.session.get('is_details_page')
-    if is_details_page:
-      return reverse('platforms_detail', args=(self.object.pk,))
-    else:
-      return reverse('platforms_index')
-  
+    path = self.request.session.get('path')
+    return path
+
 class PlatformDelete(LoginRequiredMixin, DeleteView):
   model = Platform
   success_url = '/platforms'
