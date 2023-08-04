@@ -169,21 +169,19 @@ def unassoc_platform(request, deal_id, platform_id):
   Deal.objects.get(id=deal_id).platforms.remove(platform_id)
   return redirect('detail', deal_id=deal_id)
 
+
 @login_required
 def delete_attachment(request, deal_id, attachment_id):
   if request.method == 'POST':
     attachment = Attachment.objects.get(id=attachment_id)
     client = boto3.client('s3')
-    key = attachment.url.split('/')[-1]
+    key = attachment.url.split('/')[-2]+"/"+attachment.url.split('/')[-1]
     bucket = os.environ['S3_BUCKET']
     client.delete_object(Bucket=bucket, Key=key)
 
-    # attachment.delete()
+    attachment.delete()
 
-  request.session['path'] = request.get_full_path()
-  path = request.session.get('path')
-  return path
-  # return redirect('detail', deal_id=deal_id)
+  return redirect('detail', deal_id=deal_id)
 
 
 def add_attachment(request, deal_id):
