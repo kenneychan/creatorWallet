@@ -3,7 +3,7 @@
 <div class="container">
   <h2>Platform Details</h2>
   <nav>
-    <div class="nav-wrapper {% if platform.name|lower == 'twitch' %}purple{% elif platform.name|lower == 'youtube' %}red{% else %}blue{% endif %}">
+    <div class="nav-wrapper {% if platform.name|lower == 'twitch' or 'twitch' in platform.url %}purple{% elif platform.name|lower == 'youtube' or 'youtube' in platform.url %}red{% else %}blue{% endif %}">
       <div class="col s12">
         <a href="{% url 'platforms_index' %}" class="breadcrumb">All Platforms</a>
         <a href="" class="breadcrumb" style="pointer-events: none;">{{ platform.name }}</a>
@@ -20,12 +20,12 @@
         </div>
         <div class="card-action">
           <a class="modal-trigger btn-floating waves-effect waves-light 
-            {% if platform.name|lower == 'twitch' %}purple{% elif platform.name|lower == 'youtube' %}red{% else %}blue{% endif %}" 
+            {% if platform.name|lower == 'twitch' or 'twitch' in platform.url %}purple{% elif platform.name|lower == 'youtube' or 'youtube' in platform.url %}red{% else %}blue{% endif %}" 
             href="#editPlatformModal_{{ platform.id }}" type="submit">
             <i class="material-icons">edit</i>
           </a>
           <a class="modal-trigger btn-floating waves-effect 
-            {% if platform.name|lower == 'twitch' %}purple{% elif platform.name|lower == 'youtube' %}red{% else %}blue{% endif %}" 
+            {% if platform.name|lower == 'twitch' or 'twitch' in platform.url %}purple{% elif platform.name|lower == 'youtube' or 'youtube' in platform.url %}red{% else %}blue{% endif %}" 
             href="#deletePlatformModal_{{ platform.id }}">
             <i class="material-icons">delete</i>
           </a>
@@ -90,7 +90,7 @@
       <button 
         type="button" 
         class="modal-close btn-floating btn-small waves-effect 
-        {% if platform.name|lower == 'twitch' %}purple{% elif platform.name|lower == 'youtube' %}red{% else %}blue{% endif %}" 
+        {% if platform.name|lower == 'twitch' or 'twitch' in platform.url %}purple{% elif platform.name|lower == 'youtube' or 'youtube' in platform.url %}red{% else %}blue{% endif %}" 
         id="closePlatformModal">
         <span>&#10006;</span>
       </button>
@@ -119,7 +119,7 @@
       <div class="modal-footer">
         <button 
           class="btn btn-primary btn-floating btn-large waves-effect waves-light 
-          {% if platform.name|lower == 'twitch' %}purple{% elif platform.name|lower == 'youtube' %}red{% else %}blue{% endif %}" 
+          {% if platform.name|lower == 'twitch' or 'twitch' in platform.url %}purple{% elif platform.name|lower == 'youtube' or 'youtube' in platform.url %}red{% else %}blue{% endif %}" 
           type="submit" id="submitPlatformModal"><i class="material-icons">save</i>
         </button>
       </div>
@@ -132,7 +132,7 @@
     <div class="modal-header">
       <button type="button" 
         class="modal-close btn-floating btn-small waves-effect 
-        {% if platform.name|lower == 'twitch' %}purple{% elif platform.name|lower == 'youtube' %}red{% else %}blue{% endif %}" 
+        {% if platform.name|lower == 'twitch' or 'twitch' in platform.url %}purple{% elif platform.name|lower == 'youtube' or 'youtube' in platform.url %}red{% else %}blue{% endif %}" 
         id="closePlatformModal"><span>&#10006;</span>
       </button>
       <h4 class="modal-title">Delete <span class="blue-text">{{ platform.name }}</span></h4>
@@ -145,7 +145,7 @@
       <div class="modal-footer">
         <button type="submit" 
           class="btn waves-effect waves-light 
-          {% if platform.name|lower == 'twitch' %}purple{% elif platform.name|lower == 'youtube' %}red{% else %}blue{% endif %}">
+          {% if platform.name|lower == 'twitch' or 'twitch' in platform.url %}purple{% elif platform.name|lower == 'youtube' or 'youtube' in platform.url %}red{% else %}blue{% endif %}">
           Yes - Delete!
         </button>
         <a class="modal-close">Cancel</a>
