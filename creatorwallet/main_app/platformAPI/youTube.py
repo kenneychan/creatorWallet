@@ -30,9 +30,10 @@ def youTubeStats(user):
         ch.append(item['id']['channelId'])
 
     if not len(ch):
-        return print ('No channels found.')
+        print ('No channels found.')
+        return []
 
-    print ('ch', ch)
+    # print ('ch', ch)
 
     id = ch[0]
 
@@ -42,7 +43,7 @@ def youTubeStats(user):
     )
     response = request_yt.execute()
     statistics = response['items'][0]['statistics']
-    print(statistics)
+    # print(statistics)
 
     context = {
         'view_count': statistics['viewCount'],
