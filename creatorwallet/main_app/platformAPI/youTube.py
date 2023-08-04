@@ -51,5 +51,5 @@ def youTubeStats(user):
         'video_count': statistics['videoCount']
     }
 
-    return [statistics]
+    return [context]
     

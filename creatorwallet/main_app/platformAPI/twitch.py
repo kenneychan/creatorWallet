@@ -23,7 +23,7 @@ def twitchStats(user):
             headers = {
                 'Client-ID' : client_id, 
                 'Authorization' : 'Bearer ' + app_token})
-    print ( validateRequest.json()['data'][0]  )
+    # print ( validateRequest.json()['data'][0]  )
     context = {
         'title': validateRequest.json()['data'][0]['title'],
         'view_count': validateRequest.json()['data'][0]['view_count'],
@@ -31,4 +31,4 @@ def twitchStats(user):
         'url': validateRequest.json()['data'][0]['url'],
         'duration': validateRequest.json()['data'][0]['duration'],
     }
-    return validateRequest.json()['data'][0:3]
+    return [context]

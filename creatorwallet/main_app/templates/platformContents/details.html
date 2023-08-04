@@ -9,7 +9,12 @@
         <span class="card-title">{{ platformContent.name }}</span>
         <p>Url: {{ platformContent.url }}</p>
         <p>Platform Userame: {{ platformContent.platform_username }}</p>
+
+        {% if stats %} {% for key, value in stats.0.items %}
+        <p>{{ key | capfirst }}: {{ value }}</p>
+        {% endfor %}
       </div>
+      {% endif %}
       <div class="card-action">
         <a href="{% url 'platformscontent_update' platformContent.id %}"
           >Edit</a
