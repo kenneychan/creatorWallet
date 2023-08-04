@@ -25,7 +25,7 @@ class Deal(models.Model):
     name = models.CharField(max_length=100)
     amount = models.DecimalField(decimal_places=2, max_digits=10, blank=True, default=0.00)
     details = models.TextField(max_length=500, blank=True, default='')
-    due_date = models.DateField(blank=True)
+    due_date = models.DateField(blank=True, null=True)
     url = models.URLField(max_length=100, blank=True, default='')
     promo_code = models.CharField(max_length=100, blank=True, default='')
     done = models.BooleanField(blank=True, default=False)
