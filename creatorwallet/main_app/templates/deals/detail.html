@@ -144,9 +144,10 @@
                 <li class="collection-item">
                   <span class="title"><b>{{ activity.activity }}</b></span>
                   <small>on {{ activity.date }}</small>
+                  <a class="secondary-content modal-trigger btn-floating btn-small waves-effect waves-light"
+                    href="#deleteActivityModal_{{ deal.id }}_{{activity.id }}"><i class="material-icons">delete</i></a>
                   <br>
                   <p class="activity-notes">{{ activity.notes }}</p>
-                  <a class="modal-trigger btn-floating btn-small waves-effect waves-light" href="#deleteActivityModal_{{ deal.id }}_{{activity.id }}"><i class="material-icons">delete</i></a>
                 </li>
                 <!-- delete attachment modal -->
                 <div class="modal modal-fixed-foote deleteActivityModal" id="deleteActivityModal_{{ deal.id }}_{{activity.id }}">
