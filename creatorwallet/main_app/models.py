@@ -10,7 +10,7 @@ from django.urls import reverse
 class Platform(models.Model):
   name = models.CharField(max_length=50)
   url = models.URLField(max_length=100)
-  platform_username = models.CharField(max_length=50, blank=True, null=True)
+  platform_username = models.CharField(max_length=50, blank=True, default='')
 
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   

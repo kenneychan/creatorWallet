@@ -138,6 +138,15 @@ nav .brand-logo {
   word-wrap: break-word;
 }
 
+.platform-table th,
+td {
+  padding: 0px 5px;
+}
+
+.platform-table td {
+  text-align: right;
+}
+
 .activity-notes {
   word-wrap: break-word;
   white-space: normal;

@@ -29,7 +29,9 @@ def about(request):
 
 # Definte the dashboard view
 def dashboard(request):
-  return render(request, 'dashboard.html')
+  deals = Deal.objects.filter(user=request.user)
+
+  return render(request, 'dashboard.html', { 'deals': deals })
 
 
 def signup(request):
@@ -148,7 +150,7 @@ class PlatformCreate(LoginRequiredMixin, CreateView):
 
 class PlatformUpdate(LoginRequiredMixin, UpdateView):
   model = Platform
-  fields = ['name', 'url']
+  fields = ['name', 'url', 'platform_username']
   def get_success_url(self):
     path = self.request.session.get('path')
     return path

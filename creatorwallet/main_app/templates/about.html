@@ -1,10 +1,12 @@
 {% extends 'base.html' %} {% block content %}
+{% load static %}
+
   <div class="carousel carousel-slider">
-    <a class="carousel-item" href="#one!"><img class="carousel-img" src="../static/images/carousel/carousel1.png"></a>
-    <a class="carousel-item" href="#two!"><img class="carousel-img" src="../static/images/carousel/carousel2.png"></a>
-    <a class="carousel-item" href="#three!"><img class="carousel-img" src="../static/images/carousel/carousel3.png"></a>
-    <a class="carousel-item" href="#four!"><img class="carousel-img" src="../static/images/carousel/carousel4.png"></a>
-    <a class="carousel-item" href="#five!"><img class="carousel-img" src="../static/images/carousel/carousel5.png"></a>
+    <a class="carousel-item" href="#one!"><img class="carousel-img" src="{% static 'images/carousel/carousel1.png' %}"></a>
+    <a class="carousel-item" href="#two!"><img class="carousel-img" src="{% static 'images/carousel/carousel2.png' %}"></a>
+    <a class="carousel-item" href="#three!"><img class="carousel-img" src="{% static 'images/carousel/carousel3.png' %}"></a>
+    <a class="carousel-item" href="#four!"><img class="carousel-img" src="{% static 'images/carousel/carousel4.png' %}"></a>
+    <a class="carousel-item" href="#five!"><img class="carousel-img" src="{% static 'images/carousel/carousel5.png' %}"></a>
   </div>
   <div class="container">
     <h2 class="header center teal-text text-lighten-2" style="margin-top:10px;">About Us</h2>
@@ -22,7 +24,7 @@
       <div class="card-panel grey lighten-5 z-depth-1 hoverable">
         <div class="row valign-wrapper">
           <div class="col s6 left-align">
-            <img src="../static/images/profile/kenney_profile.jpeg" alt="" class="circle responsive-img">
+            <img src="{% static 'images/profile/kenney_profile.jpeg' %}" alt="" class="circle responsive-img">
           </div>
           <div class="col s6 right-align">
             <span class="black-text">
@@ -47,7 +49,7 @@
             </span>
           </div>
           <div class="col s6 right-align">
-            <img src="../static/images/profile/calvin_profile.jpg" alt="" class="circle responsive-img">
+            <img src="{% static 'images/profile/calvin_profile.jpg' %}" alt="" class="circle responsive-img">
           </div>
         </div>
       </div>
@@ -56,7 +58,7 @@
       <div class="card-panel grey lighten-5 z-depth-1 hoverable">
         <div class="row valign-wrapper">
           <div class="col s6 left-align">
-            <img src="../static/images/profile/darius_profile.jpg" alt="" class="circle responsive-img">
+            <img src="{% static 'images/profile/darius_profile.jpg' %}" alt="" class="circle responsive-img">
           </div>
           <div class="col s6 right-align">
             <span class="black-text">

@@ -27,12 +27,12 @@
             <hr>
             <table class="striped deal-table">
               <tr>
-                <th style="width: 25%;">Amount</th>
+                <th style="width: 30%;">Amount</th>
                 <td>{{ deal.amount }}</td>
               </tr>
               <tr>
                 <th>Campaign Url</th>
-                <td>{{ deal.url }}</td>
+                <td class="truncate"><a href="{{ deal.url }}" target="_blank">{{ deal.url }}</a></td>
               </tr>
               <tr>
                 <th>Promo code</th>
