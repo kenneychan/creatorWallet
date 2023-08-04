@@ -27,21 +27,6 @@ def twitchStats(user):
                 'Authorization' : 'Bearer ' + app_token})
     total = validateRequest.json()['total']
 
-    validateRequest = requests.get(f'https://api.twitch.tv/helix/videos?user_id={user_id}&broadcastType=null', 
-            headers = {
-                'Client-ID' : client_id, 
-                'Authorization' : 'Bearer ' + app_token})
-    # print ( validateRequest.json()['data'][0]  )
-    context = {
-        'stats': {
-            'total followers': total,
-        },
-        'latest_stream' : {
-            'title': validateRequest.json()['data'][0]['title'],
-            'views': validateRequest.json()['data'][0]['view_count'],
-            'thumbnail': validateRequest.json()['data'][0]['thumbnail_url'],
-            'url': validateRequest.json()['data'][0]['url'],
-            'duration': validateRequest.json()['data'][0]['duration'],
-        }
+
     }
     return [context]
