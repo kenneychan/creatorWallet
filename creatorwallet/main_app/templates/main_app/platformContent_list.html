@@ -45,6 +45,7 @@
               <a href="{{ platformcontent.url }}" target="_blank">{{ platformcontent.url|linebreaks }}</a>
             </div>
             <div class="card-action">
+              <a class="btn-floating waves-effect waves-light blue" href={% url 'platformscontent_detail' platformcontent.id %}><i class="material-icons">details</i></a>
               <a class="modal-trigger btn-floating waves-effect waves-light blue" href="#editPlatformModal_{{ platformcontent.id }}" type="submit"><i class="material-icons">edit</i></a>
               <a class="modal-trigger btn-floating waves-effect blue" href="#deletePlatformModal_{{ platformcontent.id }}"><i class="material-icons">delete</i></a>
             </div>
@@ -68,8 +69,10 @@
                     <label for="id_{{ field.name }}">{{ field.label }} <span style="color:red;">*</span></label>
                     {% if field.name == "name" %}
                       <input type="text" name="{{ field.name }}" maxlength="50" required id="id_{{ field.name }}" value="{{ platformcontent.name }}">
-                    {% else %}
+                    {% elif field.name == "url" %}
                       <input type="url" name="{{ field.name }}" maxlength="100" required="" id="id_{{ field.name }}" value="{{ platformcontent.url }}">
+                    {% elif field.name == "platform_username" %}
+                      <input type="text" name="{{ field.name }}" maxlength="50" id="id_{{ field.name }}" value="{{ platformcontent.platform_username }}">
                     {% endif %}
                   </div>
                 {% endfor %}

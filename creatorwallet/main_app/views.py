@@ -13,6 +13,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Deal, PlatformContent, Attachment
 from .forms import ActivityForm
+from .platformAPI.twitch import twitchStats
+from .platformAPI.youTube import youTubeStats
+
 
 # Create your views here.
 # Define the home view
@@ -110,14 +113,22 @@ class PlatformContentList(LoginRequiredMixin, ListView):
   def get_queryset(self):
       return PlatformContent.objects.filter(user=self.request.user)
 
+@login_required
+def platformContents_detail(request, platformcontent_id):
+  platformContent = PlatformContent.objects.get(id=platformcontent_id)
+  print ('url', platformContent.url.lower())
+  if "youtube.com" in platformContent.url.lower():
+    stats = youTubeStats(platformContent.platform_username)
+  elif "twitch.tv" in platformContent.url.lower():
+    stats = twitchStats(platformContent.platform_username)
 
-class PlatformContentDetail(LoginRequiredMixin, DetailView):
-  model = PlatformContent
-
+  return render(request, 'platformContents/details.html', {
+    'platformContent': platformContent, 'stats': stats
+  })
 
 class PlatformContentCreate(LoginRequiredMixin, CreateView):
   model = PlatformContent
-  fields = ['name', 'url']
+  fields = ['name', 'url', 'platform_username']
   success_url = '/platformscontent'
 
   def form_valid(self, form):
