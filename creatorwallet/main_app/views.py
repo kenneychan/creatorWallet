@@ -2,7 +2,7 @@ import os
 import uuid
 import boto3
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, resolve
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 from django.contrib.auth import login
@@ -106,17 +106,22 @@ class DealDelete(LoginRequiredMixin, DeleteView):
     model = Deal
     success_url = "/deals"
 
+# Number checking 
+def has_numbers(inputString):
+    return any(char.isdigit() for char in inputString)
 
 class PlatformList(LoginRequiredMixin, ListView):
   model = Platform
 
   def get_queryset(self):
+      self.request.session['is_details_page'] = has_numbers(self.request.get_full_path())
       return Platform.objects.filter(user=self.request.user)
 
 @login_required
 def platforms_detail(request, platform_id):
+  request.session['is_details_page'] = has_numbers(request.get_full_path())
+
   platform = Platform.objects.get(id=platform_id)
-  print ('url', platform.url.lower())
   if "youtube.com" in platform.url.lower():
     stats = youtubeStats(platform.platform_username)
   elif "twitch.tv" in platform.url.lower():
@@ -143,10 +148,13 @@ class PlatformCreate(LoginRequiredMixin, CreateView):
 class PlatformUpdate(LoginRequiredMixin, UpdateView):
   model = Platform
   fields = ['name', 'url']
-  success_url = '/platforms'
+  def get_success_url(self):
+    is_details_page = self.request.session.get('is_details_page')
+    if is_details_page:
+      return reverse('platforms_detail', args=(self.object.pk,))
+    else:
+      return reverse('platforms_index')
   
-
-
 class PlatformDelete(LoginRequiredMixin, DeleteView):
   model = Platform
   success_url = '/platforms'
