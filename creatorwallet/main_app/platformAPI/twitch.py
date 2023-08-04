@@ -39,7 +39,7 @@ def twitchStats(user):
         'latest_stream' : {
             'title': validateRequest.json()['data'][0]['title'],
             'views': validateRequest.json()['data'][0]['view_count'],
-            'thumbnail': validateRequest.json()['data'][0]['thumbnail_url'],
+            'thumbnail': (validateRequest.json()['data'][0]['thumbnail_url']).replace("%{width}","640").replace("%{height}","360"),
             'url': validateRequest.json()['data'][0]['url'],
             'duration': validateRequest.json()['data'][0]['duration'],
         }
