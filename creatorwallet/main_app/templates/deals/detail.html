@@ -137,14 +137,14 @@
           <div class="col s6">
             <span style="font-weight: bold; font-size: 24px;">{{ deal.name }}'s Platforms</span>
             <hr>
-            {% if deal.platformscontent.count %}
-              {% for platformcontent in deal.platformscontent.all %}
+            {% if deal.platforms.count %}
+              {% for platform in deal.platforms.all %}
               <div class="card">
                 <div class="card-content platform-cards">
                   <span class="platform-cards-left">
-                    <b>{{ platformcontent.name }}</b>
+                    <b>{{ platform.name }}</b>
                   </span>
-                  <form class="platform-cards-right" action="{% url 'unassoc_platformcontent' deal.id platformcontent.id %}" method="POST">
+                  <form class="platform-cards-right" action="{% url 'unassoc_platform' deal.id platform.id %}" method="POST">
                     {% csrf_token %}
                     <button type="submit" class="btn-floating btn-small waves-effect"><i class="material-icons">remove</i></button>
                   </form>
@@ -158,23 +158,23 @@
           <div class="col s6">
             <span style="font-weight: bold; font-size: 24px;">Available Platforms</span>
             <hr>
-            {% if platformscontent.count %}
-              {% for platformcontent in platformscontent.all %}
+            {% if platforms.count %}
+              {% for platform in platforms.all %}
               <div class="card">
                 <div class="card-content platform-cards">
-                  <form class="platform-cards-left" action="{% url 'assoc_platformcontent' deal.id platformcontent.id %}" method="POST">
+                  <form class="platform-cards-left" action="{% url 'assoc_platform' deal.id platform.id %}" method="POST">
                     {% csrf_token %}
                     <button type="submit" class="btn-floating btn-small waves-effect waves-light"><i class="material-icons">add</i></button>
                   </form>
                   <span class="platform-cards-right" >
-                    <b>{{ platformcontent.name }}</b>
+                    <b>{{ platform.name }}</b>
                   </span>
                 </div>
               </div>
               {% endfor %}
             {% else %}
               {% if platformcount == 0 %}
-                <b>Go <a href="{% url 'platformscontent_index' %}">here</a> to add platforms!</b>
+                <b>Go <a href="{% url 'platforms_index' %}">here</a> to add platforms!</b>
               {% else %}
                 <b>All platforms has been added! 🎉</b>
               {% endif %}

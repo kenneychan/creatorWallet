@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Deal, PlatformContent, Activity
+from .models import Deal, Platform, Activity
 
 class DealForm(ModelForm):
   class Meta:
@@ -8,7 +8,7 @@ class DealForm(ModelForm):
 
 class PlatformForm(ModelForm):
   class Meta:
-    model = PlatformContent
+    model = Platform
     fields = ['name', 'url', 'platform_username']
     
 class ActivityForm(ModelForm):
