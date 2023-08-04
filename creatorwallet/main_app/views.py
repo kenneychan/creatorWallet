@@ -121,6 +121,7 @@ class PlatformList(LoginRequiredMixin, ListView):
 def platforms_detail(request, platform_id):
   request.session['path'] = request.get_full_path()
 
+  stats = []
   platform = Platform.objects.get(id=platform_id)
   if "youtube.com" in platform.url.lower():
     stats = youtubeStats(platform.platform_username)
