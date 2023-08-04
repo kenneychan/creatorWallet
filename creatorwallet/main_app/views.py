@@ -11,7 +11,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 # Import the mixin for class-based views
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .models import Deal, Platform, Attachment
+from .models import Deal, Platform, Attachment, Activity
 from .forms import ActivityForm
 from .platformAPI.twitch import twitchStats
 from .platformAPI.youtube import youtubeStats
@@ -105,6 +105,11 @@ def add_activity(request, deal_id):
         new_activity.save()
     return redirect("detail", deal_id=deal_id)
 
+class ActivityDelete(LoginRequiredMixin, DeleteView):
+    model = Activity
+    def get_success_url(self):
+      path = self.request.session.get('path')
+      return path
 
 class DealDelete(LoginRequiredMixin, DeleteView):
     model = Deal
