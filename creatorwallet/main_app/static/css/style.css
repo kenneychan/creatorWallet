@@ -33,6 +33,10 @@ nav .brand-logo {
   color: #444;
 }
 
+.nav-wrapper {
+  padding-left: 15px;
+}
+
 .parallax-container {
   min-height: 380px;
   line-height: 0;

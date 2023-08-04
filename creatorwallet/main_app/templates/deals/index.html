@@ -1,6 +1,5 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container">
-
   <div class="deal-list-header">
     <h2>Deal List</h2>
     <a class="btn-floating btn teal modal-trigger pulse" href="#addDealModal" style="margin-top: 20px;"><i
@@ -49,7 +48,13 @@
     </div>
   </div>
 
-  <hr>
+  <nav>
+    <div class="nav-wrapper teal">
+      <div class="col s12">
+        <a href="" class="breadcrumb" style="pointer-events: none;">All Deals</a>
+      </div>
+    </div>
+  </nav>
   
   {% if deals.count %}
     <div class="row">
