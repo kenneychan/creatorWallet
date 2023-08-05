@@ -1,9 +1,16 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container">
+  <div class="add-deal-btn-bottom fixed-action-btn scale-transition scale-out">
+    <a class="btn-floating btn btn-large teal modal-trigger pulse tooltipped z-depth-3" data-position="left" data-tooltip="Add new deal"
+      href="#addDealModal"><i class="material-icons">add</i></a>
+  </div>
+
   <div class="deal-list-header">
     <h2>Deal List</h2>
-    <a class="btn-floating btn teal modal-trigger pulse" href="#addDealModal" style="margin-top: 20px;"><i
-        class="material-icons">add</i></a>
+    <div class="add-deal-btn-top scale-transition">
+      <a class="btn-floating btn teal modal-trigger pulse tooltipped z-depth-3" data-position="left" data-tooltip="Add new deal" href="#addDealModal" style="margin-top: 20px;"><i
+          class="material-icons">add</i></a>
+    </div>
     <!-- <a class="btn-floating btn teal" href="{% url 'deals_create' %}" style="margin-top: 20px;"><i
         class="material-icons">add</i></a> -->
   </div>
@@ -12,7 +19,7 @@
   <div class="modal" id="addDealModal">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="modal-close btn-floating waves-effect btn-small" id="closeDealModal">
+        <button type="button" class="modal-close btn-floating waves-effect btn-small z-depth-2" id="closeDealModal">
           <span>&#10006;</span>
         </button>
         <h4 class="modal-title">Add Deal</h4>
@@ -42,7 +49,7 @@
           {% endfor %}
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary btn-floating btn-large waves-effect waves-light" type="submit" id="submitDealModalBtn"><i class="material-icons">save</i></button>
+          <button class="btn btn-primary btn-floating btn-large waves-effect waves-light z-depth-2" type="submit" id="submitDealModalBtn"><i class="material-icons">save</i></button>
         </div>
       </form>
     </div>
@@ -90,16 +97,16 @@
                 </tr>
                 <tr>
                   <th>Details</th>
-                  <td>{{ deal.details|linebreaks }}</td>
+                  <td class="truncate tooltipped" data-position="bottom" data-tooltip="{{ deal.details }}">{{ deal.details }}</td>
                 </tr>
               </table>
               <small style="float:right;">Created on: {{ deal.created_date}}</small>
             </div>
             <div class="card-action">
-              <a class="btn-floating waves-effect waves-light teal" href="{% url 'detail' deal.id %}"><i class="material-icons">description</i></a>
-              <a class="modal-trigger btn-floating waves-effect waves-light" href="#editDealModal_{{ deal.id }}"><i
+              <a class="btn-floating waves-effect waves-light teal tooltipped z-depth-2" data-position="left" data-tooltip="Deal details" href="{% url 'detail' deal.id %}"><i class="material-icons">description</i></a>
+              <a class="modal-trigger btn-floating waves-effect waves-light tooltipped z-depth-2" data-position="bottom" data-tooltip="Edit platform" href="#editDealModal_{{ deal.id }}"><i
                   class="material-icons">edit</i></a>
-              <a class="modal-trigger btn-floating waves-effect teal" href="#deleteDealModal_{{ deal.id }}"><i class="material-icons">delete</i></a>
+              <a class="modal-trigger btn-floating waves-effect teal tooltipped z-depth-2" data-position="right" data-tooltip="Delete platform" href="#deleteDealModal_{{ deal.id }}"><i class="material-icons">delete</i></a>
             </div>
           </div>
         </div>
@@ -107,7 +114,7 @@
         <div class="modal editDealModal" id="editDealModal_{{ deal.id }}">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="modal-close btn-floating btn-small teal" id="closeDealModal">
+              <button type="button" class="modal-close btn-floating btn-small teal z-depth-2" id="closeDealModal">
                 <span>&#10006;</span>
               </button>
               <h4 class="modal-title">Edit <span class="teal-text">{{ deal.name }}</span></h4>
@@ -153,8 +160,8 @@
                     class="materialize-textarea">{{ deal.details }}</textarea>
                 </div>
                 {% elif field.name == "done" %}
-                <label for="id_{{ field.name }}_edit">
-                  <input type="checkbox" name="{{ field.name }}" id="id_{{ field.name }}_edit" {% if deal.done %}checked{% endif %}>
+                <label for="id_{{ field.name }}_{{ deal.id }}">
+                  <input type="checkbox" name="{{ field.name }}" id="id_{{ field.name }}_{{ deal.id }}" {% if deal.done %}checked{% endif %}>
                   <span>{{ field.label }}</span>
                 </label>
                 {% else %}
@@ -162,7 +169,7 @@
                 {% endfor %}
               </div>
               <div class="modal-footer">
-                <button class="btn btn-primary btn-floating btn-large" type="submit" id="submitDealModalBtn"><i
+                <button class="btn btn-primary btn-floating btn-large z-depth-2" type="submit" id="submitDealModalBtn"><i
                     class="material-icons">save</i></button>
               </div>
             </form>
@@ -172,7 +179,7 @@
         <div class="modal deleteDealModal" id="deleteDealModal_{{ deal.id }}">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="modal-close btn-floating waves-effect btn-small" id="closeDealModal">
+              <button type="button" class="modal-close btn-floating waves-effect btn-small z-depth-2" id="closeDealModal">
                 <span>&#10006;</span>
               </button>
               <h4 class="modal-title">Delete <span class="teal-text">{{ deal.name }}</span></h4>
@@ -183,7 +190,7 @@
                 {% csrf_token %}
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn waves-effect waves-light">Yes - Delete!</button>
+                <button type="submit" class="btn waves-effect waves-light z-depth-2">Yes - Delete!</button>
                 <a class="modal-close">Cancel</a>
               </div>
             </form>
@@ -192,7 +199,7 @@
       {% endfor %}
     </div>
   {% else %}
-    <h5>Click <button class="btn-floating btn-small btn teal modal-trigger" href="#addDealModal"><i class="material-icons">add</i></button> to add a new deal! 🤝</h5>
+    <h5>Click <button class="btn-floating btn-small btn teal modal-trigger z-depth-2" href="#addDealModal"><i class="material-icons">add</i></button> to add a new deal! 🤝</h5>
   {% endif %}
 </div>
 {% endblock %}

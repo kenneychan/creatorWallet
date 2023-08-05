@@ -13,6 +13,11 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script defer src="{% static 'javascripts/script.js' %}"></script>
   </head>
   <body>
@@ -41,7 +46,7 @@
       </nav>
     </header>
     <main>{% block content %} {% endblock %}</main>
-    <footer class="page-footer teal">
+    <footer class="page-footer teal lighten-1">
       <!-- <div class="container">
         <div class="row">
           <div class="col l6 s12">
