@@ -1,3 +1,6 @@
+from decimal import Decimal
+import html
+import json
 import os
 import uuid
 import boto3
@@ -29,9 +32,20 @@ def about(request):
 
 # Definte the dashboard view
 def dashboard(request):
-  deals = Deal.objects.filter(user=request.user)
+  deals = Deal.objects.filter(user=request.user).order_by("due_date")
 
-  return render(request, 'dashboard.html', { 'deals': deals })
+  wallet = Decimal(0)
+  data = []
+  for deal in deals:
+     wallet += deal.amount
+     point = {
+        'x': deal.due_date.strftime('%m/%d/%Y'),
+        'y': float(wallet)
+     }
+     data.append(point)
+     print(data)
+
+  return render(request, 'dashboard.html', { 'deals': deals, 'data': data })
 
 
 def signup(request):

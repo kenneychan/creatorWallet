@@ -19,14 +19,14 @@
           <span>Username: {{ platform.platform_username }}</span>
         </div>
         <div class="card-action">
-          <a class="modal-trigger btn-floating waves-effect waves-light 
+          <a class="modal-trigger btn-floating waves-effect waves-light tooltipped z-depth-2
             {% if platform.name|lower == 'twitch' or 'twitch' in platform.url %}purple{% elif platform.name|lower == 'youtube' or 'youtube' in platform.url %}red{% else %}blue{% endif %}" 
-            href="#editPlatformModal_{{ platform.id }}" type="submit">
+            data-position="left" data-tooltip="Edit platform" href="#editPlatformModal_{{ platform.id }}" type="submit">
             <i class="material-icons">edit</i>
           </a>
-          <a class="modal-trigger btn-floating waves-effect 
+          <a class="modal-trigger btn-floating waves-effect tooltipped z-depth-2 
             {% if platform.name|lower == 'twitch' or 'twitch' in platform.url %}purple{% elif platform.name|lower == 'youtube' or 'youtube' in platform.url %}red{% else %}blue{% endif %}" 
-            href="#deletePlatformModal_{{ platform.id }}">
+            data-position="right" data-tooltip="Delete platform" href="#deletePlatformModal_{{ platform.id }}">
             <i class="material-icons">delete</i>
           </a>
         </div>
@@ -89,7 +89,7 @@
     <div class="modal-header">
       <button 
         type="button" 
-        class="modal-close btn-floating btn-small waves-effect 
+        class="modal-close btn-floating btn-small waves-effect z-depth-2 
         {% if platform.name|lower == 'twitch' or 'twitch' in platform.url %}purple{% elif platform.name|lower == 'youtube' or 'youtube' in platform.url %}red{% else %}blue{% endif %}" 
         id="closePlatformModal">
         <span>&#10006;</span>
@@ -118,7 +118,7 @@
       </div>
       <div class="modal-footer">
         <button 
-          class="btn btn-primary btn-floating btn-large waves-effect waves-light 
+          class="btn btn-primary btn-floating btn-large waves-effect waves-light z-depth-2 
           {% if platform.name|lower == 'twitch' or 'twitch' in platform.url %}purple{% elif platform.name|lower == 'youtube' or 'youtube' in platform.url %}red{% else %}blue{% endif %}" 
           type="submit" id="submitPlatformModal"><i class="material-icons">save</i>
         </button>
@@ -131,7 +131,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <button type="button" 
-        class="modal-close btn-floating btn-small waves-effect 
+        class="modal-close btn-floating btn-small waves-effect z-depth-2 
         {% if platform.name|lower == 'twitch' or 'twitch' in platform.url %}purple{% elif platform.name|lower == 'youtube' or 'youtube' in platform.url %}red{% else %}blue{% endif %}" 
         id="closePlatformModal"><span>&#10006;</span>
       </button>
@@ -144,7 +144,7 @@
       </div>
       <div class="modal-footer">
         <button type="submit" 
-          class="btn waves-effect waves-light 
+          class="btn waves-effect waves-light z-depth-2 
           {% if platform.name|lower == 'twitch' or 'twitch' in platform.url %}purple{% elif platform.name|lower == 'youtube' or 'youtube' in platform.url %}red{% else %}blue{% endif %}">
           Yes - Delete!
         </button>

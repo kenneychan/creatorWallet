@@ -5,44 +5,140 @@
   <div class="row">
     <div class="col s4">
       <h4 class="header">Most recent activities</h4>
+      <hr>
         {% for deal in deals %}
-          <ul class="card collection with-header hoverable">
-            <li class="collection-header">
-              <b>{{deal.name}}</b><a href="{% url 'detail' deal.id %}" class="secondary-content"><i class="material-icons">send</i></a>
-            </li>
-            {% for activity in deal.activity_set.all %}
-            {% if forloop.first %}
-            <li class="collection-item">
-              <div>{{activity.activity}} <small>on {{activity.date}}</small></div>
-            </li>
-            {% endif %}
-            {% endfor %}
-          </ul>
+          {% if deal.activity_set.all %}
+            <ul class="card collection with-header hoverable">
+              <li class="collection-header">
+                <b>{{deal.name}}</b><a href="{% url 'detail' deal.id %}" class="secondary-content tooltipped" data-position="bottom" data-tooltip="Go to deal"><i class="material-icons">send</i></a>
+              </li>
+              {% for activity in deal.activity_set.all %}
+                {% if forloop.first %}
+                <li class="collection-item">
+                  <div>{{activity.activity}} <small>on {{activity.date}}</small></div>
+                </li>
+                {% endif %}
+                {% empty %}
+                  <li class="collection-item teal-text">Add activities to see here!</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% empty %}
+          <div class="card">
+            
+          </div>
         {% endfor %}
     </div>
-    <div class="col s4">
+    <div class="col s8">
       <h4 class="header">Deals in progress</h4>
+      <hr>
       {% for deal in deals %}
-      {% if not deal.done %}
-        <div class="card hoverable">
-          <div class="card-content">
-            <b>{{deal.name}} </b><small>due on {{deal.due_date}}</small>
-            <a href="{% url 'detail' deal.id %}" class="secondary-content"><i
-                class="material-icons">send</i></a>
+        {% if not deal.done %}
+          <div class="col s6">
+            <div class="card hoverable">
+              <div class="card-content">
+                <b>{{deal.name}} </b><small>due on {{deal.due_date}}</small>
+                <a href="{% url 'detail' deal.id %}" class="secondary-content tooltipped" data-position="bottom" data-tooltip="Go to deal"><i
+                    class="material-icons">send</i></a>
+              </div>
+            </div>
           </div>
-        </div>
-      {% endif %}
+        {% endif %}
       {% endfor %}
     </div>
   </div>
   <div class="row">
     <div class="col s12">
       <div class="card">
-        
+        <figure class="highcharts-figure">
+          <div id="container"></div>
+        </figure>
       </div>
     </div>
 
   </div>
 </div>
+
+<script>
+  const initialData  = "{{ data }}";
+  const jsonData = initialData.replace(/&#x27;/g, '"');
+  const parsedData = JSON.parse(jsonData);
+
+  parsedData.forEach(function (el, i) {
+    parsedData[i].x = new Date(el.x).getTime();
+  });
+
+  Highcharts.chart('container', {
+
+    title: {
+      text: 'Total Net Income from Deals',
+      align: 'left'
+    },
+
+    subtitle: {
+      text: '',
+      align: 'left'
+    },
+
+    yAxis: {
+      title: {
+        text: '$'
+      }
+    },
+
+    xAxis: {
+      type: 'datetime',
+      labels: {
+        format: '{value:%b %d }'
+      }
+    },
+
+    legend: {
+      enabled: false
+    },
+
+    plotOptions: {
+      series: {
+        label: {
+          connectorAllowed: false,
+          enabled: false
+        },
+      }
+    },
+
+    series: 
+    [{
+      name: 'Income & Expense',
+      data: parsedData,
+      zones: [{
+        value: 0,
+        color: 'red'
+      }, {
+        color: '#009688'
+      }],
+    }],
+
+    tooltip: {
+      xDateFormat: '%B %d, %Y',
+      valueSuffix: '$',
+      pointFormat: '<b>{point.y}</b>'
+    },
+
+    responsive: {
+      rules: [{
+        condition: {
+          maxWidth: 500
+        },
+        chartOptions: {
+          legend: {
+            layout: 'horizontal',
+            align: 'center',
+            verticalAlign: 'bottom'
+          }
+        }
+      }]
+    }
+  });
+</script>
 
 {% endblock %}
