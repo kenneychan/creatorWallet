@@ -28,6 +28,8 @@ class Deal(models.Model):
     due_date = models.DateField(blank=True, null=True)
     url = models.URLField(max_length=100, blank=True, default='')
     promo_code = models.CharField(max_length=100, blank=True, default='')
+    merch = models.BooleanField(blank=True, default=False)
+    paid = models.BooleanField(blank=True, default=False)
     done = models.BooleanField(blank=True, default=False)
     created_date = models.DateField(default=date.today)
     platforms = models.ManyToManyField(Platform)

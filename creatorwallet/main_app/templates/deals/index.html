@@ -28,23 +28,43 @@
         <div class="modal-body">
           {% csrf_token %}
           {% for field in DealForm %}
-            {% if field.name != "done" %}
+            {% if field.name != "done" and field.name != "paid" and field.name != "merch" %}
                 {% if field.name == "name" %}
                   <div class="input-field">
                     {{ field.errors }}
                     <label for="id_{{ field.name }}">{{ field.label }} <span style="color:red;">*</span></label> {{ field }}
-                  </div>
+                  </div>                  
                 {% else %}
-                  <div class="input-field">
-                    {{ field.errors }}
-                    <label for="id_{{ field.name }}">{{ field.label }}</label> {{ field }}
-                  </div>
+                  {% if field.name == "amount" %}
+                    <div class="input-field">
+                      {{ field.errors }}
+                      <label for="id_{{ field.name }}">{{ field.label }} <span>-&nbsp;
+                        <i>you may enter the value of the merch you've recieved just make sure to check the box down below!</i></span></label> {{ field }}
+                    </div>
+                  {% else %}
+                    <div class="input-field">
+                      {{ field.errors }}
+                      <label for="id_{{ field.name }}">{{ field.label }}</label> {{ field }}
+                    </div>
+                  {% endif %}
                 {% endif %}
             {% else %}
-              <label for="id_{{ field.name }}">
-                {{ field }}
-                <span>{{ field.label }}</span>
-              </label>
+              {% if field.name == "merch" %}
+                <label for="id_{{ field.name }}" style="padding-right: 30px;">
+                  {{ field }}
+                  <span>{{ field.label }}</span>
+                </label>
+              {% elif field.name == "paid" %}
+                <label for="id_{{ field.name }}" style="padding-right: 30px;">
+                  {{ field }}
+                  <span>{{ field.label }}</span>
+                </label>
+              {% elif field.name == "done" %}
+                <label for="id_{{ field.name }}" style="padding-right: 30px;">
+                  {{ field }}
+                  <span>{{ field.label }}</span>
+                </label>
+              {% endif %}
             {% endif %}
           {% endfor %}
         </div>
@@ -69,14 +89,28 @@
         <div class="col s4">
           <div class="card hoverable">
             <div class="card-content">
-              <span style='font-size:30px; float:right;'>
-                {% if deal.done %}
-                ✔️
-                {% else %}
-                🚧
-                {% endif %}
-              </span>
-              <span class="card-title" style="font-weight:bold;">{{ deal.name }}</span>
+            <span style='font-size:30px; float:right;'>
+              {% if deal.done %}
+                <span class="tooltipped" data-position="top" data-tooltip="DONE" style="cursor: default;">✔️</span>
+              {% else %}
+                <span class="tooltipped" data-position="top" data-tooltip="IN PROGRESS" style="cursor: default;">🚧</span>
+              {% endif %}
+            </span>
+            <span style='font-size:30px; float:right;'>
+              {% if deal.merch %}
+                <span class="tooltipped" data-position="top" data-tooltip="MERCH" style="cursor: default;">👕</span>
+              {% else %}
+                <span class="tooltipped" data-position="top" data-tooltip="MONEY" style="cursor: default;">💰</span>
+              {% endif %}
+            </span>
+            <span style='font-size:30px; float:right;'>
+              {% if deal.paid %}
+                <span class="tooltipped" data-position="top" data-tooltip="PAID" style="cursor: default;">🤑</span>
+              {% else %}
+                <span class="tooltipped" data-position="top" data-tooltip="NOT PAID" style="cursor: default;">⚠️</span>
+              {% endif %}
+            </span>
+              <span class="card-title" style="font-weight:bold; height: 60px;">{{ deal.name }}</span>
               <hr>
               <table class="striped deal-table">
                 <tr>
@@ -126,44 +160,54 @@
         
                 {{ field.errors }}
                 {% if field.name == "name" %}
-                <div class="input-field">
-                  <label for="id_{{ field.name }}">{{ field.label }} <span style="color:red;">*</span></label>
-                  <input type="text" name="{{ field.name }}" maxlength="100" required id="id_{{ field.name }}"
-                    value="{{ deal.name }}">
-                </div>
+                  <div class="input-field">
+                    <label for="id_{{ field.name }}">{{ field.label }} <span style="color:red;">*</span></label>
+                    <input type="text" name="{{ field.name }}" maxlength="100" required id="id_{{ field.name }}"
+                      value="{{ deal.name }}">
+                  </div>
                 {% elif field.name == "amount" %}
-                <div class="input-field">
-                  <label for="id_{{ field.name }}">{{ field.label }}</label>
-                  <input type="number" name="{{ field.name }}" step="0.01" id="id_{{ field.name }}" value="{{ deal.amount }}">
-                </div>
+                  <div class="input-field">
+                    <label for="id_{{ field.name }}">{{ field.label }}</label>
+                    <input type="number" name="{{ field.name }}" step="0.01" id="id_{{ field.name }}" value="{{ deal.amount }}">
+                  </div>
+                {% elif field.name == "merch" %}
+                  <label for="id_{{ field.name }}_{{ deal.id }}" style="padding-right: 30px;">
+                    <input type="checkbox" name="{{ field.name }}" id="id_{{ field.name }}_{{ deal.id }}" {% if deal.merch %}checked{% endif %}>
+                    <span>{{ field.label }}</span>
+                  </label>
+                {% elif field.name == "paid" %}
+                  <label for="id_{{ field.name }}_{{ deal.id }}" style="padding-right: 30px;">
+                    <input type="checkbox" name="{{ field.name }}" id="id_{{ field.name }}_{{ deal.id }}" {% if deal.paid %}checked{% endif %}>
+                    <span>{{ field.label }}</span>
+                  </label>
                 {% elif field.name == "url" %}
-                <div class="input-field">
-                  <label for="id_{{ field.name }}">{{ field.label }}</label>
-                  <input type="url" name="{{ field.name }}" maxlength="100" id="id_{{ field.name }}" value="{{ deal.url }}">
-                </div>
+                  <div class="input-field">
+                    <label for="id_{{ field.name }}">{{ field.label }}</label>
+                    <input type="url" name="{{ field.name }}" maxlength="100" id="id_{{ field.name }}" value="{{ deal.url }}">
+                  </div>
                 {% elif field.name == "promo_code" %}
-                <div class="input-field">
-                  <label for="id_{{ field.name }}">{{ field.label }}</label>
-                  <input type="text" name="{{ field.name }}" maxlength="100" id="id_{{ field.name }}"
-                    value="{{ deal.promo_code }}">
-                </div>
+                  <div class="input-field">
+                    <label for="id_{{ field.name }}">{{ field.label }}</label>
+                    <input type="text" name="{{ field.name }}" maxlength="100" id="id_{{ field.name }}"
+                      value="{{ deal.promo_code }}">
+                  </div>
                 {% elif field.name == "due_date" %}
-                <div class="input-field">
-                  <label for="id_{{ field.name }}">{{ field.label }}</label>
-                  <input type="text" name="{{ field.name }}" id="id_{{ field.name }}" value='{{ deal.due_date|date:"M j, Y" }}'
-                    class="datepicker">
-                </div>
+                  <div class="input-field">
+                    <label for="id_{{ field.name }}">{{ field.label }}</label>
+                    <input type="text" name="{{ field.name }}" id="id_{{ field.name }}" value='{{ deal.due_date|date:"M j, Y" }}'
+                      class="datepicker">
+                  </div>
                 {% elif field.name == "details" %}
-                <div class="input-field">
-                  <label for="id_{{ field.name }}">{{ field.label }}</label>
-                  <textarea name="{{ field.name }}" cols="40" rows="10" maxlength="500" id="id_{{ field.name }}"
-                    class="materialize-textarea">{{ deal.details }}</textarea>
-                </div>
+                  <div class="input-field">
+                    <label for="id_{{ field.name }}">{{ field.label }}</label>
+                    <textarea name="{{ field.name }}" cols="40" rows="10" maxlength="500" id="id_{{ field.name }}"
+                      class="materialize-textarea">{{ deal.details }}</textarea>
+                  </div>
                 {% elif field.name == "done" %}
-                <label for="id_{{ field.name }}_{{ deal.id }}">
-                  <input type="checkbox" name="{{ field.name }}" id="id_{{ field.name }}_{{ deal.id }}" {% if deal.done %}checked{% endif %}>
-                  <span>{{ field.label }}</span>
-                </label>
+                  <label for="id_{{ field.name }}_{{ deal.id }}" style="padding-right: 30px;">
+                    <input type="checkbox" name="{{ field.name }}" id="id_{{ field.name }}_{{ deal.id }}" {% if deal.done %}checked{% endif %}>
+                    <span>{{ field.label }}</span>
+                  </label>
                 {% else %}
                 {% endif %}
                 {% endfor %}

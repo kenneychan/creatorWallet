@@ -48,14 +48,27 @@
     </div>
   </div>
   <div class="row">
-    <div class="col s12">
+    <div class="col s6">
       <div class="card">
         <figure class="highcharts-figure">
           <div id="container"></div>
         </figure>
       </div>
     </div>
-
+    <div class="col s4">
+      <div class="card">
+        <figure class="highcharts-figure">
+          <div id="container2"></div>
+        </figure>
+      </div>
+    </div>
+    <div class="col s2">
+      <div class="card">
+        <figure class="highcharts-figure">
+          <div id="container3"></div>
+        </figure>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -120,8 +133,7 @@
 
     tooltip: {
       xDateFormat: '%B %d, %Y',
-      valueSuffix: '$',
-      pointFormat: '<b>{point.y}</b>'
+      pointFormat: '<b>${point.y:.2f}</b>'
     },
 
     responsive: {
@@ -139,6 +151,148 @@
       }]
     }
   });
+  Highcharts.chart('container2', {
+
+      title: {
+        text: 'Total Net Income from Deals',
+        align: 'left'
+      },
+
+      subtitle: {
+        text: '',
+        align: 'left'
+      },
+
+      yAxis: {
+        title: {
+          text: '$'
+        }
+      },
+
+      xAxis: {
+        type: 'datetime',
+        labels: {
+          format: '{value:%b %d }'
+        }
+      },
+
+      legend: {
+        enabled: false
+      },
+
+      plotOptions: {
+        series: {
+          label: {
+            connectorAllowed: false,
+            enabled: false
+          },
+        }
+      },
+
+      series:
+        [{
+          name: 'Income & Expense',
+          data: parsedData,
+          zones: [{
+            value: 0,
+            color: 'red'
+          }, {
+            color: '#009688'
+          }],
+        }],
+
+      tooltip: {
+        xDateFormat: '%B %d, %Y',
+        valueSuffix: '$',
+        pointFormat: '<b>{point.y}</b>'
+      },
+
+      responsive: {
+        rules: [{
+          condition: {
+            maxWidth: 500
+          },
+          chartOptions: {
+            legend: {
+              layout: 'horizontal',
+              align: 'center',
+              verticalAlign: 'bottom'
+            }
+          }
+        }]
+      }
+    });
+    Highcharts.chart('container3', {
+
+      title: {
+        text: 'Total Net Income from Deals',
+        align: 'left'
+      },
+
+      subtitle: {
+        text: '',
+        align: 'left'
+      },
+
+      yAxis: {
+        title: {
+          text: '$'
+        }
+      },
+
+      xAxis: {
+        type: 'datetime',
+        labels: {
+          format: '{value:%b %d }'
+        }
+      },
+
+      legend: {
+        enabled: false
+      },
+
+      plotOptions: {
+        series: {
+          label: {
+            connectorAllowed: false,
+            enabled: false
+          },
+        }
+      },
+
+      series:
+        [{
+          name: 'Income & Expense',
+          data: parsedData,
+          zones: [{
+            value: 0,
+            color: 'red'
+          }, {
+            color: '#009688'
+          }],
+        }],
+
+      tooltip: {
+        xDateFormat: '%B %d, %Y',
+        valueSuffix: '$',
+        pointFormat: '<b>{point.y}</b>'
+      },
+
+      responsive: {
+        rules: [{
+          condition: {
+            maxWidth: 500
+          },
+          chartOptions: {
+            legend: {
+              layout: 'horizontal',
+              align: 'center',
+              verticalAlign: 'bottom'
+            }
+          }
+        }]
+      }
+    });
 </script>
 
 {% endblock %}
