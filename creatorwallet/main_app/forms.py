@@ -4,7 +4,7 @@ from .models import Deal, Platform, Activity
 class DealForm(ModelForm):
   class Meta:
     model = Deal
-    fields = ['name', 'amount', 'url', 'promo_code', 'due_date', 'details', 'done']
+    fields = ['name', 'amount', 'merch', 'paid', 'url', 'promo_code', 'due_date', 'details','done']
 
 class PlatformForm(ModelForm):
   class Meta:

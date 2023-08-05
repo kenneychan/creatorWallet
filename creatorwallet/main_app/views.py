@@ -43,7 +43,6 @@ def dashboard(request):
         'y': float(wallet)
      }
      data.append(point)
-     print(data)
 
   return render(request, 'dashboard.html', { 'deals': deals, 'data': data })
 
@@ -69,11 +68,11 @@ def signup(request):
 
 class DealCreate(LoginRequiredMixin, CreateView):
   model = Deal
-  fields = ['name', 'amount', 'details', 'url', 'promo_code', 'done', 'due_date']
+  fields = ['name', 'amount', 'merch', 'paid', 'url', 'promo_code', 'due_date', 'details', 'done']
   
   # This inherited method is called when a
   # valid deal form is being submitted
-  fields = ['name', 'amount', 'url', 'promo_code', 'due_date', 'details', 'done']
+  fields = ['name', 'amount', 'merch', 'paid', 'url', 'promo_code', 'due_date', 'details','done']
   def form_valid(self, form):
     # Assign the logged in user (self.request.user)
     form.instance.user = self.request.user  # form.instance is the deal
@@ -84,7 +83,7 @@ class DealCreate(LoginRequiredMixin, CreateView):
 class DealUpdate(LoginRequiredMixin, UpdateView):
     model = Deal
     # Let's disallow the renaming of a deal by excluding the name field!
-    fields = ['name', 'amount', 'url', 'promo_code', 'due_date', 'details', 'done']
+    fields = ['name', 'amount', 'merch', 'paid', 'url', 'promo_code', 'due_date', 'details','done']
     def get_success_url(self):
       path = self.request.session.get('path')
       return path
@@ -93,7 +92,7 @@ class DealUpdate(LoginRequiredMixin, UpdateView):
 @login_required
 def deals_index(request):
   request.session['path'] = request.get_full_path()
-  deals = Deal.objects.filter(user=request.user)
+  deals = Deal.objects.filter(user=request.user).order_by("-due_date")
   # You could also retrieve the logged in user's deals like this
   # deals = request.user.deal_set.all()
   return render(request, 'deals/index.html', { 'deals': deals })
