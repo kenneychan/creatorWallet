@@ -48,24 +48,31 @@
     </div>
   </div>
   <div class="row">
-    <div class="col s6">
+    <div class="col s12">
       <div class="card">
         <figure class="highcharts-figure">
-          <div id="container"></div>
+          <div id="walletData"></div>
         </figure>
       </div>
     </div>
     <div class="col s4">
       <div class="card">
         <figure class="highcharts-figure">
-          <div id="container2"></div>
+          <div id="isMerch"></div>
         </figure>
       </div>
     </div>
-    <div class="col s2">
+    <div class="col s4">
       <div class="card">
         <figure class="highcharts-figure">
-          <div id="container3"></div>
+          <div id="isPaid"></div>
+        </figure>
+      </div>
+    </div>
+    <div class="col s4">
+      <div class="card">
+        <figure class="highcharts-figure">
+          <div id="isDone"></div>
         </figure>
       </div>
     </div>
@@ -73,43 +80,50 @@
 </div>
 
 <script>
-  const initialData  = "{{ data }}";
-  const jsonData = initialData.replace(/&#x27;/g, '"');
-  const parsedData = JSON.parse(jsonData);
+  const initialWalletData  = "{{ walletData }}";
+  const jsonWalletData = initialWalletData.replace(/&#x27;/g, '"');
+  const walletData = JSON.parse(jsonWalletData);
 
-  parsedData.forEach(function (el, i) {
-    parsedData[i].x = new Date(el.x).getTime();
+  const initialMerchData = "{{ merchData }}";
+  const jsonMerchData = initialMerchData.replace(/&#x27;/g, '"');
+  const merchData = JSON.parse(jsonMerchData);
+
+  const initialPaidData = "{{ paidData }}";
+  const jsonPaidData = initialPaidData.replace(/&#x27;/g, '"');
+  const paidData = JSON.parse(jsonPaidData);
+
+  const initialDoneData = "{{ doneData }}";
+  const jsonDoneData = initialDoneData.replace(/&#x27;/g, '"');
+  const doneData = JSON.parse(jsonDoneData);
+
+  walletData.forEach(function (el, i) {
+    walletData[i].x = new Date(el.x).getTime();
   });
 
-  Highcharts.chart('container', {
-
+  const walletChart = Highcharts.chart('walletData', {
     title: {
       text: 'Total Net Income from Deals',
       align: 'left'
     },
-
     subtitle: {
       text: '',
       align: 'left'
     },
-
-    yAxis: {
-      title: {
-        text: '$'
-      }
-    },
-
     xAxis: {
       type: 'datetime',
       labels: {
         format: '{value:%b %d }'
       }
     },
-
-    legend: {
-      enabled: false
+    yAxis: {
+      title: {
+        text: '$'
+      }
     },
-
+    tooltip: {
+      xDateFormat: '%B %d, %Y',
+      pointFormat: '<b>${point.y:.2f}</b>'
+    },
     plotOptions: {
       series: {
         label: {
@@ -118,24 +132,20 @@
         },
       }
     },
-
-    series: 
-    [{
-      name: 'Income & Expense',
-      data: parsedData,
-      zones: [{
-        value: 0,
-        color: 'red'
-      }, {
-        color: '#009688'
-      }],
-    }],
-
-    tooltip: {
-      xDateFormat: '%B %d, %Y',
-      pointFormat: '<b>${point.y:.2f}</b>'
+    legend: {
+      enabled: false
     },
-
+    series:
+      [{
+        name: 'Income & Expense',
+        data: walletData,
+        zones: [{
+          value: 0,
+          color: 'red'
+        }, {
+          // color: '#009688'
+        }],
+      }],
     responsive: {
       rules: [{
         condition: {
@@ -151,148 +161,183 @@
       }]
     }
   });
-  Highcharts.chart('container2', {
-
-      title: {
-        text: 'Total Net Income from Deals',
-        align: 'left'
-      },
-
-      subtitle: {
-        text: '',
-        align: 'left'
-      },
-
-      yAxis: {
-        title: {
-          text: '$'
-        }
-      },
-
-      xAxis: {
-        type: 'datetime',
-        labels: {
-          format: '{value:%b %d }'
-        }
-      },
-
-      legend: {
+  const isMerchChart = Highcharts.chart('isMerch', {
+    chart: {
+      type: 'bar'
+    },
+    title: {
+      text: 'Merch / Cash Deals',
+      align: 'left'
+    },
+    subtitle: {
+      text: '',
+      align: 'left'
+    },
+    xAxis: {
+      labels: {
         enabled: false
       },
-
-      plotOptions: {
-        series: {
-          label: {
-            connectorAllowed: false,
-            enabled: false
-          },
-        }
-      },
-
-      series:
-        [{
-          name: 'Income & Expense',
-          data: parsedData,
-          zones: [{
-            value: 0,
-            color: 'red'
-          }, {
-            color: '#009688'
-          }],
-        }],
-
-      tooltip: {
-        xDateFormat: '%B %d, %Y',
-        valueSuffix: '$',
-        pointFormat: '<b>{point.y}</b>'
-      },
-
-      responsive: {
-        rules: [{
-          condition: {
-            maxWidth: 500
-          },
-          chartOptions: {
-            legend: {
-              layout: 'horizontal',
-              align: 'center',
-              verticalAlign: 'bottom'
-            }
-          }
-        }]
-      }
-    });
-    Highcharts.chart('container3', {
-
       title: {
-        text: 'Total Net Income from Deals',
-        align: 'left'
-      },
-
-      subtitle: {
-        text: '',
-        align: 'left'
-      },
-
-      yAxis: {
-        title: {
-          text: '$'
+        text: null
+      }
+    },
+    yAxis: {
+      title: {
+        text: null
+      }
+    },
+    tooltip: {
+      headerFormat: null
+    },
+    plotOptions: {
+      series: {
+        label: {
+          connectorAllowed: false,
+          enabled: false
+        },
+      }
+    },
+    legend: {
+      enabled: false
+    },
+    series:merchData,
+    responsive: {
+      rules: [{
+        condition: {
+          maxWidth: 500
+        },
+        chartOptions: {
+          legend: {
+            layout: 'horizontal',
+            align: 'center',
+            verticalAlign: 'bottom'
+          }
         }
-      },
-
-      xAxis: {
-        type: 'datetime',
-        labels: {
-          format: '{value:%b %d }'
-        }
-      },
-
-      legend: {
+      }]
+    }
+  });
+  const isPaidChart = Highcharts.chart('isPaid', {
+    chart: {
+      type: 'column'
+    },
+    title: {
+      text: 'Paid / Un-paid Deals',
+      align: 'left'
+    },
+    subtitle: {
+      text: '',
+      align: 'left'
+    },
+    xAxis: {
+      labels: {
         enabled: false
       },
-
-      plotOptions: {
-        series: {
-          label: {
-            connectorAllowed: false,
-            enabled: false
-          },
-        }
-      },
-
-      series:
-        [{
-          name: 'Income & Expense',
-          data: parsedData,
-          zones: [{
-            value: 0,
-            color: 'red'
-          }, {
-            color: '#009688'
-          }],
-        }],
-
-      tooltip: {
-        xDateFormat: '%B %d, %Y',
-        valueSuffix: '$',
-        pointFormat: '<b>{point.y}</b>'
-      },
-
-      responsive: {
-        rules: [{
-          condition: {
-            maxWidth: 500
-          },
-          chartOptions: {
-            legend: {
-              layout: 'horizontal',
-              align: 'center',
-              verticalAlign: 'bottom'
-            }
-          }
-        }]
+      title: {
+        text: null
       }
+    },
+    yAxis: {
+      title: {
+        text: null
+      }
+    },
+    tooltip: {
+      headerFormat: null
+    },
+    plotOptions: {
+      series: {
+        label: {
+          connectorAllowed: false,
+          enabled: false
+        },
+      }
+    },
+    legend: {
+      enabled: false
+    },
+    series: paidData,
+    responsive: {
+      rules: [{
+        condition: {
+          maxWidth: 500
+        },
+        chartOptions: {
+          legend: {
+            layout: 'horizontal',
+            align: 'center',
+            verticalAlign: 'bottom'
+          }
+        }
+      }]
+    }
+  });
+  isPaidChart.series[0].update({
+    color: "#00e272"
+  });
+  isPaidChart.series[1].update({
+    color: "#fe6a35"
+  });
+  const isDoneChart = Highcharts.chart('isDone', {
+    chart: {
+      type: 'column'
+    },
+    title: {
+      text: 'Done / In Progress Deals',
+      align: 'left'
+    },
+    subtitle: {
+      text: '',
+      align: 'left'
+    },
+    xAxis: {
+      labels: {
+        enabled: false
+      },
+      title: {
+        text: null
+      }
+    },
+    yAxis: {
+      title: {
+        text: null
+      }
+    },
+    tooltip: {
+      headerFormat: null
+    },
+    plotOptions: {
+      series: {
+        label: {
+          connectorAllowed: false,
+          enabled: false
+        },
+      }
+    },
+    legend: {
+      enabled: false
+    },
+    series: doneData,
+    responsive: {
+      rules: [{
+        condition: {
+          maxWidth: 500
+        },
+        chartOptions: {
+          legend: {
+            layout: 'horizontal',
+            align: 'center',
+            verticalAlign: 'bottom'
+          }
+        }
+      }]
+    }
+  });
+  isDoneChart.series[0].update({
+    color: "#6b8abc"
     });
+  isDoneChart.series[1].update({
+    color: "#d568fb"
+  });
 </script>
 
 {% endblock %}

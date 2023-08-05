@@ -32,19 +32,61 @@ def about(request):
 
 # Definte the dashboard view
 def dashboard(request):
-  deals = Deal.objects.filter(user=request.user).order_by("due_date")
+  deals = Deal.objects.filter(user=request.user)
 
   wallet = Decimal(0)
-  data = []
-  for deal in deals:
+  wallet_data = []
+  for deal in deals.filter(paid=True).order_by("due_date"):
      wallet += deal.amount
      point = {
         'x': deal.due_date.strftime('%m/%d/%Y'),
         'y': float(wallet)
      }
-     data.append(point)
+     wallet_data.append(point)
+  
+  merch_count = 0
+  cash_count = 0
+  paid_count = 0
+  unpaid_count = 0
+  done_count = 0
+  in_progress_count = 0
+  for deal in deals:
+    if deal.merch:
+      merch_count += 1
+    else:
+      cash_count += 1
+    if deal.paid:
+      paid_count += 1
+    else:
+      unpaid_count += 1
+    if deal.done:
+      done_count += 1
+    else:
+      in_progress_count += 1
 
-  return render(request, 'dashboard.html', { 'deals': deals, 'data': data })
+  merch_data = [{
+      'name': 'Merch',
+      'data': [merch_count]
+    }, {
+      'name': 'Cash',
+      'data': [cash_count]
+    }]
+  paid_data = [{
+      'name': 'Paid',
+      'data': [paid_count]
+    }, {
+      'name': 'Un-paid',
+      'data': [unpaid_count]
+    }]
+  done_data = [{
+      'name': 'Done',
+      'data': [done_count]
+    }, {
+      'name': 'In Progress',
+      'data': [in_progress_count]
+    }]
+
+  return render(request, 'dashboard.html', { 'deals': deals, 'walletData': wallet_data, 'merchData': merch_data, 'paidData': paid_data, 'doneData': done_data })
 
 
 def signup(request):
