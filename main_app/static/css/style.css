@@ -84,6 +84,12 @@ nav .brand-logo {
   display: flex;
 }
 
+.list-switch {
+  padding-right: 25px;
+  top: 75%;
+  transform: translateY(25%);
+}
+
 .paid-switch {
   padding-right: 25px;
   top: 75%;
@@ -115,6 +121,12 @@ nav .brand-logo {
   justify-content: space-evenly;
 }
 
+.deals-emoji {
+  cursor: default;
+  font-size: 30px;
+  padding-right: 5px;
+}
+
 #addDealModal, .editDealModal {
   max-height: 100%;
   max-width: 50%;
@@ -122,10 +134,6 @@ nav .brand-logo {
 
 .deleteDealModal, .deletePlatformModal {
   max-width: 25%;
-}
-
-#closeDealModal, #closePlatformModal {
-  float: right;
 }
 
 #submitDealModalBtn {

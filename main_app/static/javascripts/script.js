@@ -3,6 +3,7 @@ $(document).ready(function () {
   $('.fixed-action-btn').floatingActionButton();
   $('.parallax').parallax();
   $('.modal').modal();
+  $('.collapsible').collapsible();
 
   $('.carousel').carousel({
     fullWidth: true,

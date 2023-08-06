@@ -8,6 +8,24 @@
   <div class="deal-list-header">
     <h2>Deal List</h2>
     <div class="deal-header-buttons">
+      <div class="list-switch">
+        <div class="row">
+          <label>Show Deals with Activities</label>
+          {% if show_list %}
+            <form method="POST" action="{% url 'index' %}" id="listSwitch">
+            {% else %}
+            <form method="POST" action="{% url 'deals_list' %}" id="listSwitch">
+              {% endif %}
+              {% csrf_token %}
+              <div class="switch center">
+                <label>
+                  <input type="checkbox" id="list-switch" name="show_list" {% if show_list %}checked{% endif %}>
+                  <span class="lever"></span>
+                </label>
+              </div>
+            </form>
+        </div>
+      </div>
       <div class="paid-switch">
         <div class="row">
           <label>Show Un-paid ONLY</label>
@@ -57,7 +75,7 @@
   <div class="modal" id="addDealModal">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="modal-close btn-floating waves-effect btn-small z-depth-2" id="closeDealModal">
+        <button type="button" class="modal-close btn-floating waves-effect btn-small z-depth-2 right">
           <span>&#10006;</span>
         </button>
         <h4 class="modal-title">Add Deal</h4>
@@ -125,30 +143,91 @@
   {% if deals.count %}
     <div class="row">
       {% for deal in deals %}
+        {% if show_list %}
+          <div class="col s12">
+            <div class="col s2"></div>
+            <div class="col s6">
+              {% if count_activities == 0 %}
+                <h5 class="center-align">Add some activities to your deals!</h5>
+              {% else %}
+                {% if deal.activity_set.all %}
+                <ul class="collapsible popout">
+                  <li>
+                    <div class="collapsible-header">
+                      <span class="deals-emoji">
+                        {% if deal.paid %}
+                        <span class="tooltipped" data-position="top" data-tooltip="PAID">💰</span>
+                        {% else %}
+                        <span class="tooltipped" data-position="top" data-tooltip="NOT PAID">⚠️</span>
+                        {% endif %}
+                      </span>
+                      <div class="valign-wrapper" style="padding-right: 10px;">
+                        <span style="font-size:20px; font-weight:bold; padding-right: 5px;">{{ deal.name }}</span>
+                        <small style="padding-top: 20px">due: {{ deal.due_date }}</small>
+                      </div>
+                      <span class="deals-emoji">
+                        {% if deal.merch %}
+                        <span class="tooltipped" data-position="top" data-tooltip="MERCH">👕</span>
+                        {% else %}
+                        <span class="tooltipped" data-position="top" data-tooltip="CASH">💵</span>
+                        {% endif %}
+                      </span>
+                      <span class="deals-emoji">
+                        {% if deal.done %}
+                        <span class="tooltipped" data-position="top" data-tooltip="DONE">✔️</span>
+                        {% else %}
+                        <span class="tooltipped" data-position="top" data-tooltip="IN PROGRESS">🚧</span>
+                        {% endif %}
+                      </span>
+                      <span class="valign-wrapper" style="margin-left: auto; margin-right: 0;">
+                        <a href="{% url 'detail' deal.id %}" class="secondary-content tooltipped" data-position="bottom"
+                          data-tooltip="Go to deal"><i class="material-icons">send</i></a>
+                      </span>
+                    </div>
+                    <div class="collapsible-body">
+                      <ul class="collection">
+                        {% for activity in deal.activity_set.all %}
+                        <li class="collection-item">
+                          <span><b>{{ activity.activity }}</b></span>
+                          <small>on {{ activity.date }}</small>
+                          <p style="margin:0">{{ activity.notes }}</p>
+                        </li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </li>
+                </ul>
+                {% else %}
+              {% endif %}
+              {% endif %}
+            </div>
+            <div class="col s2"></div>
+          </div>
+        {% else %}
         <div class="col s4">
           <div class="card hoverable deal-cards" data-paid="{{ deal.paid|lower }}" data-merch="{{ deal.merch|lower }}" data-done="{{ deal.done|lower }}">
             <div class="card-content">
-            <span style='font-size:30px; float:right;'>
-              {% if deal.done %}
-                <span class="tooltipped" data-position="top" data-tooltip="DONE" style="cursor: default;">✔️</span>
-              {% else %}
-                <span class="tooltipped" data-position="top" data-tooltip="IN PROGRESS" style="cursor: default;">🚧</span>
-              {% endif %}
-            </span>
-            <span style='font-size:30px; float:right;'>
-              {% if deal.merch %}
-                <span class="tooltipped" data-position="top" data-tooltip="MERCH" style="cursor: default;">👕</span>
-              {% else %}
-                <span class="tooltipped" data-position="top" data-tooltip="CASH" style="cursor: default;">💵</span>
-              {% endif %}
-            </span>
-            <span style='font-size:30px; float:left; padding-right:10px;'>
-              {% if deal.paid %}
-                <span class="tooltipped" data-position="top" data-tooltip="PAID" style="cursor: default;">💰</span>
-              {% else %}
-                <span class="tooltipped" data-position="top" data-tooltip="NOT PAID" style="cursor: default;">⚠️</span>
-              {% endif %}
-            </span>
+              <span class="deals-emoji right">
+                {% if deal.done %}
+                  <span class="deals-emoji tooltipped" data-position="top" data-tooltip="DONE">✔️</span>
+                {% else %}
+                  <span class="deals-emoji tooltipped" data-position="top" data-tooltip="IN PROGRESS">🚧</span>
+                {% endif %}
+              </span>
+              <span class="deals-emoji right">
+                {% if deal.merch %}
+                  <span class="deals-emoji tooltipped" data-position="top" data-tooltip="MERCH">👕</span>
+                {% else %}
+                  <span class="deals-emojitooltipped" data-position="top" data-tooltip="CASH">💵</span>
+                {% endif %}
+              </span>
+              <span class="deals-emoji left">
+                {% if deal.paid %}
+                  <span class="deals-emoji tooltipped" data-position="top" data-tooltip="PAID">💰</span>
+                {% else %}
+                  <span class="deals-emoji tooltipped" data-position="top" data-tooltip="NOT PAID">⚠️</span>
+                {% endif %}
+              </span>
               <span class="card-title" style="font-weight:bold; height: 60px;">{{ deal.name }}</span>
               <hr>
               <table class="striped deal-table">
@@ -173,7 +252,7 @@
                   <td class="truncate tooltipped" data-position="bottom" data-tooltip="{{ deal.details }}">{{ deal.details }}</td>
                 </tr>
               </table>
-              <small style="float:right;">Created on: {{ deal.created_date}}</small>
+              <small class="right">Created on: {{ deal.created_date}}</small>
             </div>
             <div class="card-action">
               <a class="btn-floating waves-effect waves-light teal tooltipped z-depth-2" data-position="left" data-tooltip="Deal details" href="{% url 'detail' deal.id %}"><i class="material-icons">description</i></a>
@@ -183,11 +262,12 @@
             </div>
           </div>
         </div>
+        {% endif %}
         <!-- edit deal modal -->
         <div class="modal editDealModal" id="editDealModal_{{ deal.id }}">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="modal-close btn-floating btn-small teal z-depth-2" id="closeDealModal">
+              <button type="button" class="modal-close btn-floating btn-small teal z-depth-2 right">
                 <span>&#10006;</span>
               </button>
               <h4 class="modal-title">Edit <span class="teal-text">{{ deal.name }}</span></h4>
@@ -263,7 +343,7 @@
         <div class="modal deleteDealModal" id="deleteDealModal_{{ deal.id }}">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="modal-close btn-floating waves-effect btn-small z-depth-2" id="closeDealModal">
+              <button type="button" class="modal-close btn-floating waves-effect btn-small z-depth-2 right">
                 <span>&#10006;</span>
               </button>
               <h4 class="modal-title">Delete <span class="teal-text">{{ deal.name }}</span></h4>
@@ -300,10 +380,16 @@
 </div>
 
 <script>
+  const listSlider = document.getElementById("list-switch");
+  const listForm = document.getElementById("listSwitch");
   const paidSlider = document.getElementById("paid-switch");
   const paidForm = document.getElementById("paidSwitch");
   const doneSlier = document.getElementById("done-switch");
   const doneForm = document.getElementById("doneSwitch");
+
+  listSlider.addEventListener("change", function () {
+    listForm.submit();
+  });
 
   paidSlider.addEventListener("change", function() {
     paidForm.submit();
