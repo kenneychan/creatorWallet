@@ -19,7 +19,7 @@ import environ
 import django_heroku
 django_heroku.settings(locals())
 
-environ.Env()
+env = environ.Env()
 environ.Env.read_env()
 
 WSGI_APPLICATION = 'creatorwallet.wsgi.application'
@@ -89,14 +89,17 @@ WSGI_APPLICATION = 'creatorwallet.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'creatorwallet',
+
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'creatorwallet',
-
-    }
+    'default': env.db()
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
