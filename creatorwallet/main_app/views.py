@@ -189,7 +189,6 @@ def deals_detail(request, deal_id):
           currency="usd",
           setup_future_usage="off_session",
         )
-        print ("os.getenv('PRODUCT_PRICE')", os.getenv('PRODUCT_PRICE'))
         checkout_session = stripe.checkout.Session.create(
             payment_method_types = ['card'],
             line_items=[
