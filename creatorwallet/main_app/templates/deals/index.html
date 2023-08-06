@@ -8,28 +8,6 @@
   <div class="deal-list-header">
     <h2>Deal List</h2>
     <div class="deal-header-buttons">
-      <div class="paid-switch">
-        <div class="row">
-          <label>Show Un-paid ONLY</label>
-          <div class="switch center">
-            <label>
-              <input type="checkbox" id="paid-switch">
-              <span class="lever"></span>
-            </label>
-          </div>
-        </div>
-      </div>
-      <div class="done-switch">
-        <div class="row">
-          <label>Show In Progress ONLY</label>
-          <div class="switch center">
-            <label>
-              <input type="checkbox" id="done-switch">
-              <span class="lever"></span>
-            </label>
-          </div>
-        </div>
-      </div>
       <div class="add-deal-btn-top scale-transition">
         <a class="btn-floating btn teal modal-trigger pulse tooltipped z-depth-3" data-position="left" data-tooltip="Add new deal" href="#addDealModal" style="margin-top: 20px;"><i
             class="material-icons">add</i></a>
@@ -111,7 +89,7 @@
     <div class="row">
       {% for deal in deals %}
         <div class="col s4">
-          <div class="card hoverable deal-cards" data-paid="{{ deal.paid }}" data-merch="{{ deal.merch }}" data-done="{{ deal.done }}">
+          <div class="card hoverable deal-cards" data-paid="{{ deal.paid|lower }}" data-merch="{{ deal.merch|lower }}" data-done="{{ deal.done|lower }}">
             <div class="card-content">
             <span style='font-size:30px; float:right;'>
               {% if deal.done %}
@@ -191,7 +169,8 @@
                   </div>
                 {% elif field.name == "amount" %}
                   <div class="input-field">
-                    <label for="id_{{ field.name }}">{{ field.label }}</label>
+                    <label for="id_{{ field.name }}">{{ field.label }} <span>-&nbsp;
+                      <i>you may enter the value of the merch you've recieved just make sure to check the box down below!</i></span></label>
                     <input type="number" name="{{ field.name }}" step="0.01" id="id_{{ field.name }}" value="{{ deal.amount }}">
                   </div>
                 {% elif field.name == "merch" %}
@@ -271,30 +250,22 @@
   {% endif %}
 </div>
 
-<script>
-  const paidSwitch = document.getElementById('paid-switch');
-  const doneSwitch = document.getElementById('done-switch');
-  const dealCards = document.querySelectorAll('.deal-cards');
+<script>  
+  const slider = document.getElementById("paid-switch");
+  const form = document.getElementById("paidSwitch");
 
-  paidSwitch.addEventListener('change', function() {
+  slider.addEventListener("change", function() {
     if (this.checked) {
       switchStatus = this.checked;
-      
+      slider.value = "True";
+      form.submit();
     }
     else {
       switchStatus = this.checked;
-      
+      slider.value = "False";
+      form.submit();
     }
-  });
-  doneSwitch.addEventListener('click', function () {
-    if (this.checked) {
-      switchStatus = this.checked;
-
-    }
-    else {
-      switchStatus = this.checked;
-
-    }
+    form.submit();
   });
 </script>
 {% endblock %}

@@ -38,7 +38,7 @@ def dashboard(request):
   # Get Wallet data
   wallet = Decimal(0)
   wallet_data = []
-  for deal in deals.filter(paid=True).order_by("due_date"):
+  for deal in deals.filter(paid=True,merch=False).order_by("due_date"):
      wallet += deal.amount
      point = {
         'x': deal.due_date.strftime('%m/%d/%Y'),
