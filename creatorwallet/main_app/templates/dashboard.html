@@ -6,6 +6,10 @@
     <div class="col s4">
       <h4 class="header">Most recent activities</h4>
       <hr>
+      <b></b>
+      {% if totalUserActivity == 0 %}
+        <b>You have yet to enter your first activity!</b>
+      {% else %}
         {% for deal in deals %}
           {% if deal.activity_set.all %}
             <ul class="card collection with-header hoverable">
@@ -22,61 +26,73 @@
                   <li class="collection-item teal-text">Add activities to see here!</li>
               {% endfor %}
             </ul>
+          {% else %}
           {% endif %}
         {% empty %}
-          <div class="card">
-            
-          </div>
         {% endfor %}
+      {% endif %}
     </div>
     <div class="col s8">
       <h4 class="header">Deals in progress</h4>
       <hr>
-      {% for deal in deals %}
-        {% if not deal.done %}
-          <div class="col s6">
-            <div class="card hoverable">
-              <div class="card-content">
-                <b>{{deal.name}} </b><small>due on {{deal.due_date}}</small>
-                <a href="{% url 'detail' deal.id %}" class="secondary-content tooltipped" data-position="bottom" data-tooltip="Go to deal"><i
-                    class="material-icons">send</i></a>
+      {% if deals.first == None %}
+        <b>Please head over to <a class="teal-text" href="{% url 'index' %}">View My Deals</a> to enter your first deals!</b>
+      {% else %}
+        {% if allDealsDone == True %}
+          <b>Congrats! You've completed all your deals! 🥳</b>
+        {% else %}
+          {% for deal in deals %}
+            {% if not deal.done %}
+              <div class="col s6">
+                <div class="card hoverable">
+                  <div class="card-content">
+                    <b>{{deal.name}} </b><small>due on {{deal.due_date}}</small>
+                    <a href="{% url 'detail' deal.id %}" class="secondary-content tooltipped" data-position="bottom"
+                      data-tooltip="Go to deal"><i class="material-icons">send</i></a>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            {% endif %}
+          {% endfor %}
         {% endif %}
-      {% endfor %}
+      {% endif %}
     </div>
   </div>
-  <div class="row">
-    <div class="col s12">
-      <div class="card">
-        <figure class="highcharts-figure">
-          <div id="walletData"></div>
-        </figure>
+  {% if deals.first == None %}
+
+  {% else %}
+    <div class="row">
+      <div class="col s12">
+        <div class="card">
+          <figure class="highcharts-figure">
+            <div id="walletData"></div>
+          </figure>
+        </div>
+      </div>
+      <div class="col s4">
+        <div class="card">
+          <figure class="highcharts-figure">
+            <div id="isMerch"></div>
+          </figure>
+        </div>
+      </div>
+      <div class="col s4">
+        <div class="card">
+          <figure class="highcharts-figure">
+            <div id="isPaid"></div>
+          </figure>
+        </div>
+      </div>
+      <div class="col s4">
+        <div class="card">
+          <figure class="highcharts-figure">
+            <div id="isDone"></div>
+          </figure>
+        </div>
       </div>
     </div>
-    <div class="col s4">
-      <div class="card">
-        <figure class="highcharts-figure">
-          <div id="isMerch"></div>
-        </figure>
-      </div>
-    </div>
-    <div class="col s4">
-      <div class="card">
-        <figure class="highcharts-figure">
-          <div id="isPaid"></div>
-        </figure>
-      </div>
-    </div>
-    <div class="col s4">
-      <div class="card">
-        <figure class="highcharts-figure">
-          <div id="isDone"></div>
-        </figure>
-      </div>
-    </div>
-  </div>
+  {% endif %}
+  
 </div>
 
 <script>

@@ -33,7 +33,9 @@ def about(request):
 # Definte the dashboard view
 def dashboard(request):
   deals = Deal.objects.filter(user=request.user)
+  count_deals = deals.count()
 
+  # Get Wallet data
   wallet = Decimal(0)
   wallet_data = []
   for deal in deals.filter(paid=True).order_by("due_date"):
@@ -43,50 +45,55 @@ def dashboard(request):
         'y': float(wallet)
      }
      wallet_data.append(point)
-  
-  merch_count = 0
-  cash_count = 0
-  paid_count = 0
-  unpaid_count = 0
-  done_count = 0
-  in_progress_count = 0
+
+  # Get Merch, Paid, and Done Count data
+  count_activities, count_merch, count_cash, count_paid, count_unpaid, count_done, count_in_progress = 0, 0, 0, 0, 0, 0, 0
   for deal in deals:
+    # Get Activity Cont Data
+    activities = Activity.objects.filter(deal_id=deal.id)
+    for activity in activities:
+      count_activities += 1
     if deal.merch:
-      merch_count += 1
+      count_merch += 1
     else:
-      cash_count += 1
+      count_cash += 1
     if deal.paid:
-      paid_count += 1
+      count_paid += 1
     else:
-      unpaid_count += 1
+      count_unpaid += 1
     if deal.done:
-      done_count += 1
+      count_done += 1
     else:
-      in_progress_count += 1
+      count_in_progress += 1
 
   merch_data = [{
       'name': 'Merch',
-      'data': [merch_count]
+      'data': [count_merch]
     }, {
       'name': 'Cash',
-      'data': [cash_count]
+      'data': [count_cash]
     }]
   paid_data = [{
       'name': 'Paid',
-      'data': [paid_count]
+      'data': [count_paid]
     }, {
       'name': 'Un-paid',
-      'data': [unpaid_count]
+      'data': [count_unpaid]
     }]
   done_data = [{
       'name': 'Done',
-      'data': [done_count]
+      'data': [count_done]
     }, {
       'name': 'In Progress',
-      'data': [in_progress_count]
+      'data': [count_in_progress]
     }]
 
-  return render(request, 'dashboard.html', { 'deals': deals, 'walletData': wallet_data, 'merchData': merch_data, 'paidData': paid_data, 'doneData': done_data })
+  # Check if all deals are done
+  all_deals_done = False
+  if count_deals - count_done == 0:
+    all_deals_done = True
+
+  return render(request, 'dashboard.html', { 'deals': deals, 'totalUserActivity': count_activities, 'allDealsDone': all_deals_done, 'walletData': wallet_data, 'merchData': merch_data, 'paidData': paid_data, 'doneData': done_data })
 
 
 def signup(request):

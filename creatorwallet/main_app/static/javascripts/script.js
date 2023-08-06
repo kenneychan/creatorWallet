@@ -2,6 +2,7 @@ $(document).ready(function () {
   $('.tooltipped').tooltip();
   $('.fixed-action-btn').floatingActionButton();
   $('.parallax').parallax();
+  $('.modal').modal();
 
   $('.carousel').carousel({
     fullWidth: true,
@@ -22,8 +23,6 @@ $(document).ready(function () {
     // defaultDate: date,
     setDefaultDate: true,
   });
-  
-  $('.modal').modal();
 
   moveDealPlatformBtn();
   $(window).scroll(function () {

@@ -80,6 +80,22 @@ nav .brand-logo {
   justify-content: space-between;
 }
 
+.deal-header-buttons {
+  display: flex;
+}
+
+.paid-switch {
+  padding-right: 25px;
+  top: 75%;
+  transform: translateY(25%);
+}
+
+.done-switch {
+  padding-right: 25px;
+  top: 75%;
+  transform: translateY(25%);
+}
+
 .platform-cards {
   display: flex;
   align-items: center;
