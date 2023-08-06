@@ -75,7 +75,7 @@
   <div class="modal" id="addDealModal">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="modal-close btn-floating waves-effect btn-small z-depth-2" id="closeDealModal">
+        <button type="button" class="modal-close btn-floating waves-effect btn-small z-depth-2 right">
           <span>&#10006;</span>
         </button>
         <h4 class="modal-title">Add Deal</h4>
@@ -147,7 +147,10 @@
           <div class="col s12">
             <div class="col s2"></div>
             <div class="col s6">
-              {% if deal.activity_set.all %}
+              {% if count_activities == 0 %}
+                <h5 class="center-align">Add some activities to your deals!</h5>
+              {% else %}
+                {% if deal.activity_set.all %}
                 <ul class="collapsible popout">
                   <li>
                     <div class="collapsible-header">
@@ -184,16 +187,18 @@
                     <div class="collapsible-body">
                       <ul class="collection">
                         {% for activity in deal.activity_set.all %}
-                            <li class="collection-item">
-                              <span><b>{{ activity.activity }}</b></span>
-                              <small>on {{ activity.date }}</small>
-                              <p style="margin:0">{{ activity.notes }}</p>
-                            </li>
+                        <li class="collection-item">
+                          <span><b>{{ activity.activity }}</b></span>
+                          <small>on {{ activity.date }}</small>
+                          <p style="margin:0">{{ activity.notes }}</p>
+                        </li>
                         {% endfor %}
                       </ul>
                     </div>
                   </li>
                 </ul>
+                {% else %}
+              {% endif %}
               {% endif %}
             </div>
             <div class="col s2"></div>
@@ -202,21 +207,21 @@
         <div class="col s4">
           <div class="card hoverable deal-cards" data-paid="{{ deal.paid|lower }}" data-merch="{{ deal.merch|lower }}" data-done="{{ deal.done|lower }}">
             <div class="card-content">
-              <span class="deals-emoji" style='float:right;'>
+              <span class="deals-emoji right">
                 {% if deal.done %}
                   <span class="deals-emoji tooltipped" data-position="top" data-tooltip="DONE">✔️</span>
                 {% else %}
                   <span class="deals-emoji tooltipped" data-position="top" data-tooltip="IN PROGRESS">🚧</span>
                 {% endif %}
               </span>
-              <span class="deals-emoji" style='float:right;'>
+              <span class="deals-emoji right">
                 {% if deal.merch %}
                   <span class="deals-emoji tooltipped" data-position="top" data-tooltip="MERCH">👕</span>
                 {% else %}
                   <span class="deals-emojitooltipped" data-position="top" data-tooltip="CASH">💵</span>
                 {% endif %}
               </span>
-              <span class="deals-emoji" style='float:left;'>
+              <span class="deals-emoji left">
                 {% if deal.paid %}
                   <span class="deals-emoji tooltipped" data-position="top" data-tooltip="PAID">💰</span>
                 {% else %}
@@ -247,7 +252,7 @@
                   <td class="truncate tooltipped" data-position="bottom" data-tooltip="{{ deal.details }}">{{ deal.details }}</td>
                 </tr>
               </table>
-              <small style="float:right;">Created on: {{ deal.created_date}}</small>
+              <small class="right">Created on: {{ deal.created_date}}</small>
             </div>
             <div class="card-action">
               <a class="btn-floating waves-effect waves-light teal tooltipped z-depth-2" data-position="left" data-tooltip="Deal details" href="{% url 'detail' deal.id %}"><i class="material-icons">description</i></a>
@@ -262,7 +267,7 @@
         <div class="modal editDealModal" id="editDealModal_{{ deal.id }}">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="modal-close btn-floating btn-small teal z-depth-2" id="closeDealModal">
+              <button type="button" class="modal-close btn-floating btn-small teal z-depth-2 right">
                 <span>&#10006;</span>
               </button>
               <h4 class="modal-title">Edit <span class="teal-text">{{ deal.name }}</span></h4>
@@ -338,7 +343,7 @@
         <div class="modal deleteDealModal" id="deleteDealModal_{{ deal.id }}">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="modal-close btn-floating waves-effect btn-small z-depth-2" id="closeDealModal">
+              <button type="button" class="modal-close btn-floating waves-effect btn-small z-depth-2 right">
                 <span>&#10006;</span>
               </button>
               <h4 class="modal-title">Delete <span class="teal-text">{{ deal.name }}</span></h4>

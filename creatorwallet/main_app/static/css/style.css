@@ -136,10 +136,6 @@ nav .brand-logo {
   max-width: 25%;
 }
 
-#closeDealModal, #closePlatformModal {
-  float: right;
-}
-
 #submitDealModalBtn {
   margin-right: -5px;
 }
