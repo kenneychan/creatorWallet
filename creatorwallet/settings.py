@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from threading import local
 import environ
 # Other settings above
 
@@ -132,7 +133,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR /'static'
+STATIC_ROOT = BASE_DIR /'staticfiles'
 
 LOGIN_REDIRECT_URL = '/dashboard'
 LOGOUT_REDIRECT_URL = '/'
@@ -141,3 +142,5 @@ LOGOUT_REDIRECT_URL = '/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+django_heroku.settings(local())
