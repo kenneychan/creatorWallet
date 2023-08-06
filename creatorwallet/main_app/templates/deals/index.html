@@ -1,9 +1,54 @@
 {% extends 'base.html' %} {% block content %}
 <div class="container">
+  <div class="add-deal-btn-bottom fixed-action-btn scale-transition scale-out">
+    <a class="btn-floating btn btn-large teal modal-trigger pulse tooltipped z-depth-3" data-position="left" data-tooltip="Add new deal"
+      href="#addDealModal"><i class="material-icons">add</i></a>
+  </div>
+
   <div class="deal-list-header">
     <h2>Deal List</h2>
-    <a class="btn-floating btn teal modal-trigger pulse" href="#addDealModal" style="margin-top: 20px;"><i
-        class="material-icons">add</i></a>
+    <div class="deal-header-buttons">
+      <div class="paid-switch">
+        <div class="row">
+          <label>Show Un-paid ONLY</label>
+          {% if unpaid %}
+          <form method="POST" action="{% url 'index' %}" id="paidSwitch">
+          {% else %}
+          <form method="POST" action="{% url 'filter_paid' %}" id="paidSwitch">
+          {% endif %}
+            {% csrf_token %}
+            <div class="switch center">
+              <label>
+                <input type="checkbox" id="paid-switch" name="show_unpaid" {% if unpaid %}checked{% endif %}>
+                <span class="lever"></span>
+              </label>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="done-switch">
+        <div class="row">
+          <label>Show In Progress ONLY</label>
+          {% if inprogress %}
+          <form method="POST" action="{% url 'index' %}" id="doneSwitch">
+            {% else %}
+            <form method="POST" action="{% url 'filter_done' %}" id="doneSwitch">
+              {% endif %}
+              {% csrf_token %}
+              <div class="switch center">
+                <label>
+                  <input type="checkbox" id="done-switch" name="show_inprogress" {% if inprogress %}checked{% endif %}>
+                  <span class="lever"></span>
+                </label>
+              </div>
+            </form>
+        </div>
+      </div>
+      <div class="add-deal-btn-top scale-transition">
+        <a class="btn-floating btn teal modal-trigger pulse tooltipped z-depth-3" data-position="left" data-tooltip="Add new deal" href="#addDealModal" style="margin-top: 20px;"><i
+            class="material-icons">add</i></a>
+      </div>
+    </div>
     <!-- <a class="btn-floating btn teal" href="{% url 'deals_create' %}" style="margin-top: 20px;"><i
         class="material-icons">add</i></a> -->
   </div>
@@ -12,7 +57,7 @@
   <div class="modal" id="addDealModal">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="modal-close btn-floating waves-effect btn-small" id="closeDealModal">
+        <button type="button" class="modal-close btn-floating waves-effect btn-small z-depth-2" id="closeDealModal">
           <span>&#10006;</span>
         </button>
         <h4 class="modal-title">Add Deal</h4>
@@ -21,28 +66,49 @@
         <div class="modal-body">
           {% csrf_token %}
           {% for field in DealForm %}
-            {% if field.name != "done" %}
+            {% if field.name != "done" and field.name != "paid" and field.name != "merch" %}
                 {% if field.name == "name" %}
                   <div class="input-field">
                     {{ field.errors }}
                     <label for="id_{{ field.name }}">{{ field.label }} <span style="color:red;">*</span></label> {{ field }}
-                  </div>
+                  </div>                  
                 {% else %}
-                  <div class="input-field">
-                    {{ field.errors }}
-                    <label for="id_{{ field.name }}">{{ field.label }}</label> {{ field }}
-                  </div>
+                  {% if field.name == "amount" %}
+                    <div class="input-field">
+                      {{ field.errors }}
+                      <label for="id_{{ field.name }}">{{ field.label }} <span style="color:red;">*</span><span>&nbsp;-&nbsp;
+                        <i>you can set this as 0, you may enter the value of the merch you've recieved just make sure to check the box down below!</i></span></label>
+                        <input type="number" name="{{ field.name }}" step="0.01" id="id_amount" required>
+                    </div>
+                  {% else %}
+                    <div class="input-field">
+                      {{ field.errors }}
+                      <label for="id_{{ field.name }}">{{ field.label }}</label> {{ field }}
+                    </div>
+                  {% endif %}
                 {% endif %}
             {% else %}
-              <label for="id_{{ field.name }}">
-                {{ field }}
-                <span>{{ field.label }}</span>
-              </label>
+              {% if field.name == "merch" %}
+                <label for="id_{{ field.name }}" style="padding-right: 30px;">
+                  {{ field }}
+                  <span>{{ field.label }}</span>
+                </label>
+              {% elif field.name == "paid" %}
+                <label for="id_{{ field.name }}" style="padding-right: 30px;">
+                  {{ field }}
+                  <span>{{ field.label }}</span>
+                </label>
+              {% elif field.name == "done" %}
+                <label for="id_{{ field.name }}" style="padding-right: 30px;">
+                  {{ field }}
+                  <span>{{ field.label }}</span>
+                </label>
+              {% endif %}
             {% endif %}
           {% endfor %}
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary btn-floating btn-large waves-effect waves-light" type="submit" id="submitDealModalBtn"><i class="material-icons">save</i></button>
+          <button class="btn btn-primary btn-floating btn-large waves-effect waves-light z-depth-2" type="submit" id="submitDealModalBtn"><i class="material-icons">save</i></button>
         </div>
       </form>
     </div>
@@ -60,26 +126,40 @@
     <div class="row">
       {% for deal in deals %}
         <div class="col s4">
-          <div class="card hoverable">
+          <div class="card hoverable deal-cards" data-paid="{{ deal.paid|lower }}" data-merch="{{ deal.merch|lower }}" data-done="{{ deal.done|lower }}">
             <div class="card-content">
-              <span style='font-size:30px; float:right;'>
-                {% if deal.done %}
-                ✔️
-                {% else %}
-                🚧
-                {% endif %}
-              </span>
-              <span class="card-title" style="font-weight:bold;">{{ deal.name }}</span>
+            <span style='font-size:30px; float:right;'>
+              {% if deal.done %}
+                <span class="tooltipped" data-position="top" data-tooltip="DONE" style="cursor: default;">✔️</span>
+              {% else %}
+                <span class="tooltipped" data-position="top" data-tooltip="IN PROGRESS" style="cursor: default;">🚧</span>
+              {% endif %}
+            </span>
+            <span style='font-size:30px; float:right;'>
+              {% if deal.merch %}
+                <span class="tooltipped" data-position="top" data-tooltip="MERCH" style="cursor: default;">👕</span>
+              {% else %}
+                <span class="tooltipped" data-position="top" data-tooltip="CASH" style="cursor: default;">💵</span>
+              {% endif %}
+            </span>
+            <span style='font-size:30px; float:left; padding-right:10px;'>
+              {% if deal.paid %}
+                <span class="tooltipped" data-position="top" data-tooltip="PAID" style="cursor: default;">💰</span>
+              {% else %}
+                <span class="tooltipped" data-position="top" data-tooltip="NOT PAID" style="cursor: default;">⚠️</span>
+              {% endif %}
+            </span>
+              <span class="card-title" style="font-weight:bold; height: 60px;">{{ deal.name }}</span>
               <hr>
               <table class="striped deal-table">
                 <tr>
-                  <th style="width: 25%;">Amount</th>
+                  <th style="width: 30%;">Amount</th>
                   <td>{{ deal.amount }}</td>
                 </tr>
-                <tr>
-                  <th>Campaign Url</th>
-                  <td>{{ deal.url }}</td>
-                </tr>
+              <tr>
+                <th>Campaign Url</th>
+                <td class="truncate"><a href="{{ deal.url }}" target="_blank">{{ deal.url }}</a></td>
+              </tr>
                 <tr>
                   <th>Promo code</th>
                   <td>{{ deal.promo_code }}</td>
@@ -90,16 +170,16 @@
                 </tr>
                 <tr>
                   <th>Details</th>
-                  <td>{{ deal.details|linebreaks }}</td>
+                  <td class="truncate tooltipped" data-position="bottom" data-tooltip="{{ deal.details }}">{{ deal.details }}</td>
                 </tr>
               </table>
               <small style="float:right;">Created on: {{ deal.created_date}}</small>
             </div>
             <div class="card-action">
-              <a class="btn-floating waves-effect waves-light teal" href="{% url 'detail' deal.id %}"><i class="material-icons">description</i></a>
-              <a class="modal-trigger btn-floating waves-effect waves-light" href="#editDealModal_{{ deal.id }}"><i
+              <a class="btn-floating waves-effect waves-light teal tooltipped z-depth-2" data-position="left" data-tooltip="Deal details" href="{% url 'detail' deal.id %}"><i class="material-icons">description</i></a>
+              <a class="modal-trigger btn-floating waves-effect waves-light tooltipped z-depth-2" data-position="bottom" data-tooltip="Edit platform" href="#editDealModal_{{ deal.id }}"><i
                   class="material-icons">edit</i></a>
-              <a class="modal-trigger btn-floating waves-effect teal" href="#deleteDealModal_{{ deal.id }}"><i class="material-icons">delete</i></a>
+              <a class="modal-trigger btn-floating waves-effect teal tooltipped z-depth-2" data-position="right" data-tooltip="Delete platform" href="#deleteDealModal_{{ deal.id }}"><i class="material-icons">delete</i></a>
             </div>
           </div>
         </div>
@@ -107,7 +187,7 @@
         <div class="modal editDealModal" id="editDealModal_{{ deal.id }}">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="modal-close btn-floating btn-small teal" id="closeDealModal">
+              <button type="button" class="modal-close btn-floating btn-small teal z-depth-2" id="closeDealModal">
                 <span>&#10006;</span>
               </button>
               <h4 class="modal-title">Edit <span class="teal-text">{{ deal.name }}</span></h4>
@@ -119,50 +199,61 @@
         
                 {{ field.errors }}
                 {% if field.name == "name" %}
-                <div class="input-field">
-                  <label for="id_{{ field.name }}">{{ field.label }} <span style="color:red;">*</span></label>
-                  <input type="text" name="{{ field.name }}" maxlength="100" required id="id_{{ field.name }}"
-                    value="{{ deal.name }}">
-                </div>
+                  <div class="input-field">
+                    <label for="id_{{ field.name }}">{{ field.label }} <span style="color:red;">*</span></label>
+                    <input type="text" name="{{ field.name }}" maxlength="100" required id="id_{{ field.name }}"
+                      value="{{ deal.name }}">
+                  </div>
                 {% elif field.name == "amount" %}
-                <div class="input-field">
-                  <label for="id_{{ field.name }}">{{ field.label }}</label>
-                  <input type="number" name="{{ field.name }}" step="0.01" id="id_{{ field.name }}" value="{{ deal.amount }}">
-                </div>
+                  <div class="input-field">
+                    <label for="id_{{ field.name }}">{{ field.label }} <span style="color:red;">*</span><span>&nbsp;-&nbsp;
+                      <i>you can set this as 0, or you may enter the value of the merch you've recieved just make sure to check the box down below!</i></span></label>
+                    <input type="number" name="{{ field.name }}" step="0.01" id="id_{{ field.name }}" value="{{ deal.amount }}" required>
+                  </div>
+                {% elif field.name == "merch" %}
+                  <label for="id_{{ field.name }}_{{ deal.id }}" style="padding-right: 30px;">
+                    <input type="checkbox" name="{{ field.name }}" id="id_{{ field.name }}_{{ deal.id }}" {% if deal.merch %}checked{% endif %}>
+                    <span>{{ field.label }}</span>
+                  </label>
+                {% elif field.name == "paid" %}
+                  <label for="id_{{ field.name }}_{{ deal.id }}" style="padding-right: 30px;">
+                    <input type="checkbox" name="{{ field.name }}" id="id_{{ field.name }}_{{ deal.id }}" {% if deal.paid %}checked{% endif %}>
+                    <span>{{ field.label }}</span>
+                  </label>
                 {% elif field.name == "url" %}
-                <div class="input-field">
-                  <label for="id_{{ field.name }}">{{ field.label }}</label>
-                  <input type="url" name="{{ field.name }}" maxlength="100" id="id_{{ field.name }}" value="{{ deal.url }}">
-                </div>
+                  <div class="input-field">
+                    <label for="id_{{ field.name }}">{{ field.label }}</label>
+                    <input type="url" name="{{ field.name }}" maxlength="100" id="id_{{ field.name }}" value="{{ deal.url }}">
+                  </div>
                 {% elif field.name == "promo_code" %}
-                <div class="input-field">
-                  <label for="id_{{ field.name }}">{{ field.label }}</label>
-                  <input type="text" name="{{ field.name }}" maxlength="100" id="id_{{ field.name }}"
-                    value="{{ deal.promo_code }}">
-                </div>
+                  <div class="input-field">
+                    <label for="id_{{ field.name }}">{{ field.label }}</label>
+                    <input type="text" name="{{ field.name }}" maxlength="100" id="id_{{ field.name }}"
+                      value="{{ deal.promo_code }}">
+                  </div>
                 {% elif field.name == "due_date" %}
-                <div class="input-field">
-                  <label for="id_{{ field.name }}">{{ field.label }}</label>
-                  <input type="text" name="{{ field.name }}" id="id_{{ field.name }}" value='{{ deal.due_date|date:"M j, Y" }}'
-                    class="datepicker">
-                </div>
+                  <div class="input-field">
+                    <label for="id_{{ field.name }}">{{ field.label }}</label>
+                    <input type="text" name="{{ field.name }}" id="id_{{ field.name }}" value='{{ deal.due_date|date:"M j, Y" }}'
+                      class="datepicker">
+                  </div>
                 {% elif field.name == "details" %}
-                <div class="input-field">
-                  <label for="id_{{ field.name }}">{{ field.label }}</label>
-                  <textarea name="{{ field.name }}" cols="40" rows="10" maxlength="500" id="id_{{ field.name }}"
-                    class="materialize-textarea">{{ deal.details }}</textarea>
-                </div>
+                  <div class="input-field">
+                    <label for="id_{{ field.name }}">{{ field.label }}</label>
+                    <textarea name="{{ field.name }}" cols="40" rows="10" maxlength="500" id="id_{{ field.name }}"
+                      class="materialize-textarea">{{ deal.details }}</textarea>
+                  </div>
                 {% elif field.name == "done" %}
-                <label for="id_{{ field.name }}_edit">
-                  <input type="checkbox" name="{{ field.name }}" id="id_{{ field.name }}_edit" {% if deal.done %}checked{% endif %}>
-                  <span>{{ field.label }}</span>
-                </label>
+                  <label for="id_{{ field.name }}_{{ deal.id }}" style="padding-right: 30px;">
+                    <input type="checkbox" name="{{ field.name }}" id="id_{{ field.name }}_{{ deal.id }}" {% if deal.done %}checked{% endif %}>
+                    <span>{{ field.label }}</span>
+                  </label>
                 {% else %}
                 {% endif %}
                 {% endfor %}
               </div>
               <div class="modal-footer">
-                <button class="btn btn-primary btn-floating btn-large" type="submit" id="submitDealModalBtn"><i
+                <button class="btn btn-primary btn-floating btn-large z-depth-2" type="submit" id="submitDealModalBtn"><i
                     class="material-icons">save</i></button>
               </div>
             </form>
@@ -172,7 +263,7 @@
         <div class="modal deleteDealModal" id="deleteDealModal_{{ deal.id }}">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="modal-close btn-floating waves-effect btn-small" id="closeDealModal">
+              <button type="button" class="modal-close btn-floating waves-effect btn-small z-depth-2" id="closeDealModal">
                 <span>&#10006;</span>
               </button>
               <h4 class="modal-title">Delete <span class="teal-text">{{ deal.name }}</span></h4>
@@ -183,7 +274,7 @@
                 {% csrf_token %}
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn waves-effect waves-light">Yes - Delete!</button>
+                <button type="submit" class="btn waves-effect waves-light z-depth-2">Yes - Delete!</button>
                 <a class="modal-close">Cancel</a>
               </div>
             </form>
@@ -192,7 +283,41 @@
       {% endfor %}
     </div>
   {% else %}
-    <h5>Click <button class="btn-floating btn-small btn teal modal-trigger" href="#addDealModal"><i class="material-icons">add</i></button> to add a new deal! 🤝</h5>
+    <h5>
+      {% if count_deals != 0 and count_deals != null %}
+        {% if unpaid %}
+          ALL your deals are paid out!!!<br><br>
+        {% else %}
+          You've COMPLETED all your deals!!!<br><br>
+        {% endif %}
+      {% else %}
+        You don't have any deals yet!<br><br>
+      {% endif %}
+      
+      Click <button class="btn-floating btn-small btn teal modal-trigger z-depth-2" href="#addDealModal"><i class="material-icons">add</i></button> to add a new deal! 🤝
+    </h5>
   {% endif %}
 </div>
+
+<script>
+  const paidSlider = document.getElementById("paid-switch");
+  const paidForm = document.getElementById("paidSwitch");
+  const doneSlier = document.getElementById("done-switch");
+  const doneForm = document.getElementById("doneSwitch");
+
+  paidSlider.addEventListener("change", function() {
+    paidForm.submit();
+  });
+
+  doneSlier.addEventListener("change", function () {
+      doneForm.submit();
+    });
+
+  // if (this.checked) {
+  //     switchStatus = this.checked;
+  //   }
+  //   else {
+  //     switchStatus = this.checked;
+  //   }
+</script>
 {% endblock %}

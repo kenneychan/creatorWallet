@@ -2,8 +2,358 @@
 {% block content %}
 
 <div class="container">
-  <div class="">
-    <h2>Dashboard</h2>
+  <div class="row">
+    <div class="col s4">
+      <h4 class="header">Most recent activities</h4>
+      <hr>
+      <b></b>
+      {% if totalUserActivity == 0 %}
+        <b>You have yet to enter your first activity!</b>
+      {% else %}
+        {% for deal in deals %}
+          {% if deal.activity_set.all %}
+            <ul class="card collection with-header hoverable">
+              <li class="collection-header">
+                <b>{{deal.name}}</b><a href="{% url 'detail' deal.id %}" class="secondary-content tooltipped" data-position="bottom" data-tooltip="Go to deal"><i class="material-icons">send</i></a>
+              </li>
+              {% for activity in deal.activity_set.all %}
+                {% if forloop.first %}
+                <li class="collection-item">
+                  <div>{{activity.activity}} <small>on {{activity.date}}</small></div>
+                </li>
+                {% endif %}
+                {% empty %}
+                  <li class="collection-item teal-text">Add activities to see here!</li>
+              {% endfor %}
+            </ul>
+          {% else %}
+          {% endif %}
+        {% empty %}
+        {% endfor %}
+      {% endif %}
+    </div>
+    <div class="col s8">
+      <h4 class="header">Deals in progress</h4>
+      <hr>
+      {% if deals.first == None %}
+        <b>Please head over to <a class="teal-text" href="{% url 'index' %}">View My Deals</a> to enter your first deals!</b>
+      {% else %}
+        {% if allDealsDone == True %}
+          <b>Congrats! You've completed all your deals! 🥳</b>
+        {% else %}
+          {% for deal in deals %}
+            {% if not deal.done %}
+              <div class="col s6">
+                <div class="card hoverable">
+                  <div class="card-content">
+                    <b>{{deal.name}} </b><small>due on {{deal.due_date}}</small>
+                    <a href="{% url 'detail' deal.id %}" class="secondary-content tooltipped" data-position="bottom"
+                      data-tooltip="Go to deal"><i class="material-icons">send</i></a>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endif %}
+    </div>
   </div>
+  {% if deals.first == None %}
+
+  {% else %}
+    <div class="row">
+      <div class="col s12" {% if dueDate == "None" %}hidden{% endif %}>
+        <div class="card">
+          <figure class="highcharts-figure">
+            <div id="walletData"></div>
+          </figure>
+        </div>
+      </div>
+      <div class="col s4">
+        <div class="card">
+          <figure class="highcharts-figure">
+            <div id="isMerch"></div>
+          </figure>
+        </div>
+      </div>
+      <div class="col s4">
+        <div class="card">
+          <figure class="highcharts-figure">
+            <div id="isPaid"></div>
+          </figure>
+        </div>
+      </div>
+      <div class="col s4">
+        <div class="card">
+          <figure class="highcharts-figure">
+            <div id="isDone"></div>
+          </figure>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  
 </div>
+
+<script>
+  const initialWalletData  = "{{ walletData }}";
+  const jsonWalletData = initialWalletData.replace(/&#x27;/g, '"');
+  const walletData = JSON.parse(jsonWalletData);
+
+  const initialMerchData = "{{ merchData }}";
+  const jsonMerchData = initialMerchData.replace(/&#x27;/g, '"');
+  const merchData = JSON.parse(jsonMerchData);
+
+  const initialPaidData = "{{ paidData }}";
+  const jsonPaidData = initialPaidData.replace(/&#x27;/g, '"');
+  const paidData = JSON.parse(jsonPaidData);
+
+  const initialDoneData = "{{ doneData }}";
+  const jsonDoneData = initialDoneData.replace(/&#x27;/g, '"');
+  const doneData = JSON.parse(jsonDoneData);
+
+  walletData.forEach(function (el, i) {
+    walletData[i].x = new Date(el.x).getTime();
+  });
+
+  const walletChart = Highcharts.chart('walletData', {
+    title: {
+      text: 'Total Net Income from Deals',
+      align: 'left'
+    },
+    subtitle: {
+      text: '',
+      align: 'left'
+    },
+    xAxis: {
+      type: 'datetime',
+      labels: {
+        format: '{value:%b %d }'
+      }
+    },
+    yAxis: {
+      title: {
+        text: '$'
+      }
+    },
+    tooltip: {
+      xDateFormat: '%B %d, %Y',
+      pointFormat: '<b>${point.y:.2f}</b>'
+    },
+    plotOptions: {
+      series: {
+        label: {
+          connectorAllowed: false,
+          enabled: false
+        },
+      }
+    },
+    legend: {
+      enabled: false
+    },
+    series:
+      [{
+        name: 'Income & Expense',
+        data: walletData,
+        zones: [{
+          value: 0,
+          color: 'red'
+        }, {
+          // color: '#009688'
+        }],
+      }],
+    responsive: {
+      rules: [{
+        condition: {
+          maxWidth: 500
+        },
+        chartOptions: {
+          legend: {
+            layout: 'horizontal',
+            align: 'center',
+            verticalAlign: 'bottom'
+          }
+        }
+      }]
+    }
+  });
+  const isMerchChart = Highcharts.chart('isMerch', {
+    chart: {
+      type: 'bar'
+    },
+    title: {
+      text: 'Merch / Cash Deals',
+      align: 'left'
+    },
+    subtitle: {
+      text: '',
+      align: 'left'
+    },
+    xAxis: {
+      labels: {
+        enabled: false
+      },
+      title: {
+        text: null
+      }
+    },
+    yAxis: {
+      title: {
+        text: null
+      }
+    },
+    tooltip: {
+      headerFormat: null
+    },
+    plotOptions: {
+      series: {
+        label: {
+          connectorAllowed: false,
+          enabled: false
+        },
+      }
+    },
+    legend: {
+      enabled: false
+    },
+    series:merchData,
+    responsive: {
+      rules: [{
+        condition: {
+          maxWidth: 500
+        },
+        chartOptions: {
+          legend: {
+            layout: 'horizontal',
+            align: 'center',
+            verticalAlign: 'bottom'
+          }
+        }
+      }]
+    }
+  });
+  const isPaidChart = Highcharts.chart('isPaid', {
+    chart: {
+      type: 'column'
+    },
+    title: {
+      text: 'Paid / Un-paid Deals',
+      align: 'left'
+    },
+    subtitle: {
+      text: '',
+      align: 'left'
+    },
+    xAxis: {
+      labels: {
+        enabled: false
+      },
+      title: {
+        text: null
+      }
+    },
+    yAxis: {
+      title: {
+        text: null
+      }
+    },
+    tooltip: {
+      headerFormat: null
+    },
+    plotOptions: {
+      series: {
+        label: {
+          connectorAllowed: false,
+          enabled: false
+        },
+      }
+    },
+    legend: {
+      enabled: false
+    },
+    series: paidData,
+    responsive: {
+      rules: [{
+        condition: {
+          maxWidth: 500
+        },
+        chartOptions: {
+          legend: {
+            layout: 'horizontal',
+            align: 'center',
+            verticalAlign: 'bottom'
+          }
+        }
+      }]
+    }
+  });
+  isPaidChart.series[0].update({
+    color: "#00e272"
+  });
+  isPaidChart.series[1].update({
+    color: "#fe6a35"
+  });
+  const isDoneChart = Highcharts.chart('isDone', {
+    chart: {
+      type: 'column'
+    },
+    title: {
+      text: 'Done / In Progress Deals',
+      align: 'left'
+    },
+    subtitle: {
+      text: '',
+      align: 'left'
+    },
+    xAxis: {
+      labels: {
+        enabled: false
+      },
+      title: {
+        text: null
+      }
+    },
+    yAxis: {
+      title: {
+        text: null
+      }
+    },
+    tooltip: {
+      headerFormat: null
+    },
+    plotOptions: {
+      series: {
+        label: {
+          connectorAllowed: false,
+          enabled: false
+        },
+      }
+    },
+    legend: {
+      enabled: false
+    },
+    series: doneData,
+    responsive: {
+      rules: [{
+        condition: {
+          maxWidth: 500
+        },
+        chartOptions: {
+          legend: {
+            layout: 'horizontal',
+            align: 'center',
+            verticalAlign: 'bottom'
+          }
+        }
+      }]
+    }
+  });
+  isDoneChart.series[0].update({
+    color: "#6b8abc"
+    });
+  isDoneChart.series[1].update({
+    color: "#d568fb"
+  });
+</script>
+
 {% endblock %}

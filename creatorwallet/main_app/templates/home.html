@@ -1,4 +1,5 @@
 {% extends 'base.html' %} {% block content %}
+{% load static %}
 
 <div id="index-banner" class="parallax-container">
   <div class="section no-pad-bot">
@@ -15,7 +16,7 @@
       <br><br>
     </div>
   </div>
-  <div class="parallax"><img class="parallax-img" src="static/images/parallax/parallax1.jpg" alt="Unsplashed background img 1"></div>
+  <div class="parallax"><img class="parallax-img" src="{% static 'images/parallax/parallax1.jpg' %}" alt="Unsplashed background img 1"></div>
 </div>
 
 
@@ -26,33 +27,35 @@
       <div class="col s12 m4">
         <div class="icon-block">
           <h2 class="center brown-text"><i class="material-icons">flash_on</i></h2>
-          <h5 class="center">Phasellus mattis pharetra </h5>
+          <h5 class="center">Streamline deals management</h5>
 
-          <p class="light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mattis pharetra aliquam. Integer a nisi eget tortor
-          varius volutpat. Maecenas lectus odio, tempor id aliquam nec, porttitor et nibh. In hac habitasse platea dictumst. Proin
-          blandit augue et eros sollicitudin feugiat.</p>
+          <p class="light">We've meticulously handled the complexities, offering you an effortlessly integrated, all-in-one
+          solution to efficiently manage your deals. With our user-friendly reporting dashboard showcasing vivid graphical
+          representations, tracking the progress of your deals has never been smoother or more intuitive.</p>
         </div>
       </div>
 
       <div class="col s12 m4">
         <div class="icon-block">
           <h2 class="center brown-text"><i class="material-icons">group</i></h2>
-          <h5 class="center">Sed eu aliquam mi</h5>
+          <h5 class="center">User Experience Focused</h5>
 
-          <p class="light">Nullam eu leo id metus molestie posuere porta sit amet mi. Sed eu aliquam mi. Suspendisse semper accumsan ex id aliquam.
-          Morbi scelerisque a sem eget commodo. Etiam a felis eu est rutrum eleifend. Sed viverra viverra tellus, vitae efficitur
-          dui consectetur sit amet. Ut commodo sodales lacinia. Duis dapibus quam non nibh luctus pretium.</p>
+          <p class="light">By prioritizing a user-centric approach, we have designed an app that significantly enhances the ease of Creating,
+          Reading, Updating, and Deleting your deals and platforms. With just a few intuitively designed pages, you can perform
+          all CRUD actions effortlessly. Furthermore, our system boasts a responsive design that ensures a cohesive and seamless
+          user experience across all pages.</p>
         </div>
       </div>
 
       <div class="col s12 m4">
         <div class="icon-block">
           <h2 class="center brown-text"><i class="material-icons">settings</i></h2>
-          <h5 class="center">Donec tincidunt dolor erat</h5>
+          <h5 class="center">Easy to work with</h5>
 
-          <p class="light">Fusce in dui nulla. Proin lacus erat, efficitur et magna ut, mattis ullamcorper nisl. Integer scelerisque lorem quis
-          quam maximus volutpat. Aenean pharetra enim finibus metus tempus, ut viverra nibh pharetra. Suspendisse efficitur enim
-          et nulla imperdiet, at mattis sapien aliquet.</p>
+          <p class="light">Getting started with the app is incredibly straightforward, ensuring a smooth onboarding process. We highly value user
+          feedback and are always open to hearing your thoughts and suggestions. Feel free to reach out to us with any questions
+          you may have about CreatorWallet, and our team will be more than happy to assist you. Your input helps us continually
+          improve the app for an even better user experience.</p>
         </div>
       </div>
     </div>
@@ -64,11 +67,11 @@
   <div class="section no-pad-bot">
     <div class="">
       <div class="row center">
-        <h5 class="header col s12 light parallax-text">Donec tincidunt dolor erat</h5>
+        <h5 class="header col s12 light parallax-text">An all-in-one solution to efficiently CRUD your deals</h5>
       </div>
     </div>
   </div>
-  <div class="parallax"><img class="parallax-img" src="static/images/parallax/parallax2.jpg" alt="Unsplashed background img 2"></div>
+  <div class="parallax"><img class="parallax-img" src="{% static 'images/parallax/parallax2.jpg' %}" alt="Unsplashed background img 2"></div>
 </div>
 
 <div class="container">
@@ -77,13 +80,15 @@
       <div class="col s12 center">
         <h3><i class="mdi-content-send brown-text"></i></h3>
         <h4>Mission</h4>
-        <p class="left-align light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id
-          nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies
-          eros. Maecenas eros justo, ullamcorper a sapien id, viverra ultrices eros. Morbi sem neque, posuere et
-          pretium eget, bibendum sollicitudin lacus. Aliquam eleifend sollicitudin diam, eu mattis nisl maximus sed.
-          Nulla imperdiet semper molestie. Morbi massa odio, condimentum sed ipsum ac, gravida ultrices erat. Nullam
-          eget dignissim mauris, non tristique erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
-          posuere cubilia Curae;</p>
+        <p class="left-align light">Our mission is to provide you with an unparalleled user-centric experience. We've meticulously crafted
+        an all-in-one solution, streamlining the complexities of deal management with an effortlessly integrated platform. With
+        our intuitive design and user-friendly reporting dashboard, tracking the progress of your deals becomes smoother and
+        more intuitive than ever before. We prioritize your ease in Creating, Reading, Updating, and Deleting deals, all within
+        a few intuitively designed pages. Our responsive system ensures a cohesive experience across every interaction. We are
+        dedicated to a seamless onboarding process, making it incredibly straightforward to get started. Your feedback is
+        invaluable to us, as we strive to continuously improve and tailor CreatorWallet to meet your needs. Our team is always
+        here for you, ready to answer any questions and listen to your thoughts and suggestions, to create an even better user
+        experience.</p>
       </div>
     </div>
   </div>
@@ -93,11 +98,11 @@
   <div class="section no-pad-bot">
     <div class="">
       <div class="row center">
-        <h5 class="header col s12 light parallax-text">Donec tincidunt dolor erat</h5>
+        <h5 class="header col s12 light parallax-text">User-centric approach, our team is here for you</h5>
       </div>
     </div>
   </div>
-  <div class="parallax"><img class="parallax-img" src="static/images/parallax/parallax3.jpg" alt="Unsplashed background img 3"></div>
+  <div class="parallax"><img class="parallax-img" src="{% static 'images/parallax/parallax3.jpg' %}" alt="Unsplashed background img 3"></div>
 </div>
 
 {% endblock %}

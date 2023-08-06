@@ -18,21 +18,35 @@
           <div class="card-content">
             <span style='font-size:30px; float:right;'>
               {% if deal.done %}
-                ✔️
+                <span class="tooltipped" data-position="top" data-tooltip="DONE" style="cursor: default;">✔️</span>
               {% else %}
-                🚧
+                <span class="tooltipped" data-position="top" data-tooltip="IN PROGRESS" style="cursor: default;">🚧</span>
               {% endif %}
             </span>
-            <span class="card-title" style="font-weight: bold">{{ deal.name }}</span>
+            <span style='font-size:30px; float:right;'>
+              {% if deal.merch %}
+                <span class="tooltipped" data-position="top" data-tooltip="MERCH" style="cursor: default;">👕</span>
+              {% else %}
+                <span class="tooltipped" data-position="top" data-tooltip="CASH" style="cursor: default;">💵</span>
+              {% endif %}
+            </span>
+            <span style='font-size:30px; float:left; padding-right:10px;'>
+              {% if deal.paid %}
+                <span class="tooltipped" data-position="top" data-tooltip="PAID" style="cursor: default;">💰</span>
+              {% else %}
+                <span class="tooltipped" data-position="top" data-tooltip="NOT PAID" style="cursor: default;">⚠️</span>
+              {% endif %}
+            </span>
+            <span class="card-title" style="font-weight: bold; height: 60px;">{{ deal.name }}</span>
             <hr>
             <table class="striped deal-table">
               <tr>
-                <th style="width: 25%;">Amount</th>
+                <th style="width: 30%;">Amount</th>
                 <td>{{ deal.amount }}</td>
               </tr>
               <tr>
                 <th>Campaign Url</th>
-                <td>{{ deal.url }}</td>
+                <td class="truncate"><a href="{{ deal.url }}" target="_blank">{{ deal.url }}</a></td>
               </tr>
               <tr>
                 <th>Promo code</th>
@@ -50,52 +64,58 @@
             <small style="float:right;">Created on: {{ deal.created_date}}</small>
           </div>
           <div class="card-action">
-            <a class="modal-trigger btn-floating waves-effect waves-light" href="#editDealModal_{{ deal.id }}"><i class="material-icons">edit</i></a>
-            <a class="modal-trigger btn-floating waves-effect" href="#deleteDealModal_{{ deal.id }}"><i class="material-icons">delete</i></a>
+            <a class="modal-trigger btn-floating waves-effect waves-light tooltipped z-depth-2" data-position="left" data-tooltip="Edit platform" href="#editDealModal_{{ deal.id }}"><i class="material-icons">edit</i></a>
+            <a class="modal-trigger btn-floating waves-effect tooltipped z-depth-2" data-position="right" data-tooltip="Delete platform" href="#deleteDealModal_{{ deal.id }}"><i class="material-icons">delete</i></a>
             <form enctype="multipart/form-data" method="post" role="product_page">
               {% csrf_token %}
                 <button type="submit" class="btn btn-success" href="{% url 'detail' deal.id %}" data-bind-href="pricing">Payment</button>
-              </form>
+            </form>
           </div>
         </div>
         <div class="card hoverable">
           <div class="card-content">
+            <ul class="collection">
             {% for attachment in deal.attachment_set.all %}
-            <li>
-              <a href="{{attachment.url}}" download>{{attachment.filename}}</a>
-              <a class="modal-trigger btn-floating waves-effect" href="#deleteAttachmentModal_{{ deal.id }}_{{ attachment.id }}"><i class="material-icons">delete</i></a>
-            </li>
-            <!-- delete attachment modal -->
-            <div class="modal modal-fixed-foote deleteAttachmentModal" id="deleteAttachmentModal_{{ deal.id }}_{{attachment.id }}">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <button type="button" class="modal-close btn-floating btn-small" id="closeDealModal">
-                    <span>&#10006;</span>
-                  </button>
-                  <h4 class="modal-title">Delete <span class="teal-text">{{ attachement.filename }}</span></h4>
+              <li class="collection-item">
+                <div>
+                  <a class="modal-trigger secondary-content btn-floating btn-small waves-effect attachment-delete-btn z-depth-2"
+                    href="#deleteAttachmentModal_{{ deal.id }}_{{ attachment.id }}">
+                    <i class="material-icons">delete</i>
+                  </a>
+                  <a href="{{attachment.url}}" download>{{attachment.filename}}</a>
                 </div>
-                <form action="{% url 'delete_attachment' deal.id attachment.id %}" method="POST">
-                  <div class="modal-body">
-                    <h5>Are you sure you want to delete <span class="teal-text">{{ attachment.filename }}</span>?</h5>
-                    {% csrf_token %}
+              </li>
+              <!-- delete attachment modal -->
+              <div class="modal modal-fixed-foote deleteAttachmentModal" id="deleteAttachmentModal_{{ deal.id }}_{{attachment.id }}">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="modal-close btn-floating btn-small z-depth-2" id="closeDealModal">
+                      <span>&#10006;</span>
+                    </button>
+                    <h4 class="modal-title">Delete <span class="teal-text">{{ attachement.filename }}</span></h4>
                   </div>
-                  <div class="modal-footer">
-                    <input type="submit" value="Yes - Delete!" class="btn">
-                    <a class="modal-close">Cancel</a>
-                  </div>
-                </form>
+                  <form action="{% url 'delete_attachment' deal.id attachment.id %}" method="POST">
+                    <div class="modal-body">
+                      <h5>Are you sure you want to delete <span class="teal-text">{{ attachment.filename }}</span>?</h5>
+                      {% csrf_token %}
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn waves-effect waves-light z-depth-2">Yes - Delete!</button>
+                      <a class="modal-close">Cancel</a>
+                    </div>
+                  </form>
+                </div>
               </div>
-            </div>
-
             {% empty %}
-            <div class="card-panel teal-text center-align">No Attachment Uploaded</div>
+              <div class="teal-text center-align">No Attachment Uploaded</div>
             {% endfor %}
+            </ul>
           </div>
           <form action="{% url 'add_attachment' deal.id %}" enctype="multipart/form-data" method="POST" class="card-content">
             {% csrf_token %}
             <input type="file" name="attachment-file" />
-            <br /><br />
-            <button type="submit" class="btn-floating waves-effect waves-light"><i class="material-icons dp48">file_upload</i></button>
+            <hr>
+            <button type="submit" class="btn-floating btn-small waves-effect waves-light tooltipped z-depth-2" data-position="right" data-tooltip="Upload attachement"><i class="material-icons dp48">file_upload</i></button>
           </form>
         </div>
       </div>
@@ -115,7 +135,7 @@
                   </span>
                   <form class="platform-cards-right" action="{% url 'unassoc_platform' deal.id platform.id %}" method="POST">
                     {% csrf_token %}
-                    <button type="submit" class="btn-floating btn-small waves-effect"><i class="material-icons">remove</i></button>
+                    <button type="submit" class="btn-floating btn-small waves-effect z-depth-2"><i class="material-icons">remove</i></button>
                   </form>
                 </div>
               </div>
@@ -133,7 +153,7 @@
                 <div class="card-content platform-cards">
                   <form class="platform-cards-left" action="{% url 'assoc_platform' deal.id platform.id %}" method="POST">
                     {% csrf_token %}
-                    <button type="submit" class="btn-floating btn-small waves-effect waves-light"><i class="material-icons">add</i></button>
+                    <button type="submit" class="btn-floating btn-small waves-effect waves-light z-depth-2"><i class="material-icons">add</i></button>
                   </form>
                   <span class="platform-cards-right" >
                     <b>{{ platform.name }}</b>
@@ -165,7 +185,7 @@
                 <label for="id_{{ field.name }}">{{ field.label }}</label> {{ field }}
               </div>
               {% endfor %}
-              <input type="submit" class="btn" value="Add Activity">
+              <button type="submit" class="btn waves-effect waves-light z-depth-2">Add Activity</button>
             </form>
             <br>
             <ul class="collection">
@@ -173,15 +193,16 @@
                 <li class="collection-item">
                   <span class="title"><b>{{ activity.activity }}</b></span>
                   <small>on {{ activity.date }}</small>
+                  <a class="secondary-content modal-trigger btn-floating btn-small waves-effect waves-light z-depth-2"
+                    href="#deleteActivityModal_{{ deal.id }}_{{activity.id }}"><i class="material-icons">delete</i></a>
                   <br>
                   <p class="activity-notes">{{ activity.notes }}</p>
-                  <a class="modal-trigger btn-floating btn-small waves-effect waves-light" href="#deleteActivityModal_{{ deal.id }}_{{activity.id }}"><i class="material-icons">delete</i></a>
                 </li>
-                <!-- delete attachment modal -->
+                <!-- delete activity modal -->
                 <div class="modal modal-fixed-foote deleteActivityModal" id="deleteActivityModal_{{ deal.id }}_{{activity.id }}">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <button type="button" class="modal-close btn-floating btn-small" id="closeDealModal">
+                      <button type="button" class="modal-close btn-floating btn-small z-depth-2" id="closeDealModal">
                         <span>&#10006;</span>
                       </button>
                       <h4 class="modal-title">Delete <span class="teal-text">{{ activity.activity }}</span></h4>
@@ -192,12 +213,14 @@
                         {% csrf_token %}
                       </div>
                       <div class="modal-footer">
-                        <input type="submit" value="Yes - Delete!" class="btn">
+                        <button type="submit" class="btn waves-effect waves-light z-depth-2">Yes - Delete!</button>
                         <a class="modal-close">Cancel</a>
                       </div>
                     </form>
                   </div>
                 </div>
+              {% empty %}
+                <div class="teal-text center-align">Please add some activities!</div>
               {% endfor %}
             </ul>
           </div>
@@ -209,7 +232,7 @@
   <div class="modal editDealModal" id="editDealModal_{{ deal.id }}">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="modal-close btn-floating btn-small teal" id="closeDealModal">
+        <button type="button" class="modal-close btn-floating btn-small teal z-depth-2" id="closeDealModal">
           <span>&#10006;</span>
         </button>
         <h4 class="modal-title">Edit <span class="teal-text">{{ deal.name }}</span></h4>
@@ -221,50 +244,61 @@
   
           {{ field.errors }}
           {% if field.name == "name" %}
-          <div class="input-field">
-            <label for="id_{{ field.name }}">{{ field.label }} <span style="color:red;">*</span></label>
-            <input type="text" name="{{ field.name }}" maxlength="100" required id="id_{{ field.name }}"
-              value="{{ deal.name }}">
-          </div>
+            <div class="input-field">
+              <label for="id_{{ field.name }}">{{ field.label }} <span style="color:red;">*</span></label>
+              <input type="text" name="{{ field.name }}" maxlength="100" required id="id_{{ field.name }}"
+                value="{{ deal.name }}">
+            </div>
           {% elif field.name == "amount" %}
-          <div class="input-field">
-            <label for="id_{{ field.name }}">{{ field.label }}</label>
-            <input type="number" name="{{ field.name }}" step="0.01" id="id_{{ field.name }}" value="{{ deal.amount }}">
-          </div>
+            <div class="input-field">
+              <label for="id_{{ field.name }}">{{ field.label }} <span style="color:red;">*</span><span>&nbsp;-&nbsp;
+                <i>you can set this as 0, or you may enter the value of the merch you've recieved just make sure to check the box down below!</i></span></label>
+              <input type="number" name="{{ field.name }}" step="0.01" id="id_{{ field.name }}" value="{{ deal.amount }}" required>
+            </div>
+          {% elif field.name == "merch" %}
+            <label for="id_{{ field.name }}_{{ deal.id }}" style="padding-right: 30px;">
+              <input type="checkbox" name="{{ field.name }}" id="id_{{ field.name }}_{{ deal.id }}" {% if deal.merch %}checked{% endif %}>
+              <span>{{ field.label }}</span>
+            </label>
+          {% elif field.name == "paid" %}
+            <label for="id_{{ field.name }}_{{ deal.id }}" style="padding-right: 30px;">
+              <input type="checkbox" name="{{ field.name }}" id="id_{{ field.name }}_{{ deal.id }}" {% if deal.paid %}checked{% endif %}>
+              <span>{{ field.label }}</span>
+            </label>
           {% elif field.name == "url" %}
-          <div class="input-field">
-            <label for="id_{{ field.name }}">{{ field.label }}</label>
-            <input type="url" name="{{ field.name }}" maxlength="100" id="id_{{ field.name }}" value="{{ deal.url }}">
-          </div>
+            <div class="input-field">
+              <label for="id_{{ field.name }}">{{ field.label }}</label>
+              <input type="url" name="{{ field.name }}" maxlength="100" id="id_{{ field.name }}" value="{{ deal.url }}">
+            </div>
           {% elif field.name == "promo_code" %}
-          <div class="input-field">
-            <label for="id_{{ field.name }}">{{ field.label }}</label>
-            <input type="text" name="{{ field.name }}" maxlength="100" id="id_{{ field.name }}"
-              value="{{ deal.promo_code }}">
-          </div>
+            <div class="input-field">
+              <label for="id_{{ field.name }}">{{ field.label }}</label>
+              <input type="text" name="{{ field.name }}" maxlength="100" id="id_{{ field.name }}"
+                value="{{ deal.promo_code }}">
+            </div>
           {% elif field.name == "due_date" %}
-          <div class="input-field">
-            <label for="id_{{ field.name }}">{{ field.label }}</label>
-            <input type="text" name="{{ field.name }}" id="id_{{ field.name }}" value='{{ deal.due_date|date:"M j, Y" }}'
-              class="datepicker">
-          </div>
+            <div class="input-field">
+              <label for="id_{{ field.name }}">{{ field.label }}</label>
+              <input type="text" name="{{ field.name }}" id="id_{{ field.name }}" value='{{ deal.due_date|date:"M j, Y" }}'
+                class="datepicker">
+            </div>
           {% elif field.name == "details" %}
-          <div class="input-field">
-            <label for="id_{{ field.name }}">{{ field.label }}</label>
-            <textarea name="{{ field.name }}" cols="40" rows="10" maxlength="500" id="id_{{ field.name }}"
-              class="materialize-textarea">{{ deal.details }}</textarea>
-          </div>
+            <div class="input-field">
+              <label for="id_{{ field.name }}">{{ field.label }}</label>
+              <textarea name="{{ field.name }}" cols="40" rows="10" maxlength="500" id="id_{{ field.name }}"
+                class="materialize-textarea">{{ deal.details }}</textarea>
+            </div>
           {% elif field.name == "done" %}
-          <label for="id_{{ field.name }}">
-            <input type="checkbox" name="{{ field.name }}" id="id_{{ field.name }}" {% if deal.done %}checked{% endif %}>
-            <span>{{ field.label }}</span>
-          </label>
+            <label for="id_{{ field.name }}">
+              <input type="checkbox" name="{{ field.name }}" id="id_{{ field.name }}" {% if deal.done %}checked{% endif %}>
+              <span>{{ field.label }}</span>
+            </label>
           {% else %}
           {% endif %}
           {% endfor %}
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary btn-floating btn-large" type="submit" id="submitDealModalBtn"><i
+          <button class="btn btn-primary btn-floating btn-large z-depth-2" type="submit" id="submitDealModalBtn"><i
               class="material-icons">save</i></button>
         </div>
       </form>
@@ -274,7 +308,7 @@
   <div class="modal modal-fixed-foote deleteDealModal" id="deleteDealModal_{{ deal.id }}">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="modal-close btn-floating btn-small" id="closeDealModal">
+        <button type="button" class="modal-close btn-floating btn-small z-depth-2" id="closeDealModal">
           <span>&#10006;</span>
         </button>
         <h4 class="modal-title">Delete <span class="teal-text">{{ deal.name }}</span></h4>
@@ -285,7 +319,7 @@
           {% csrf_token %}
         </div>
         <div class="modal-footer">
-          <input type="submit" value="Yes - Delete!" class="btn">
+          <button type="submit" class="btn waves-effect waves-light z-depth-2">Yes - Delete!</button>
           <a class="modal-close">Cancel</a>
         </div>
       </form>

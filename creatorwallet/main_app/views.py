@@ -1,3 +1,6 @@
+from decimal import Decimal
+import html
+import json
 import os
 import uuid
 import boto3
@@ -33,7 +36,76 @@ def about(request):
 
 # Definte the dashboard view
 def dashboard(request):
-  return render(request, 'dashboard.html')
+  deals = Deal.objects.filter(user=request.user)
+  count_deals = deals.count()
+
+  # Get Wallet data
+  wallet = Decimal(0)
+  wallet_data = []
+  formatted_due_date = "None"
+  for deal in deals.filter(paid=True,merch=False).order_by("due_date"):
+    wallet += deal.amount
+    if deal.due_date is not None:
+      formatted_due_date = deal.due_date.strftime('%m/%d/%Y')
+    else:
+      formatted_due_date = "None"
+
+    point = {
+      'x': formatted_due_date,
+      'y': float(wallet)
+    }
+    wallet_data.append(point)
+  
+  # print(formatted_due_date)
+
+  # Get Merch, Paid, and Done Count data
+  count_activities, count_merch, count_cash, count_paid, count_unpaid, count_done, count_in_progress = 0, 0, 0, 0, 0, 0, 0
+  for deal in deals:
+    # Get Activity Cont Data
+    activities = Activity.objects.filter(deal_id=deal.id)
+    for activity in activities:
+      count_activities += 1
+    if deal.merch:
+      count_merch += 1
+    else:
+      count_cash += 1
+    if deal.paid:
+      count_paid += 1
+    else:
+      count_unpaid += 1
+    if deal.done:
+      count_done += 1
+    else:
+      count_in_progress += 1
+
+  merch_data = [{
+      'name': 'Merch',
+      'data': [count_merch]
+    }, {
+      'name': 'Cash',
+      'data': [count_cash]
+    }]
+  paid_data = [{
+      'name': 'Paid',
+      'data': [count_paid]
+    }, {
+      'name': 'Un-paid',
+      'data': [count_unpaid]
+    }]
+  done_data = [{
+      'name': 'Done',
+      'data': [count_done]
+    }, {
+      'name': 'In Progress',
+      'data': [count_in_progress]
+    }]
+
+  # Check if all deals are done
+  all_deals_done = False
+  if count_deals - count_done == 0:
+    all_deals_done = True
+
+  return render(request, 'dashboard.html', { 'deals': deals, 'totalUserActivity': count_activities, 'allDealsDone': all_deals_done, 'dueDate': formatted_due_date, 'walletData': wallet_data, 'merchData': merch_data, 'paidData': paid_data, 'doneData': done_data })
 
 
 def signup(request):
@@ -57,11 +129,11 @@ def signup(request):
 
 class DealCreate(LoginRequiredMixin, CreateView):
   model = Deal
-  fields = ['name', 'amount', 'details', 'url', 'promo_code', 'done', 'due_date']
+  fields = ['name', 'amount', 'merch', 'paid', 'url', 'promo_code', 'due_date', 'details', 'done']
   
   # This inherited method is called when a
   # valid deal form is being submitted
-  fields = ['name', 'amount', 'url', 'promo_code', 'due_date', 'details', 'done']
+  fields = ['name', 'amount', 'merch', 'paid', 'url', 'promo_code', 'due_date', 'details','done']
   def form_valid(self, form):
     # Assign the logged in user (self.request.user)
     form.instance.user = self.request.user  # form.instance is the deal
@@ -72,7 +144,7 @@ class DealCreate(LoginRequiredMixin, CreateView):
 class DealUpdate(LoginRequiredMixin, UpdateView):
     model = Deal
     # Let's disallow the renaming of a deal by excluding the name field!
-    fields = ['name', 'amount', 'url', 'promo_code', 'due_date', 'details', 'done']
+    fields = ['name', 'amount', 'merch', 'paid', 'url', 'promo_code', 'due_date', 'details','done']
     def get_success_url(self):
       path = self.request.session.get('path')
       return path
@@ -81,10 +153,29 @@ class DealUpdate(LoginRequiredMixin, UpdateView):
 @login_required
 def deals_index(request):
   request.session['path'] = request.get_full_path()
-  deals = Deal.objects.filter(user=request.user)
+  deals = Deal.objects.filter(user=request.user).order_by("-due_date")
+  count_deals = deals.count()
   # You could also retrieve the logged in user's deals like this
   # deals = request.user.deal_set.all()
-  return render(request, 'deals/index.html', { 'deals': deals })
+  return render(request, 'deals/index.html', { 'deals': deals, 'count_deals': count_deals })
+
+@login_required
+def filter_paid(request):
+  request.session['path'] = request.get_full_path()
+  unpaid = True
+  deals = Deal.objects.filter(user=request.user).order_by("-due_date")
+  count_deals = deals.count()
+  unpaid_deals = deals.filter(paid=False)
+  return render(request, 'deals/index.html', { 'deals': unpaid_deals, 'unpaid': unpaid, 'count_deals': count_deals})
+
+@login_required
+def filter_done(request):
+  request.session['path'] = request.get_full_path()
+  inprogress = True
+  deals = Deal.objects.filter(user=request.user).order_by("-due_date")
+  count_deals = deals.count()
+  inprogess_deals = deals.filter(done=False)
+  return render(request, 'deals/index.html', { 'deals': inprogess_deals, 'inprogress': inprogress, 'count_deals': count_deals})
 
 @login_required
 def deals_detail(request, deal_id):
@@ -187,7 +278,7 @@ class PlatformCreate(LoginRequiredMixin, CreateView):
 
 class PlatformUpdate(LoginRequiredMixin, UpdateView):
   model = Platform
-  fields = ['name', 'url']
+  fields = ['name', 'url', 'platform_username']
   def get_success_url(self):
     path = self.request.session.get('path')
     return path

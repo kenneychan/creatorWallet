@@ -12,7 +12,7 @@ from django.db.models.signals import post_save
 class Platform(models.Model):
   name = models.CharField(max_length=50)
   url = models.URLField(max_length=100)
-  platform_username = models.CharField(max_length=50, blank=True, null=True)
+  platform_username = models.CharField(max_length=50, blank=True, default='')
 
   user = models.ForeignKey(User, on_delete=models.CASCADE)
   
@@ -30,6 +30,8 @@ class Deal(models.Model):
     due_date = models.DateField(blank=True, null=True)
     url = models.URLField(max_length=100, blank=True, default='')
     promo_code = models.CharField(max_length=100, blank=True, default='')
+    merch = models.BooleanField(blank=True, default=False)
+    paid = models.BooleanField(blank=True, default=False)
     done = models.BooleanField(blank=True, default=False)
     created_date = models.DateField(default=date.today)
     platforms = models.ManyToManyField(Platform)
@@ -57,7 +59,8 @@ class Activity(models.Model):
     activity = models.CharField(max_length=200)
     deal = models.ForeignKey(Deal, on_delete=models.CASCADE)
 
-    
+    # def __str__(self):
+    #     return f"{self.get_activity_display()} on {self.date}"
     
     class Meta:
         ordering = ['-date']

@@ -1,5 +1,8 @@
 $(document).ready(function () {
+  $('.tooltipped').tooltip();
+  $('.fixed-action-btn').floatingActionButton();
   $('.parallax').parallax();
+  $('.modal').modal();
 
   $('.carousel').carousel({
     fullWidth: true,
@@ -20,6 +23,34 @@ $(document).ready(function () {
     // defaultDate: date,
     setDefaultDate: true,
   });
-  
-  $('.modal').modal();
+
+  moveDealPlatformBtn();
+  $(window).scroll(function () {
+    moveDealPlatformBtn();
+  });
+
+  function moveDealPlatformBtn() {
+    if ($(document).scrollTop() > 100) {
+      $('.add-deal-btn-top').addClass('scale-out');
+      $('.add-deal-btn-top').removeClass('scale-in');
+      $('.add-deal-btn-bottom').addClass('scale-in');
+      $('.add-deal-btn-bottom').addClass('scale-out');
+
+      $('.add-platform-btn-top').addClass('scale-out');
+      $('.add-platform-btn-top').removeClass('scale-in');
+      $('.add-platform-btn-bottom').addClass('scale-in');
+      $('.add-platform-btn-bottom').addClass('scale-out');
+    }
+    else {
+      $('.add-deal-btn-top').addClass('scale-in');
+      $('.add-deal-btn-top').removeClass('scale-out');
+      $('.add-deal-btn-bottom').addClass('scale-out');
+      $('.add-deal-btn-bottom').removeClass('scale-in');
+
+      $('.add-platform-btn-top').addClass('scale-in');
+      $('.add-platform-btn-top').removeClass('scale-out');
+      $('.add-platform-btn-bottom').addClass('scale-out');
+      $('.add-platform-btn-bottom').removeClass('scale-in');
+    }
+  }
 });

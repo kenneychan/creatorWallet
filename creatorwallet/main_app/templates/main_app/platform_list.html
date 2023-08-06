@@ -2,16 +2,23 @@
 {% block content %}
 
 <div class="container">
+  <div class="add-platform-btn-bottom fixed-action-btn scale-transition scale-out">
+    <a class="btn-floating btn btn-large blue modal-trigger pulse tooltipped z-depth-3" data-position="left" data-tooltip="Add new platform"
+      href="#addPlatformModal" style="margin-top: 20px;"><i class="material-icons">add</i></a>
+  </div>
+
   <div class="platform-list-header">
     <h2>Platform List</h2>
-    <a class="btn-floating btn blue modal-trigger pulse" href="#addPlatformModal" style="margin-top: 20px;"><i
-        class="material-icons">add</i></a>
+    <div class="add-platform-btn-top scale-transition">
+      <a class="btn-floating btn blue modal-trigger pulse tooltipped z-depth-3" data-position="left" data-tooltip="Add new platform" href="#addPlatformModal" style="margin-top: 20px;"><i
+          class="material-icons">add</i></a>
+    </div>
   </div>
   <!-- add modal -->
   <div class="modal" id="addPlatformModal">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="modal-close btn-floating btn-small blue waves-effect" id="closePlatformModal">
+        <button type="button" class="modal-close btn-floating btn-small blue waves-effect z-depth-2" id="closePlatformModal">
           <span>&#10006;</span>
         </button>
         <h4 class="modal-title">Add Platform</h4>
@@ -22,12 +29,16 @@
           {% for field in PlatformForm %}
             <div class="input-field">
               {{ field.errors }}
-              <label for="id_{{ field.name }}">{{ field.label }} <span style="color:red;">*</span></label> {{ field }}
+              <label for="id_{{ field.name }}">{{ field.label }} 
+                {% if field.name != "platform_username" %}
+                  <span style="color:red;">*</span>
+                {% endif %}
+              </label> {{ field }}
             </div>
           {% endfor %}
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary btn-floating btn-large blue waves-effect waves-light" type="submit" id="submitPlatformModal"><i class="material-icons">save</i></button>
+          <button class="btn btn-primary btn-floating btn-large blue waves-effect waves-light z-depth-2" type="submit" id="submitPlatformModal"><i class="material-icons">save</i></button>
         </div>
       </form>
     </div>
@@ -49,11 +60,12 @@
             <div class="card-content">
               <span class="card-title" style="font-weight:bold;">{{ platform.name }}</span>
               <a href="{{ platform.url }}" target="_blank">{{ platform.url|linebreaks }}</a>
+              <span>Username: {{ platform.platform_username }}</span>
             </div>
             <div class="card-action">
-              <a class="btn-floating waves-effect waves-light blue" href="{% url 'platforms_detail' platform.id %}"><i class="material-icons">description</i></a>
-              <a class="modal-trigger btn-floating waves-effect waves-light blue" href="#editPlatformModal_{{ platform.id }}" type="submit"><i class="material-icons">edit</i></a>
-              <a class="modal-trigger btn-floating waves-effect blue" href="#deletePlatformModal_{{ platform.id }}"><i class="material-icons">delete</i></a>
+              <a class="btn-floating waves-effect waves-light blue tooltipped z-depth-2" data-position="left" data-tooltip="Platform details" href="{% url 'platforms_detail' platform.id %}"><i class="material-icons">description</i></a>
+              <a class="modal-trigger btn-floating waves-effect waves-light blue tooltipped z-depth-2" data-position="bottom" data-tooltip="Edit platform" href="#editPlatformModal_{{ platform.id }}" type="submit"><i class="material-icons">edit</i></a>
+              <a class="modal-trigger btn-floating waves-effect blue tooltipped z-depth-2" data-position="right" data-tooltip="Delete platform" href="#deletePlatformModal_{{ platform.id }}"><i class="material-icons">delete</i></a>
             </div>
           </div>
         </div>
@@ -61,7 +73,7 @@
         <div class="modal editPlatformModal" id="editPlatformModal_{{ platform.id }}">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="modal-close btn-floating btn-small waves-effect blue" id="closePlatformModal">
+              <button type="button" class="modal-close btn-floating btn-small waves-effect blue z-depth-2" id="closePlatformModal">
                 <span>&#10006;</span>
               </button>
               <h4 class="modal-title">Edit <span class="blue-text">{{ platform.name }}</span></h4>
@@ -72,7 +84,11 @@
                 {% for field in PlatformForm %}
                   <div class="input-field">
                     {{ field.errors }}
-                    <label for="id_{{ field.name }}">{{ field.label }} <span style="color:red;">*</span></label>
+                    <label for="id_{{ field.name }}">{{ field.label }} 
+                      {% if field.name != "platform_username" %}
+                        <span style="color:red;">*</span>
+                      {% endif %}
+                    </label>
                     {% if field.name == "name" %}
                       <input type="text" name="{{ field.name }}" maxlength="50" required id="id_{{ field.name }}" value="{{ platform.name }}">
                     {% elif field.name == "url" %}
@@ -84,7 +100,7 @@
                 {% endfor %}
               </div>
               <div class="modal-footer">
-                <button class="btn btn-primary btn-floating btn-large blue waves-effect waves-light" type="submit" id="submitPlatformModal"><i class="material-icons">save</i></button>
+                <button class="btn btn-primary btn-floating btn-large blue waves-effect waves-light z-depth-2" type="submit" id="submitPlatformModal"><i class="material-icons">save</i></button>
               </div>
             </form>
           </div>
@@ -93,7 +109,7 @@
         <div class="modal deletePlatformModal" id="deletePlatformModal_{{ platform.id }}">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button" class="modal-close btn-floating btn-small waves-effect blue" id="closePlatformModal">
+              <button type="button" class="modal-close btn-floating btn-small waves-effect blue z-depth-2" id="closePlatformModal">
                 <span>&#10006;</span>
               </button>
               <h4 class="modal-title">Delete <span class="blue-text">{{ platform.name }}</span></h4>
@@ -104,7 +120,7 @@
                 {% csrf_token %}
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn waves-effect waves-light blue">Yes - Delete!</button>
+                <button type="submit" class="btn waves-effect waves-light blue z-depth-2">Yes - Delete!</button>
                 <a class="modal-close">Cancel</a>
               </div>
             </form>
@@ -113,7 +129,7 @@
       {% endfor %}
     </div>
   {% else %}
-    <h5>Click <button class="btn btn-floating btn-small blue modal-trigger" href="#addPlatformModal"><i
+    <h5>Click <button class="btn btn-floating btn-small blue modal-trigger z-depth-2" href="#addPlatformModal"><i
           class="material-icons">add</i></button> to add a new platform! 👾</h5>
   {% endif %}
 </div>
