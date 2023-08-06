@@ -8,6 +8,7 @@ urlpatterns = [
   # New url pattern below
   path('accounts/signup/', views.signup, name='signup'),
   path('deals/', views.deals_index, name='index'),
+  path('deals/list', views.deals_list, name='deals_list'),
   path('deals/unpaid', views.filter_paid, name='filter_paid'),
   path('deals/inprogress', views.filter_done, name='filter_done'),
   path('deals/<int:deal_id>/', views.deals_detail, name='detail'),
