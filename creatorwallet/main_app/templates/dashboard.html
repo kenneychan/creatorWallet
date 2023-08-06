@@ -4,13 +4,14 @@
 <div class="container">
   <div class="row">
     <div class="col s4">
-      <h4 class="header">Most recent activities</h4>
+      <h4 class="header" style="margin-bottom: 0;">Most recent activities</h4>
+      <small><i>(List of <b>ONE</b> latest activity per deal within the last <b>90</b> days)</i></small>
       <hr>
       <b></b>
       {% if totalUserActivity == 0 %}
         <b>You have yet to enter your first activity!</b>
       {% else %}
-        {% for deal in deals %}
+        {% for deal in deals_with_most_recent_activities %}
           {% if deal.activity_set.all %}
             <ul class="card collection with-header hoverable">
               <li class="collection-header">
@@ -33,12 +34,13 @@
       {% endif %}
     </div>
     <div class="col s8">
-      <h4 class="header">Deals in progress</h4>
+      <h4 class="header" style="margin-bottom: 0;">Deals in progress</h4>
+      <small><i>(Deals that are marked as <b>not done</b>)</i></small>
       <hr>
       {% if deals.first == None %}
         <b>Please head over to <a class="teal-text" href="{% url 'index' %}">View My Deals</a> to enter your first deals!</b>
       {% else %}
-        {% if allDealsDone == True %}
+        {% if all_deals_done == True %}
           <b>Congrats! You've completed all your deals! 🥳</b>
         {% else %}
           {% for deal in deals %}
@@ -62,7 +64,7 @@
 
   {% else %}
     <div class="row">
-      <div class="col s12" {% if dueDate == "None" %}hidden{% endif %}>
+      <div class="col s12" {% if formatted_due_date == "None" %}hidden{% endif %}>
         <div class="card">
           <figure class="highcharts-figure">
             <div id="walletData"></div>
@@ -96,19 +98,19 @@
 </div>
 
 <script>
-  const initialWalletData  = "{{ walletData }}";
+  const initialWalletData  = "{{ wallet_data }}";
   const jsonWalletData = initialWalletData.replace(/&#x27;/g, '"');
   const walletData = JSON.parse(jsonWalletData);
 
-  const initialMerchData = "{{ merchData }}";
+  const initialMerchData = "{{ merch_data }}";
   const jsonMerchData = initialMerchData.replace(/&#x27;/g, '"');
   const merchData = JSON.parse(jsonMerchData);
 
-  const initialPaidData = "{{ paidData }}";
+  const initialPaidData = "{{ paid_data }}";
   const jsonPaidData = initialPaidData.replace(/&#x27;/g, '"');
   const paidData = JSON.parse(jsonPaidData);
 
-  const initialDoneData = "{{ doneData }}";
+  const initialDoneData = "{{ done_data }}";
   const jsonDoneData = initialDoneData.replace(/&#x27;/g, '"');
   const doneData = JSON.parse(jsonDoneData);
 

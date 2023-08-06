@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from decimal import Decimal
 import html
 import json
@@ -34,6 +35,9 @@ def about(request):
 def dashboard(request):
   deals = Deal.objects.filter(user=request.user)
   count_deals = deals.count()
+
+  ninety_days_ago = datetime.now().date() - timedelta(days=90)
+  deals_with_most_recent_activities = Deal.objects.filter(activity__date__gte=ninety_days_ago).distinct()
 
   # Get Wallet data
   wallet = Decimal(0)
@@ -101,7 +105,19 @@ def dashboard(request):
   if count_deals - count_done == 0:
     all_deals_done = True
 
-  return render(request, 'dashboard.html', { 'deals': deals, 'totalUserActivity': count_activities, 'allDealsDone': all_deals_done, 'dueDate': formatted_due_date, 'walletData': wallet_data, 'merchData': merch_data, 'paidData': paid_data, 'doneData': done_data })
+  context = { 
+    'deals': deals, 
+    'totalUserActivity': count_activities, 
+    'deals_with_most_recent_activities': deals_with_most_recent_activities,
+    'all_deals_done': all_deals_done, 
+    'formatted_due_date': formatted_due_date, 
+    'wallet_data': wallet_data, 
+    'merch_data': merch_data, 
+    'paid_data': paid_data, 
+    'done_data': done_data 
+    }
+
+  return render(request, 'dashboard.html', context)
 
 
 def signup(request):
