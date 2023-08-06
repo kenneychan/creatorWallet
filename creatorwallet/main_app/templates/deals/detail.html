@@ -52,6 +52,10 @@
           <div class="card-action">
             <a class="modal-trigger btn-floating waves-effect waves-light" href="#editDealModal_{{ deal.id }}"><i class="material-icons">edit</i></a>
             <a class="modal-trigger btn-floating waves-effect" href="#deleteDealModal_{{ deal.id }}"><i class="material-icons">delete</i></a>
+            <form enctype="multipart/form-data" method="post" role="product_page">
+              {% csrf_token %}
+                <button type="submit" class="btn btn-success" href="{% url 'detail' deal.id %}" data-bind-href="pricing">Payment</button>
+              </form>
           </div>
         </div>
         <div class="card hoverable">

@@ -15,7 +15,11 @@ from .models import Deal, Platform, Attachment, Activity
 from .forms import ActivityForm
 from .platformAPI.twitch import twitchStats
 from .platformAPI.youtube import youtubeStats
-
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+from .models import UserPayment
+import stripe
+import time
 
 # Create your views here.
 # Define the home view
@@ -86,6 +90,36 @@ def deals_index(request):
 def deals_detail(request, deal_id):
   request.session['path'] = request.get_full_path()
   deal = Deal.objects.get(id=deal_id)
+  if request.method == 'POST':
+        stripe.api_key = os.environ['STRIPE_SECRET_KEY_TEST']
+        
+        stripe.PaymentIntent.create(
+          amount=1099,
+          currency="usd",
+          setup_future_usage="off_session",
+        )
+        print ("os.getenv('PRODUCT_PRICE')", os.getenv('PRODUCT_PRICE'))
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types = ['card'],
+            line_items=[
+                {
+                    'price_data': {
+                        'currency': 'usd',
+                        'unit_amount': int(deal.amount*100),
+                        'product_data': {
+                            'name': deal.name,
+                            # 'images': ['https://i.imgur.com/EHyR2nP.png'],
+                        },
+                    },
+                    'quantity': 1,
+                },
+            ],
+            mode = 'payment',
+            customer_creation = 'always',
+            success_url = os.environ['REDIRECT_DOMAIN'] + '/payment_successful?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url = os.environ['REDIRECT_DOMAIN'] + '/payment_cancelled',
+        )
+        return redirect(checkout_session.url, code=303)
   id_list = deal.platforms.values_list('id').filter(user=request.user)
   platforms_deal_doesnt_have = Platform.objects.exclude(id__in = id_list).filter(user=request.user)
 
@@ -209,3 +243,47 @@ def add_attachment(request, deal_id):
             print(e)
 
     return redirect('detail',  deal_id=deal_id)
+
+
+## use Stripe dummy card: 4242 4242 4242 4242
+def payment_successful(request):
+	stripe.api_key = os.environ['STRIPE_SECRET_KEY_TEST']
+	checkout_session_id = request.GET.get('session_id', None)
+	session = stripe.checkout.Session.retrieve(checkout_session_id)
+	customer = stripe.Customer.retrieve(session.customer)
+	user_id = request.user.id
+	user_payment = UserPayment.objects.get(app_user=user_id)
+	user_payment.stripe_checkout_id = checkout_session_id
+	user_payment.save()
+	return render(request, 'user_payment/payment_successful.html', {'customer': customer})
+
+
+def payment_cancelled(request):
+	stripe.api_key = os.environ['STRIPE_SECRET_KEY_TEST']
+	return render(request, 'user_payment/payment_cancelled.html')
+
+
+@csrf_exempt
+def stripe_webhook(request):
+	stripe.api_key = os.environ['STRIPE_SECRET_KEY_TEST']
+	time.sleep(10)
+	payload = request.body
+	signature_header = request.META['HTTP_STRIPE_SIGNATURE']
+	event = None
+	try:
+		event = stripe.Webhook.construct_event(
+			payload, signature_header, os.environ['STRIPE_WEBHOOK_SECRET_TEST']
+		)
+	except ValueError as e:
+		return HttpResponse(status=400)
+	except stripe.error.SignatureVerificationError as e:
+		return HttpResponse(status=400)
+	if event['type'] == 'checkout.session.completed':
+		session = event['data']['object']
+		session_id = session.get('id', None)
+		time.sleep(15)
+		user_payment = UserPayment.objects.get(stripe_checkout_id=session_id)
+		user_payment.payment_bool = True
+		user_payment.save()
+	return HttpResponse(status=200)
+

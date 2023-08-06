@@ -25,4 +25,8 @@ urlpatterns = [
   path('platforms/<int:pk>/update/', context.platforms_form, name='platforms_form'),
   path('activities/<int:pk>/delete/', views.ActivityDelete.as_view(), name='delete_activity'),
   path('deals/<int:pk>/update/', context.deals_form, name='deals_form'),
+	path('payment_successful', views.payment_successful, name='payment_successful'),
+	path('payment_cancelled', views.payment_cancelled, name='payment_cancelled'),
+	path('stripe_webhook', views.stripe_webhook, name='stripe_webhook'),
+
 ]
