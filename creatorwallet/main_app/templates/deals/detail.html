@@ -16,25 +16,25 @@
       <div class="row">
         <div class="card hoverable">
           <div class="card-content">
-            <span style='font-size:30px; float:right;'>
+            <span class="deals-emoji" style='float:right;'>
               {% if deal.done %}
-                <span class="tooltipped" data-position="top" data-tooltip="DONE" style="cursor: default;">✔️</span>
+                <span class="deals-emoji tooltipped" data-position="top" data-tooltip="DONE">✔️</span>
               {% else %}
-                <span class="tooltipped" data-position="top" data-tooltip="IN PROGRESS" style="cursor: default;">🚧</span>
+                <span class="deals-emoji tooltipped" data-position="top" data-tooltip="IN PROGRESS">🚧</span>
               {% endif %}
             </span>
-            <span style='font-size:30px; float:right;'>
+            <span class="deals-emoji" style='float:right;'>
               {% if deal.merch %}
-                <span class="tooltipped" data-position="top" data-tooltip="MERCH" style="cursor: default;">👕</span>
+                <span class="deals-emoji tooltipped" data-position="top" data-tooltip="MERCH">👕</span>
               {% else %}
-                <span class="tooltipped" data-position="top" data-tooltip="CASH" style="cursor: default;">💵</span>
+                <span class="deals-emoji tooltipped" data-position="top" data-tooltip="CASH">💵</span>
               {% endif %}
             </span>
-            <span style='font-size:30px; float:left; padding-right:10px;'>
+            <span class="deals-emoji" style='float:left;'>
               {% if deal.paid %}
-                <span class="tooltipped" data-position="top" data-tooltip="PAID" style="cursor: default;">💰</span>
+                <span class="deals-emoji tooltipped" data-position="top" data-tooltip="PAID">💰</span>
               {% else %}
-                <span class="tooltipped" data-position="top" data-tooltip="NOT PAID" style="cursor: default;">⚠️</span>
+                <span class="deals-emoji tooltipped" data-position="top" data-tooltip="NOT PAID">⚠️</span>
               {% endif %}
             </span>
             <span class="card-title" style="font-weight: bold; height: 60px;">{{ deal.name }}</span>

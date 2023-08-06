@@ -84,6 +84,12 @@ nav .brand-logo {
   display: flex;
 }
 
+.list-switch {
+  padding-right: 25px;
+  top: 75%;
+  transform: translateY(25%);
+}
+
 .paid-switch {
   padding-right: 25px;
   top: 75%;
@@ -113,6 +119,12 @@ nav .brand-logo {
 .card .card-action {
   display: flex;
   justify-content: space-evenly;
+}
+
+.deals-emoji {
+  cursor: default;
+  font-size: 30px;
+  padding-right: 5px;
 }
 
 #addDealModal, .editDealModal {

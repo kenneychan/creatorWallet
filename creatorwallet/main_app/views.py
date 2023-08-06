@@ -172,6 +172,14 @@ def deals_index(request):
   return render(request, 'deals/index.html', { 'deals': deals, 'count_deals': count_deals })
 
 @login_required
+def deals_list(request):
+  request.session['path'] = request.get_full_path()
+  show_list = True
+  deals = Deal.objects.filter(user=request.user).order_by("-due_date")
+  count_deals = deals.count()
+  return render(request, 'deals/index.html', { 'deals': deals, 'show_list': show_list, 'count_deals': count_deals })
+
+@login_required
 def filter_paid(request):
   request.session['path'] = request.get_full_path()
   unpaid = True
