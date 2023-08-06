@@ -247,7 +247,7 @@
             </div>
           {% elif field.name == "amount" %}
             <div class="input-field">
-              <label for="id_{{ field.name }}">{{ field.label }} <span>-&nbsp;
+              <label for="id_{{ field.name }}">{{ field.label }} <span style="color:red;">*</span><span>&nbsp;-&nbsp;
                 <i>you can set this as 0, or you may enter the value of the merch you've recieved just make sure to check the box down below!</i></span></label>
               <input type="number" name="{{ field.name }}" step="0.01" id="id_{{ field.name }}" value="{{ deal.amount }}" required>
             </div>
