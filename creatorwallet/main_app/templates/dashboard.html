@@ -62,7 +62,7 @@
 
   {% else %}
     <div class="row">
-      <div class="col s12">
+      <div class="col s12" {% if dueDate == "None" %}hidden{% endif %}>
         <div class="card">
           <figure class="highcharts-figure">
             <div id="walletData"></div>

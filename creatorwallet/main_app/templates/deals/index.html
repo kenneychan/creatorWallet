@@ -8,6 +8,42 @@
   <div class="deal-list-header">
     <h2>Deal List</h2>
     <div class="deal-header-buttons">
+      <div class="paid-switch">
+        <div class="row">
+          <label>Show Un-paid ONLY</label>
+          {% if unpaid %}
+          <form method="POST" action="{% url 'index' %}" id="paidSwitch">
+          {% else %}
+          <form method="POST" action="{% url 'filter_paid' %}" id="paidSwitch">
+          {% endif %}
+            {% csrf_token %}
+            <div class="switch center">
+              <label>
+                <input type="checkbox" id="paid-switch" name="show_unpaid" {% if unpaid %}checked{% endif %}>
+                <span class="lever"></span>
+              </label>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="done-switch">
+        <div class="row">
+          <label>Show In Progress ONLY</label>
+          {% if inprogress %}
+          <form method="POST" action="{% url 'index' %}" id="doneSwitch">
+            {% else %}
+            <form method="POST" action="{% url 'filter_done' %}" id="doneSwitch">
+              {% endif %}
+              {% csrf_token %}
+              <div class="switch center">
+                <label>
+                  <input type="checkbox" id="done-switch" name="show_inprogress" {% if inprogress %}checked{% endif %}>
+                  <span class="lever"></span>
+                </label>
+              </div>
+            </form>
+        </div>
+      </div>
       <div class="add-deal-btn-top scale-transition">
         <a class="btn-floating btn teal modal-trigger pulse tooltipped z-depth-3" data-position="left" data-tooltip="Add new deal" href="#addDealModal" style="margin-top: 20px;"><i
             class="material-icons">add</i></a>
@@ -41,7 +77,7 @@
                     <div class="input-field">
                       {{ field.errors }}
                       <label for="id_{{ field.name }}">{{ field.label }} <span>-&nbsp;
-                        <i>you may enter the value of the merch you've recieved just make sure to check the box down below!</i></span></label> {{ field }}
+                        <i>you can set this as 0, you may enter the value of the merch you've recieved just make sure to check the box down below!</i></span></label> {{ field }}
                     </div>
                   {% else %}
                     <div class="input-field">
@@ -170,8 +206,8 @@
                 {% elif field.name == "amount" %}
                   <div class="input-field">
                     <label for="id_{{ field.name }}">{{ field.label }} <span>-&nbsp;
-                      <i>you may enter the value of the merch you've recieved just make sure to check the box down below!</i></span></label>
-                    <input type="number" name="{{ field.name }}" step="0.01" id="id_{{ field.name }}" value="{{ deal.amount }}">
+                      <i>you can set this as 0, or you may enter the value of the merch you've recieved just make sure to check the box down below!</i></span></label>
+                    <input type="number" name="{{ field.name }}" step="0.01" id="id_{{ field.name }}" value="{{ deal.amount }}" required>
                   </div>
                 {% elif field.name == "merch" %}
                   <label for="id_{{ field.name }}_{{ deal.id }}" style="padding-right: 30px;">
@@ -246,26 +282,41 @@
       {% endfor %}
     </div>
   {% else %}
-    <h5>Click <button class="btn-floating btn-small btn teal modal-trigger z-depth-2" href="#addDealModal"><i class="material-icons">add</i></button> to add a new deal! 🤝</h5>
+    <h5>
+      {% if count_deals != 0 and count_deals != null %}
+        {% if unpaid %}
+          ALL your deals are paid out!!!<br><br>
+        {% else %}
+          You've COMPLETED all your deals!!!<br><br>
+        {% endif %}
+      {% else %}
+        You don't have any deals yet!<br><br>
+      {% endif %}
+      
+      Click <button class="btn-floating btn-small btn teal modal-trigger z-depth-2" href="#addDealModal"><i class="material-icons">add</i></button> to add a new deal! 🤝
+    </h5>
   {% endif %}
 </div>
 
-<script>  
-  const slider = document.getElementById("paid-switch");
-  const form = document.getElementById("paidSwitch");
+<script>
+  const paidSlider = document.getElementById("paid-switch");
+  const paidForm = document.getElementById("paidSwitch");
+  const doneSlier = document.getElementById("done-switch");
+  const doneForm = document.getElementById("doneSwitch");
 
-  slider.addEventListener("change", function() {
-    if (this.checked) {
-      switchStatus = this.checked;
-      slider.value = "True";
-      form.submit();
-    }
-    else {
-      switchStatus = this.checked;
-      slider.value = "False";
-      form.submit();
-    }
-    form.submit();
+  paidSlider.addEventListener("change", function() {
+    paidForm.submit();
   });
+
+  doneSlier.addEventListener("change", function () {
+      doneForm.submit();
+    });
+
+  // if (this.checked) {
+  //     switchStatus = this.checked;
+  //   }
+  //   else {
+  //     switchStatus = this.checked;
+  //   }
 </script>
 {% endblock %}
