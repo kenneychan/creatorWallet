@@ -17,7 +17,6 @@ import environ
 
 # Configure Django App for Heroku.
 import django_heroku
-django_heroku.settings(locals())
 
 env = environ.Env()
 environ.Env.read_env()
