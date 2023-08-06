@@ -7,9 +7,33 @@
 
   <div class="deal-list-header">
     <h2>Deal List</h2>
-    <div class="add-deal-btn-top scale-transition">
-      <a class="btn-floating btn teal modal-trigger pulse tooltipped z-depth-3" data-position="left" data-tooltip="Add new deal" href="#addDealModal" style="margin-top: 20px;"><i
-          class="material-icons">add</i></a>
+    <div class="deal-header-buttons">
+      <div class="paid-switch">
+        <div class="row">
+          <label>Show Un-paid ONLY</label>
+          <div class="switch center">
+            <label>
+              <input type="checkbox" id="paid-switch">
+              <span class="lever"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="done-switch">
+        <div class="row">
+          <label>Show In Progress ONLY</label>
+          <div class="switch center">
+            <label>
+              <input type="checkbox" id="done-switch">
+              <span class="lever"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="add-deal-btn-top scale-transition">
+        <a class="btn-floating btn teal modal-trigger pulse tooltipped z-depth-3" data-position="left" data-tooltip="Add new deal" href="#addDealModal" style="margin-top: 20px;"><i
+            class="material-icons">add</i></a>
+      </div>
     </div>
     <!-- <a class="btn-floating btn teal" href="{% url 'deals_create' %}" style="margin-top: 20px;"><i
         class="material-icons">add</i></a> -->
@@ -87,7 +111,7 @@
     <div class="row">
       {% for deal in deals %}
         <div class="col s4">
-          <div class="card hoverable">
+          <div class="card hoverable deal-cards" data-paid="{{ deal.paid }}" data-merch="{{ deal.merch }}" data-done="{{ deal.done }}">
             <div class="card-content">
             <span style='font-size:30px; float:right;'>
               {% if deal.done %}
@@ -246,4 +270,31 @@
     <h5>Click <button class="btn-floating btn-small btn teal modal-trigger z-depth-2" href="#addDealModal"><i class="material-icons">add</i></button> to add a new deal! 🤝</h5>
   {% endif %}
 </div>
+
+<script>
+  const paidSwitch = document.getElementById('paid-switch');
+  const doneSwitch = document.getElementById('done-switch');
+  const dealCards = document.querySelectorAll('.deal-cards');
+
+  paidSwitch.addEventListener('change', function() {
+    if (this.checked) {
+      switchStatus = this.checked;
+      
+    }
+    else {
+      switchStatus = this.checked;
+      
+    }
+  });
+  doneSwitch.addEventListener('click', function () {
+    if (this.checked) {
+      switchStatus = this.checked;
+
+    }
+    else {
+      switchStatus = this.checked;
+
+    }
+  });
+</script>
 {% endblock %}
