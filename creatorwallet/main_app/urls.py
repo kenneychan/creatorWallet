@@ -8,6 +8,8 @@ urlpatterns = [
   # New url pattern below
   path('accounts/signup/', views.signup, name='signup'),
   path('deals/', views.deals_index, name='index'),
+  path('deals/unpaid', views.filter_paid, name='filter_paid'),
+  path('deals/inprogress', views.filter_done, name='filter_done'),
   path('deals/<int:deal_id>/', views.deals_detail, name='detail'),
   path('deals/create/', views.DealCreate.as_view(), name='deals_create'),
   path('deals/<int:pk>/update/', views.DealUpdate.as_view(), name='deals_update'),

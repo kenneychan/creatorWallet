@@ -38,13 +38,21 @@ def dashboard(request):
   # Get Wallet data
   wallet = Decimal(0)
   wallet_data = []
+  formatted_due_date = "None"
   for deal in deals.filter(paid=True,merch=False).order_by("due_date"):
-     wallet += deal.amount
-     point = {
-        'x': deal.due_date.strftime('%m/%d/%Y'),
-        'y': float(wallet)
-     }
-     wallet_data.append(point)
+    wallet += deal.amount
+    if deal.due_date is not None:
+      formatted_due_date = deal.due_date.strftime('%m/%d/%Y')
+    else:
+      formatted_due_date = "None"
+
+    point = {
+      'x': formatted_due_date,
+      'y': float(wallet)
+    }
+    wallet_data.append(point)
+  
+  # print(formatted_due_date)
 
   # Get Merch, Paid, and Done Count data
   count_activities, count_merch, count_cash, count_paid, count_unpaid, count_done, count_in_progress = 0, 0, 0, 0, 0, 0, 0
@@ -93,7 +101,7 @@ def dashboard(request):
   if count_deals - count_done == 0:
     all_deals_done = True
 
-  return render(request, 'dashboard.html', { 'deals': deals, 'totalUserActivity': count_activities, 'allDealsDone': all_deals_done, 'walletData': wallet_data, 'merchData': merch_data, 'paidData': paid_data, 'doneData': done_data })
+  return render(request, 'dashboard.html', { 'deals': deals, 'totalUserActivity': count_activities, 'allDealsDone': all_deals_done, 'dueDate': formatted_due_date, 'walletData': wallet_data, 'merchData': merch_data, 'paidData': paid_data, 'doneData': done_data })
 
 
 def signup(request):
@@ -142,9 +150,28 @@ class DealUpdate(LoginRequiredMixin, UpdateView):
 def deals_index(request):
   request.session['path'] = request.get_full_path()
   deals = Deal.objects.filter(user=request.user).order_by("-due_date")
+  count_deals = deals.count()
   # You could also retrieve the logged in user's deals like this
   # deals = request.user.deal_set.all()
-  return render(request, 'deals/index.html', { 'deals': deals })
+  return render(request, 'deals/index.html', { 'deals': deals, 'count_deals': count_deals })
+
+@login_required
+def filter_paid(request):
+  request.session['path'] = request.get_full_path()
+  unpaid = True
+  deals = Deal.objects.filter(user=request.user).order_by("-due_date")
+  count_deals = deals.count()
+  unpaid_deals = deals.filter(paid=False)
+  return render(request, 'deals/index.html', { 'deals': unpaid_deals, 'unpaid': unpaid, 'count_deals': count_deals})
+
+@login_required
+def filter_done(request):
+  request.session['path'] = request.get_full_path()
+  inprogress = True
+  deals = Deal.objects.filter(user=request.user).order_by("-due_date")
+  count_deals = deals.count()
+  inprogess_deals = deals.filter(done=False)
+  return render(request, 'deals/index.html', { 'deals': inprogess_deals, 'inprogress': inprogress, 'count_deals': count_deals})
 
 @login_required
 def deals_detail(request, deal_id):
