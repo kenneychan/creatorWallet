@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col s4">
       <div class="row">
-        <div class="card hoverable">
+        <div class="card hoverable rounded">
           <div class="card-content">
             <span class="deals-emoji right">
               {% if deal.done %}
@@ -63,14 +63,14 @@
             </table>
             <small class="right">Created on: {{ deal.created_date}}</small>
           </div>
-          <div class="card-action">
+          <div class="card-action" style="border-radius: 10px;">
             <a class="modal-trigger btn-floating waves-effect waves-light tooltipped z-depth-2" data-position="left" data-tooltip="Edit platform" href="#editDealModal_{{ deal.id }}"><i class="material-icons">edit</i></a>
             <a class="modal-trigger btn-floating waves-effect tooltipped z-depth-2" data-position="right" data-tooltip="Delete platform" href="#deleteDealModal_{{ deal.id }}"><i class="material-icons">delete</i></a>
           </div>
         </div>
-        <div class="card hoverable">
+        <div class="card hoverable rounded">
           <div class="card-content">
-            <ul class="collection">
+            <ul class="collection rounded">
             {% for attachment in deal.attachment_set.all %}
               <li class="collection-item">
                 <div>
@@ -82,7 +82,7 @@
                 </div>
               </li>
               <!-- delete attachment modal -->
-              <div class="modal modal-fixed-foote deleteAttachmentModal" id="deleteAttachmentModal_{{ deal.id }}_{{attachment.id }}">
+              <div class="modal modal-fixed-foote deleteAttachmentModal rounded-sm" id="deleteAttachmentModal_{{ deal.id }}_{{attachment.id }}">
                 <div class="modal-content">
                   <div class="modal-header">
                     <button type="button" class="modal-close btn-floating btn-small z-depth-2 right">
@@ -117,14 +117,14 @@
       </div>
     </div>
     <div class="col s4">
-      <div class="card-panel hoverable">
+      <div class="card-panel hoverable rounded">
         <div class="row">
           <div class="col s6">
             <span style="font-weight: bold; font-size: 24px;">{{ deal.name }}'s Platforms</span>
             <hr>
             {% if deal.platforms.count %}
               {% for platform in deal.platforms.all %}
-              <div class="card">
+              <div class="card rounded rounded">
                 <div class="card-content platform-cards">
                   <span class="platform-cards-left">
                     <b>{{ platform.name }}</b>
@@ -145,7 +145,7 @@
             <hr>
             {% if platforms.count %}
               {% for platform in platforms.all %}
-              <div class="card">
+              <div class="card rounded rounded">
                 <div class="card-content platform-cards">
                   <form class="platform-cards-left" action="{% url 'assoc_platform' deal.id platform.id %}" method="POST">
                     {% csrf_token %}
@@ -170,7 +170,7 @@
     </div>
     <div class="col s4">
       <div class="row">
-        <div class="card hoverable">
+        <div class="card hoverable rounded">
           <div class="card-content">
             <span style="font-weight: bold; font-size: 24px;">Timeline</span>
             <form action="{% url 'add_activity' deal.id %}" method="POST">
@@ -184,7 +184,7 @@
               <button type="submit" class="btn waves-effect waves-light z-depth-2">Add Activity</button>
             </form>
             <br>
-            <ul class="collection">
+            <ul class="collection rounded">
               {% for activity in deal.activity_set.all %}
                 <li class="collection-item">
                   <span class="title"><b>{{ activity.activity }}</b></span>
@@ -195,7 +195,7 @@
                   <p class="activity-notes">{{ activity.notes }}</p>
                 </li>
                 <!-- delete activity modal -->
-                <div class="modal modal-fixed-foote deleteActivityModal" id="deleteActivityModal_{{ deal.id }}_{{activity.id }}">
+                <div class="modal modal-fixed-foote deleteActivityModal rounded-sm" id="deleteActivityModal_{{ deal.id }}_{{activity.id }}">
                   <div class="modal-content">
                     <div class="modal-header">
                       <button type="button" class="modal-close btn-floating btn-small z-depth-2 right">
@@ -225,7 +225,7 @@
     </div>
   </div>
   <!-- edit deal modal -->
-  <div class="modal editDealModal" id="editDealModal_{{ deal.id }}">
+  <div class="modal editDealModal rounded" id="editDealModal_{{ deal.id }}">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="modal-close btn-floating btn-small teal z-depth-2 right">
@@ -301,7 +301,7 @@
     </div>
   </div>
   <!-- delete deal modal -->
-  <div class="modal modal-fixed-foote deleteDealModal" id="deleteDealModal_{{ deal.id }}">
+  <div class="modal modal-fixed-foote deleteDealModal rounded-sm" id="deleteDealModal_{{ deal.id }}">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="modal-close btn-floating btn-small z-depth-2 right">
