@@ -46,5 +46,5 @@ Our mission is to provide you with an unparalleled user-centric experience. We'v
 
 ## Ice Box
 
-Stripe
-Sponsor
+- Stripe
+- Sponsor
