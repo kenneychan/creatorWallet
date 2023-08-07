@@ -5,7 +5,6 @@ Our mission is to provide you with an unparalleled user-centric experience. We'v
 ## Screen Shots
 
 ## Technologies Used
-<br></br>
 -Python
 <br></br>
 -Django
