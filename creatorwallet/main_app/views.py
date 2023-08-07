@@ -105,11 +105,17 @@ def dashboard(request):
   if count_deals - count_done == 0:
     all_deals_done = True
 
+  # Check if all deals are done
+  all_deals_paid = False
+  if count_deals - count_paid == 0:
+    all_deals_paid = True
+
   context = { 
     'deals': deals, 
     'totalUserActivity': count_activities, 
     'deals_with_most_recent_activities': deals_with_most_recent_activities,
     'all_deals_done': all_deals_done, 
+    'all_deals_paid': all_deals_paid,
     'formatted_due_date': formatted_due_date, 
     'wallet_data': wallet_data, 
     'merch_data': merch_data, 
