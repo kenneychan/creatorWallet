@@ -209,23 +209,23 @@
             <div class="card-content">
               <span class="deals-emoji right">
                 {% if deal.done %}
-                  <span class="deals-emoji tooltipped" data-position="top" data-tooltip="DONE">✔️</span>
+                  <span class="tooltipped" data-position="top" data-tooltip="DONE">✔️</span>
                 {% else %}
-                  <span class="deals-emoji tooltipped" data-position="top" data-tooltip="IN PROGRESS">🚧</span>
+                  <span class="tooltipped" data-position="top" data-tooltip="IN PROGRESS">🚧</span>
                 {% endif %}
               </span>
               <span class="deals-emoji right">
                 {% if deal.merch %}
-                  <span class="deals-emoji tooltipped" data-position="top" data-tooltip="MERCH">👕</span>
+                  <span class="tooltipped" data-position="top" data-tooltip="MERCH">👕</span>
                 {% else %}
-                  <span class="deals-emojitooltipped" data-position="top" data-tooltip="CASH">💵</span>
+                  <span class="tooltipped" data-position="top" data-tooltip="CASH">💵</span>
                 {% endif %}
               </span>
               <span class="deals-emoji left">
                 {% if deal.paid %}
-                  <span class="deals-emoji tooltipped" data-position="top" data-tooltip="PAID">💰</span>
+                  <span class="tooltipped" data-position="top" data-tooltip="PAID">💰</span>
                 {% else %}
-                  <span class="deals-emoji tooltipped" data-position="top" data-tooltip="NOT PAID">⚠️</span>
+                  <span class="tooltipped" data-position="top" data-tooltip="NOT PAID">⚠️</span>
                 {% endif %}
               </span>
               <span class="card-title" style="font-weight:bold; height: 60px;">{{ deal.name }}</span>
