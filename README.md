@@ -4,6 +4,20 @@
 
 ## Technologies Used
 
+<br></br>
+-Python
+<br></br>
+-Django
+<br></br>
+-Javascript
+<br><br>
+-JQuery
+<br><br>
+-HTML 
+<br></br>
+-Heroku
+<br></br>
+
 ## A link to the deployed app (Heroku)
 
 ## Kanban
