@@ -21,8 +21,6 @@ import django_heroku
 env = environ.Env()
 environ.Env.read_env()
 
-WSGI_APPLICATION = 'creatorwallet.wsgi.application'
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
