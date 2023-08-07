@@ -5,19 +5,23 @@ Our mission is to provide you with an unparalleled user-centric experience. We'v
 ## Screen Shots
 
 ## Technologies Used
--Python
-<br></br>
--Django
-<br></br>
--Javascript
-<br><br>
--JQuery
-<br><br>
--HTML 
-<br></br>
--Heroku
-<br></br>
-## Contributions made by Ken, Calvin, and Darius
+
+- Python
+- Django
+- Javascript
+- JQuery
+- HTML
+- Heroku
+- Amazon S3 buckets
+- YouTube API
+- Twitch API
+- Stripe API
+
+## Contributions made by the Bad Boys
+
+- Ken
+- Calvin
+- Darius
 
 ## A link to the deployed app (Heroku)
 
