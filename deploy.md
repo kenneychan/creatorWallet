@@ -31,6 +31,8 @@ Push heroku deployment branch to remote heroku repository
 git push heroku deploy:main
 ```
 
+Note: to deploy from a sub-directory of repository: `git subtree push --prefix <folder> heroku <branch>:main`
+
 Return to feature branch to continue working
 
 ```
