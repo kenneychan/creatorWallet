@@ -34,10 +34,13 @@ Our mission is to provide you with an unparalleled user-centric experience. We'v
 ## User Stories
 
 ## Wireframe
+
 ![Alt text](creatorwallet/main_app/static/images/readme/wireframe.png "Wireframe")
 [Excalidraw](https://excalidraw.com/#room=037be86d321bd61a3bc0,7__Z1PlQAYtkcCc4iPwpYA)
 
 ## ERD
+
+![Alt text](creatorwallet/main_app/static/images/readme/ERD.png "LucidChart")
 
 [LucidChart](https://lucid.app/lucidchart/0492882b-134a-41aa-9fd4-b6cb3a341f81/edit?beaconFlowId=E9A765415FA55084&invitationId=inv_64ea69c3-542a-4c32-b87f-0991050b43e5&page=0_0#)
 
