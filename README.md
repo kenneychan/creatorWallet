@@ -1,5 +1,7 @@
 # CreatorWallet
 
+Our mission is to provide you with an unparalleled user-centric experience. We've meticulously crafted an all-in-one solution, streamlining the complexities of deal management with an effortlessly integrated platform. With our intuitive design and user-friendly reporting dashboard, tracking the progress of your deals becomes smoother and more intuitive than ever before. We prioritize your ease in Creating, Reading, Updating, and Deleting deals, all within a few intuitively designed pages. Our responsive system ensures a cohesive experience across every interaction. We are dedicated to a seamless onboarding process, making it incredibly straightforward to get started. Your feedback is invaluable to us, as we strive to continuously improve and tailor CreatorWallet to meet your needs. Our team is always here for you, ready to answer any questions and listen to your thoughts and suggestions, to create an even better user experience.
+
 ## Screen Shots
 
 ## Technologies Used
