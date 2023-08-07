@@ -9,6 +9,7 @@ Our mission is to provide you with an unparalleled user-centric experience. We'v
 - Javascript
 - JQuery
 - HTML
+- CSS
 - Heroku
 - Amazon S3 buckets
 - YouTube API
