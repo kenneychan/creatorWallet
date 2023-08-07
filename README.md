@@ -34,7 +34,7 @@ Our mission is to provide you with an unparalleled user-centric experience. We'v
 ## User Stories
 
 ## Wireframe
-![Alt text](/creatorwallet/main_app/static/images/demo/wireframe.png "Wireframe")
+![Alt text](creatorwallet/main_app/static/images/readme/wireframe.png "Wireframe")
 [Excalidraw](https://excalidraw.com/#room=037be86d321bd61a3bc0,7__Z1PlQAYtkcCc4iPwpYA)
 
 ## ERD
