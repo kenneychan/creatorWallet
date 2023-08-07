@@ -47,7 +47,7 @@ Our mission is to provide you with an unparalleled user-centric experience. We'v
 ## Home Page
 ![Alt text](creatorwallet/main_app/static/images/readme/home.png "Home")
 
-##About
+## About
 ![Alt text](creatorwallet/main_app/static/images/readme/about.png "About")
 
 ## Dashboard
