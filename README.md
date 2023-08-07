@@ -45,7 +45,7 @@ Our mission is to provide you with an unparalleled user-centric experience. We'v
 [LucidChart](https://lucid.app/lucidchart/0492882b-134a-41aa-9fd4-b6cb3a341f81/edit?beaconFlowId=E9A765415FA55084&invitationId=inv_64ea69c3-542a-4c32-b87f-0991050b43e5&page=0_0#)
 
 ## Home Page
-![image](https://github.com/kenneychan/creatorWallet/assets/134982506/ecfe5427-748d-44d2-94dc-a3340d76a882)
+![Alt text](creatorwallet/main_app/static/images/readme/home.png "Home")
 
 
 ## Dashboard
