@@ -44,4 +44,26 @@ Our mission is to provide you with an unparalleled user-centric experience. We'v
 
 [LucidChart](https://lucid.app/lucidchart/0492882b-134a-41aa-9fd4-b6cb3a341f81/edit?beaconFlowId=E9A765415FA55084&invitationId=inv_64ea69c3-542a-4c32-b87f-0991050b43e5&page=0_0#)
 
+## Home Page
+![image](https://github.com/kenneychan/creatorWallet/assets/134982506/ecfe5427-748d-44d2-94dc-a3340d76a882)
+
+
+## Dashboard
+![image](https://github.com/kenneychan/creatorWallet/assets/134982506/845113e8-1e12-4934-9cda-a0b42102d2a6)
+
+## Deals List
+![image](https://github.com/kenneychan/creatorWallet/assets/134982506/37dd9678-23f1-447f-b9e6-2be5d83009bb)
+
+
+## Deals Details
+![image](https://github.com/kenneychan/creatorWallet/assets/134982506/469326a5-1a0f-42e8-b108-bb7c9bb1e277)
+
+## Platform List
+![image](https://github.com/kenneychan/creatorWallet/assets/134982506/d724a74e-675e-4528-ba72-fb6efa5e8183)
+
+
+
+
+
+
 ## Ice Box
