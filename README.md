@@ -47,9 +47,11 @@ Our mission is to provide you with an unparalleled user-centric experience. We'v
 ## Home Page
 ![Alt text](creatorwallet/main_app/static/images/readme/home.png "Home")
 
+##About
+![Alt text](creatorwallet/main_app/static/images/readme/about.png "About")
 
 ## Dashboard
-![image](https://github.com/kenneychan/creatorWallet/assets/134982506/845113e8-1e12-4934-9cda-a0b42102d2a6)
+![Alt text](creatorwallet/main_app/static/images/readme/dashboard.png "Dashboard")
 
 ## Deals List
 ![image](https://github.com/kenneychan/creatorWallet/assets/134982506/37dd9678-23f1-447f-b9e6-2be5d83009bb)
