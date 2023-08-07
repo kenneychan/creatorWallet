@@ -75,7 +75,7 @@ Our mission is to provide you with an unparalleled user-centric experience. We'v
 ![Alt text](creatorwallet/main_app/static/images/readme/deals-index-show-activity-toggle.png "Deal Index Show Activity Toggle")
 ![Alt text](creatorwallet/main_app/static/images/readme/deals-index-show-activity-expanded.png "Deal Index Show Activity Expanded")
 ![Alt text](creatorwallet/main_app/static/images/readme/deals-index-show-unpaid-toggle.png "Deal Index Show Unpaid Toggle")
-![Alt text](creatorwallet/main_app/static/images/readme/deals-index-show-inprogress-expanded.png "Deal Index Show In Progress Toggle")
+![Alt text](creatorwallet/main_app/static/images/readme/deals-index-show-inprogress-toggle.png "Deal Index Show In Progress Toggle")
 ![Alt text](creatorwallet/main_app/static/images/readme/deals-index-add-modal.png "Deal Index Add Modal")
 ![Alt text](creatorwallet/main_app/static/images/readme/deals-index-edit-modal.png "Deal Index Edit Modal")
 ![Alt text](creatorwallet/main_app/static/images/readme/deals-index-delete-modal.png "Deal Index Delete Modal")
