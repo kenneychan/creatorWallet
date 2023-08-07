@@ -33,7 +33,7 @@
         {% endfor %}
       {% endif %}
     </div>
-    <div class="col s8">
+    <div class="col s4">
       <h4 class="header" style="margin-bottom: 0;">Deals in progress</h4>
       <small><i>(Deals that are marked as <b>not done</b>)</i></small>
       <hr>
@@ -45,7 +45,7 @@
         {% else %}
           {% for deal in deals %}
             {% if not deal.done %}
-              <div class="col s6">
+              <div class="col s12">
                 <div class="card hoverable">
                   <div class="card-content">
                     <b>{{deal.name}} </b><small>due on {{deal.due_date}}</small>
@@ -59,6 +59,32 @@
         {% endif %}
       {% endif %}
     </div>
+    <class class="col s4">
+      <h4 class="header" style="margin-bottom: 0;">Deals pending payments</h4>
+      <small><i>(Deals that are marked as <b>not paid</b>)</i></small>
+      <hr>
+      {% if deals.first == None %}
+        <b>You do not currently have any pending payments!</b>
+      {% else %}
+        {% if all_deals_paid == True %}
+          <b>All your deals are PAID! 💰</b>
+        {% else %}
+          {% for deal in deals %}
+            {% if not deal.paid %}
+              <div class="col s12">
+                <div class="card hoverable">
+                  <div class="card-content">
+                    <b>{{deal.name}} </b><small>due on {{deal.due_date}}</small>
+                    <a href="{% url 'detail' deal.id %}" class="secondary-content tooltipped" data-position="bottom"
+                      data-tooltip="Go to deal"><i class="material-icons">send</i></a>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      {% endif %}
+    </class>
   </div>
   {% if deals.first == None %}
 
