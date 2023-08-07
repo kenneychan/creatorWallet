@@ -10,6 +10,7 @@ Our mission is to provide you with an unparalleled user-centric experience. We'v
 - JQuery
 - HTML
 - CSS
+- Highcharts
 - Heroku
 - Amazon S3 buckets
 - YouTube API
