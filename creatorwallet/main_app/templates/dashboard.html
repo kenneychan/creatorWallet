@@ -13,7 +13,7 @@
       {% else %}
         {% for deal in deals_with_most_recent_activities %}
           {% if deal.activity_set.all %}
-            <ul class="card collection with-header hoverable">
+            <ul class="card collection with-header hoverable rounded">
               <li class="collection-header">
                 <b>{{deal.name}}</b><a href="{% url 'detail' deal.id %}" class="secondary-content tooltipped" data-position="bottom" data-tooltip="Go to deal"><i class="material-icons">send</i></a>
               </li>
@@ -46,7 +46,7 @@
           {% for deal in deals %}
             {% if not deal.done %}
               <div class="col s12">
-                <div class="card hoverable">
+                <div class="card hoverable rounded">
                   <div class="card-content">
                     <b>{{deal.name}} </b><small>due on {{deal.due_date}}</small>
                     <a href="{% url 'detail' deal.id %}" class="secondary-content tooltipped" data-position="bottom"
@@ -72,7 +72,7 @@
           {% for deal in deals %}
             {% if not deal.paid %}
               <div class="col s12">
-                <div class="card hoverable">
+                <div class="card hoverable rounded">
                   <div class="card-content">
                     <b>{{deal.name}} </b><small>due on {{deal.due_date}}</small>
                     <a href="{% url 'detail' deal.id %}" class="secondary-content tooltipped" data-position="bottom"
@@ -91,7 +91,7 @@
   {% else %}
     <div class="row">
       <div class="col s12" {% if formatted_due_date == "None" %}hidden{% endif %}>
-        <div class="card">
+        <div class="card rounded">
           <figure class="highcharts-figure">
             <div id="walletData"></div>
           </figure>

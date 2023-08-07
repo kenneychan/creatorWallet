@@ -15,7 +15,7 @@
     </div>
   </div>
   <!-- add modal -->
-  <div class="modal" id="addPlatformModal">
+  <div class="modal rounded" id="addPlatformModal">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="modal-close btn-floating btn-small blue waves-effect z-depth-2 right">
@@ -56,13 +56,13 @@
     <div class="row">
       {% for platform in platform_list %}
         <div class="col s4">
-          <div class="card hoverable">
+          <div class="card hoverable rounded">
             <div class="card-content">
               <span class="card-title" style="font-weight:bold;">{{ platform.name }}</span>
               <a href="{{ platform.url }}" target="_blank">{{ platform.url|linebreaks }}</a>
               <span>Username: {{ platform.platform_username }}</span>
             </div>
-            <div class="card-action">
+            <div class="card-action" style="border-radius: 10px;">
               <a class="btn-floating waves-effect waves-light blue tooltipped z-depth-2" data-position="left" data-tooltip="Platform details" href="{% url 'platforms_detail' platform.id %}"><i class="material-icons">description</i></a>
               <a class="modal-trigger btn-floating waves-effect waves-light blue tooltipped z-depth-2" data-position="bottom" data-tooltip="Edit platform" href="#editPlatformModal_{{ platform.id }}" type="submit"><i class="material-icons">edit</i></a>
               <a class="modal-trigger btn-floating waves-effect blue tooltipped z-depth-2" data-position="right" data-tooltip="Delete platform" href="#deletePlatformModal_{{ platform.id }}"><i class="material-icons">delete</i></a>
@@ -70,7 +70,7 @@
           </div>
         </div>
         <!-- edit modal -->
-        <div class="modal editPlatformModal" id="editPlatformModal_{{ platform.id }}">
+        <div class="modal editPlatformModal rounded" id="editPlatformModal_{{ platform.id }}">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="modal-close btn-floating btn-small waves-effect blue z-depth-2 right">
@@ -106,7 +106,7 @@
           </div>
         </div>
         <!-- delete modal -->
-        <div class="modal deletePlatformModal" id="deletePlatformModal_{{ platform.id }}">
+        <div class="modal deletePlatformModal rounded-sm" id="deletePlatformModal_{{ platform.id }}">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="modal-close btn-floating btn-small waves-effect blue z-depth-2 right">

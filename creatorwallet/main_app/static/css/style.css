@@ -12,6 +12,14 @@ main {
   flex: 1 0 auto;
 }
 
+.rounded {
+  border-radius: 10px;
+}
+
+.rounded-sm {
+  border-radius: 5px;
+}
+
 .icon {
   height: 20px;
   width: 20px;
