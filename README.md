@@ -3,7 +3,6 @@
 ## Screen Shots
 
 ## Technologies Used
-
 <br></br>
 -Python
 <br></br>
@@ -17,6 +16,7 @@
 <br></br>
 -Heroku
 <br></br>
+## Contributions made by Ken, Calvin, and Darius
 
 ## A link to the deployed app (Heroku)
 
