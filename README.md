@@ -44,6 +44,12 @@ Our mission is to provide you with an unparalleled user-centric experience. We'v
 
 [LucidChart](https://lucid.app/lucidchart/0492882b-134a-41aa-9fd4-b6cb3a341f81/edit?beaconFlowId=E9A765415FA55084&invitationId=inv_64ea69c3-542a-4c32-b87f-0991050b43e5&page=0_0#)
 
+## Login
+![Alt text](creatorwallet/main_app/static/images/readme/login.png "Login")
+
+## Signup
+![Alt text](creatorwallet/main_app/static/images/readme/signup.png "Signup")
+
 ## Home Page
 ![Alt text](creatorwallet/main_app/static/images/readme/home.png "Home")
 
@@ -54,15 +60,28 @@ Our mission is to provide you with an unparalleled user-centric experience. We'v
 ![Alt text](creatorwallet/main_app/static/images/readme/dashboard1.png "Dashboard")
 ![Alt text](creatorwallet/main_app/static/images/readme/dashboard2.png "Dashboard")
 
-## Deals List
-![image](https://github.com/kenneychan/creatorWallet/assets/134982506/37dd9678-23f1-447f-b9e6-2be5d83009bb)
+## Platform List
+![Alt text](creatorwallet/main_app/static/images/readme/platforms-index.png "Platform Index")
+![Alt text](creatorwallet/main_app/static/images/readme/platforms-index-add-modal.png "Platform Index Add Modal")
+![Alt text](creatorwallet/main_app/static/images/readme/platforms-index-edit-modal.png "Platform Index Edit Modal")
+![Alt text](creatorwallet/main_app/static/images/readme/platforms-index-delete-modal.png "Platform Index Detele Modal")
 
+## Platform Details
+![Alt text](creatorwallet/main_app/static/images/readme/platforms-details-youtube.png "Platform Details Youtube")
+![Alt text](creatorwallet/main_app/static/images/readme/platforms-details-twitch.png "Platform Details Twitch")
+
+## Deals List
+![Alt text](creatorwallet/main_app/static/images/readme/deals-index.png "Deal Index")
+![Alt text](creatorwallet/main_app/static/images/readme/deals-index-show-activity-toggle.png "Deal Index Show Activity Toggle")
+![Alt text](creatorwallet/main_app/static/images/readme/deals-index-show-activity-expanded.png "Deal Index Show Activity Expanded")
+![Alt text](creatorwallet/main_app/static/images/readme/deals-index-show-unpaid-toggle.png "Deal Index Show Unpaid Toggle")
+![Alt text](creatorwallet/main_app/static/images/readme/deals-index-show-inprogress-expanded.png "Deal Index Show In Progress Toggle")
+![Alt text](creatorwallet/main_app/static/images/readme/deals-index-add-modal.png "Deal Index Add Modal")
+![Alt text](creatorwallet/main_app/static/images/readme/deals-index-edit-modal.png "Deal Index Edit Modal")
+![Alt text](creatorwallet/main_app/static/images/readme/deals-index-delete-modal.png "Deal Index Delete Modal")
 
 ## Deals Details
-![image](https://github.com/kenneychan/creatorWallet/assets/134982506/469326a5-1a0f-42e8-b108-bb7c9bb1e277)
-
-## Platform List
-![image](https://github.com/kenneychan/creatorWallet/assets/134982506/d724a74e-675e-4528-ba72-fb6efa5e8183)
+![Alt text](creatorwallet/main_app/static/images/readme/deals-details.png "Deals Details")
 
 
 
