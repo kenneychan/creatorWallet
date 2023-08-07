@@ -6,6 +6,8 @@
 
 ## A link to the deployed app (Heroku)
 
+[creatorWallet](https://creatorwallet-069546a7dcb0.herokuapp.com/)
+
 ## Kanban
 
 [Trello](https://trello.com/b/5sCQ8tOn/streamit)
@@ -13,6 +15,7 @@
 ## User Stories
 
 ## Wireframe
+
 [Excalidraw](https://excalidraw.com/#room=037be86d321bd61a3bc0,7__Z1PlQAYtkcCc4iPwpYA)
 
 ## ERD
