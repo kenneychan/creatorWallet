@@ -222,8 +222,20 @@ def deals_detail(request, deal_id):
   id_list = deal.platforms.values_list('id').filter(user=request.user)
   platforms_deal_doesnt_have = Platform.objects.exclude(id__in = id_list).filter(user=request.user)
 
+  s3_client = boto3.client('s3')
+  bucket = os.environ['S3_BUCKET']
+  attachments = deal.attachment_set.all()
+  presigned_attachments = []
+  for attachment in attachments:
+    key = attachment.url.split('/')[-2]+"/"+attachment.url.split('/')[-1]
+    presigned_url = s3_client.generate_presigned_url(ClientMethod='get_object',
+                                                    Params={'Bucket': bucket,
+                                                            'Key': key},
+                                                    ExpiresIn=86400)
+    presigned_attachments.append({'id': attachment.id, 'presigned_url': presigned_url, 'filename': attachment.filename})
+
   activity_form = ActivityForm()
-  return render(request, 'deals/detail.html', { 'deal': deal, "activity_form": activity_form, 'platforms': platforms_deal_doesnt_have  })
+  return render(request, 'deals/detail.html', { 'deal': deal, "activity_form": activity_form, 'platforms': platforms_deal_doesnt_have, 'attachments': presigned_attachments })
 
 
 def add_activity(request, deal_id):
