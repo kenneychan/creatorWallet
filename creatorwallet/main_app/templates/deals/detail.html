@@ -71,14 +71,14 @@
         <div class="card hoverable rounded">
           <div class="card-content">
             <ul class="collection rounded">
-            {% for attachment in deal.attachment_set.all %}
+              {% for attachment in attachments %}
               <li class="collection-item">
                 <div>
                   <a class="modal-trigger secondary-content btn-floating btn-small waves-effect attachment-delete-btn z-depth-2" style="top: 85%; transform: translate(0, -15%);"
                     href="#deleteAttachmentModal_{{ deal.id }}_{{ attachment.id }}">
                     <i class="material-icons">delete</i>
                   </a>
-                  <a href="{{attachment.url}}" download>{{attachment.filename}}</a>
+                  <a href="{{attachment.presigned_url}}" download>{{attachment.filename}}</a>
                 </div>
               </li>
               <!-- delete attachment modal -->
