@@ -55,11 +55,11 @@
   {% if platform_list.count %}
     <div class="row">
       {% for platform in platform_list %}
-        <div class="col s4">
+        <div class="col s12 m12 l6 xl4">
           <div class="card hoverable rounded">
             <div class="card-content">
               <span class="card-title" style="font-weight:bold;">{{ platform.name }}</span>
-              <a href="{{ platform.url }}" target="_blank">{{ platform.url|linebreaks }}</a>
+              <a class="truncate" href="{{ platform.url }}" target="_blank">{{ platform.url|linebreaks }}</a>
               <span>Username: {{ platform.platform_username }}</span>
             </div>
             <div class="card-action" style="border-radius: 10px;">
