@@ -98,7 +98,7 @@ nav .brand-logo {
   transform: translateY(25%);
 }
 
-@media (max-width: 600px) {
+@media screen and (max-width: 600px) {
   .deal-header-switches {
     display: flex;
     justify-content: center;
@@ -151,21 +151,23 @@ nav .brand-logo {
   padding-right: 5px;
 }
 
-#addDealModal, .editDealModal {
-  max-height: 100%;
-  max-width: 50%;
-}
+@media screen and (min-width: 1400px) {
+  #addDealModal, .editDealModal {
+    max-height: 100%;
+    max-width: 50%;
+  }
 
-.deleteDealModal, .deletePlatformModal {
-  max-width: 25%;
+  .deleteDealModal, .deletePlatformModal {
+    max-width: 25%;
+  }
+
+  #addPlatformModal, .editPlatformModal {
+    max-width: 25%;
+  }
 }
 
 #submitDealModalBtn {
   margin-right: -5px;
-}
-
-#addPlatformModal, .editPlatformModal {
-  max-width: 25%;
 }
 
 #platform-modal-body>.input-field>input:focus {
