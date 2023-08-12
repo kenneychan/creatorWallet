@@ -3,7 +3,7 @@
 
 <div class="container">
   <div class="row">
-    <div class="col s4">
+    <div class="col s12 m12 l6 xl4">
       <h4 class="header" style="margin-bottom: 0;">Most recent activities</h4>
       <small><i>(List of <b>ONE</b> latest activity per deal within the last <b>90</b> days)</i></small>
       <hr>
@@ -33,7 +33,7 @@
         {% endfor %}
       {% endif %}
     </div>
-    <div class="col s4">
+    <div class="col s12 m12 l6 xl4">
       <h4 class="header" style="margin-bottom: 0;">Deals in progress</h4>
       <small><i>(Deals that are marked as <b>not done</b>)</i></small>
       <hr>
@@ -59,7 +59,7 @@
         {% endif %}
       {% endif %}
     </div>
-    <class class="col s4">
+    <div class="col s12 m12 l6 xl4">
       <h4 class="header" style="margin-bottom: 0;">Deals pending payments</h4>
       <small><i>(Deals that are marked as <b>not paid</b>)</i></small>
       <hr>
@@ -84,34 +84,34 @@
           {% endfor %}
         {% endif %}
       {% endif %}
-    </class>
+    </div>
   </div>
   {% if deals.first == None %}
 
   {% else %}
     <div class="row">
       <div class="col s12" {% if formatted_due_date == "None" %}hidden{% endif %}>
-        <div class="card rounded">
+        <div class="card">
           <figure class="highcharts-figure">
             <div id="walletData"></div>
           </figure>
         </div>
       </div>
-      <div class="col s4">
+      <div class="col s12 m12 l6 xl4">
         <div class="card">
           <figure class="highcharts-figure">
             <div id="isMerch"></div>
           </figure>
         </div>
       </div>
-      <div class="col s4">
+      <div class="col s12 m12 l6 xl4">
         <div class="card">
           <figure class="highcharts-figure">
             <div id="isPaid"></div>
           </figure>
         </div>
       </div>
-      <div class="col s4">
+      <div class="col s12 m12 l6 xl4">
         <div class="card">
           <figure class="highcharts-figure">
             <div id="isDone"></div>

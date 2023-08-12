@@ -24,13 +24,10 @@
     <header class="navbar-fixed">
       <nav>
         <div class="nav-wrapper white">
-          <ul>
-            <li>
-              <a href="/" class="left brand-logo"><img id="logo" src="{% static 'images/logo/logo-black.png' %}"
-                  alt="CreatorWallet"></a>
-            </li>
-          </ul>
-          <ul class="right">
+          <a href="/" class="brand-logo"><img class="responsive-img" id="logo" src="{% static 'images/logo/logo-black.png' %}"
+              alt="CreatorWallet"></a>
+          <a href="#" data-target="mobile" class="sidenav-trigger right"><i class="material-icons teal-text">menu</i></a>
+          <ul class="right hide-on-med-and-down">
             <li><a href="/about">About</a></li>
             {% if user.is_authenticated %}
             <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
@@ -45,6 +42,20 @@
         </div>
       </nav>
     </header>
+    <ul class="sidenav" id="mobile">
+      <li><a href="/about">About</a></li>
+      <li><div class="divider"></div></li>
+      {% if user.is_authenticated %}
+      <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+      <li><a href="{% url 'platforms_index' %}">View My Platforms</a></li>
+      <li><a href="{% url 'index' %}">View My Deals</a></li>
+      <li><div class="divider"></div></li>
+      <li><a href="{% url 'logout' %}">Log Out</a></li>
+      {% else %}
+      <li><a href="{% url 'signup' %}">Sign Up</a></li>
+      <li><a href="{% url 'login' %}">Log In</a></li>
+      {% endif %}
+    </ul>
     <main>{% block content %} {% endblock %}</main>
     <footer class="page-footer teal lighten-1">
       <!-- <div class="container">
