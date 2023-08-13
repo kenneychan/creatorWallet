@@ -2,7 +2,9 @@ $(document).ready(function () {
   $('.sidenav').sidenav({
     edge: 'right'
   });
-  $('.tooltipped').tooltip();
+  if (isTouchDevice() === false) {
+    $('.tooltipped').tooltip();
+  }
   $('.fixed-action-btn').floatingActionButton();
   $('.parallax').parallax();
   $('.modal').modal();
@@ -56,5 +58,9 @@ $(document).ready(function () {
       $('.add-platform-btn-bottom').addClass('scale-out');
       $('.add-platform-btn-bottom').removeClass('scale-in');
     }
+  }
+
+  function isTouchDevice() {
+    return true == ("ontouchstart" in window || window.DocumentTouch && document instanceof DocumentTouch);
   }
 });
