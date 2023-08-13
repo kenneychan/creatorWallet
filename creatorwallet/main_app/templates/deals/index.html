@@ -159,7 +159,7 @@
     <div class="row">
       {% for deal in deals %}
         {% if show_list %}
-          <div class="col s12">
+          <div class="col s12 m12 l10 xl8 offset-xl2 offset-l1">
             {% if count_activities == 0 %}
               <h5 class="center-align">Add some activities to your deals!</h5>
             {% else %}
@@ -176,7 +176,7 @@
                     </span>
                     <div class="valign-wrapper" style="padding-right: 10px;">
                       <span ckass="truncate" style="font-size:20px; font-weight:bold; padding-right: 5px;">{{ deal.name }}</span>
-                      <small class="hide-on-med-and-down" style="padding-top: 20px">due: {{ deal.due_date }}</small>
+                      <small class="hide-on-small-only" style="padding-top: 20px">due: {{ deal.due_date }}</small>
                     </div>
                     <span class="deals-emoji">
                       {% if deal.merch %}
