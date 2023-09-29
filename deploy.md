@@ -9,7 +9,7 @@ heroku create creatorwallet2
 Set heroku remote repository (do ONCE)
 
 ```
-heroku git:remote -a creatorwallet
+heroku git:remote -a creatorwallet2
 ```
 
 Set environment variables
@@ -23,6 +23,8 @@ heroku config:set TWITCH_APP_TOKEN=<token>
 heroku config:set TWITCH_CLIENT_ID=<id>
 heroku config:set YOUTUBE_API_KEY=<key>
 heroku config:set DATABASE_URL=<url>
+heroku config:set SECRET=<secret>
+
 ```
 
 # Deploy updates
@@ -30,7 +32,7 @@ heroku config:set DATABASE_URL=<url>
 Set heroku remote repository (do ONCE)
 
 ```
-heroku git:remote -a creatorwallet
+heroku git:remote -a creatorwallet2
 ```
 
 Make sure to checkin your features to your feature branch. The following should say "Your branch is up to date with \<your branch>
@@ -59,6 +61,12 @@ Note: to deploy from a sub-directory of repository: `git subtree push --prefix=<
 
 ```
 git subtree push --prefix=creatorwallet/ heroku deploy-neon:main
+```
+
+To view logs in VS Code terminal
+
+```
+heroku logs --tail --app creatorwallet2
 ```
 
 Return to feature branch to continue working
