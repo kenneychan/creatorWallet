@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 import environ
 
@@ -27,10 +27,45 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-$b$e5c(f%x4-#6zq4%92$3p95&9+77ta+ru_asdwo!o3a*pd97'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG', default=False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [env('DJANGO_ALLOWED_HOSTS')]
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': ('%(asctime)s [%(process)d] [%(levelname)s] ' +
+                       'pathname=%(pathname)s lineno=%(lineno)s ' +
+                       'funcname=%(funcName)s %(message)s'),
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        }
+    },
+    'handlers': {
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        'testlogger': {
+            'handlers': ['console'],
+            'level': 'INFO',
+        }
+    }
+}
+
+DEBUG_PROPAGATE_EXCEPTIONS = True
+COMPRESS_ENABLED = os.environ.get('COMPRESS_ENABLED', False)
 
 # Application definition
 
@@ -126,6 +161,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 LOGIN_REDIRECT_URL = '/dashboard'
 LOGOUT_REDIRECT_URL = '/'
