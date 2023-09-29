@@ -23,7 +23,7 @@ heroku config:set TWITCH_APP_TOKEN=<token>
 heroku config:set TWITCH_CLIENT_ID=<id>
 heroku config:set YOUTUBE_API_KEY=<key>
 heroku config:set DATABASE_URL=<url>
-heroku config:set SECRET=<secret>
+heroku config:set SECRET_KEY=<secret>
 
 ```
 
