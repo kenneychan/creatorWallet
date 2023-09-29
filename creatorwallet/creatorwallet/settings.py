@@ -32,7 +32,7 @@ SECRET_KEY= env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1:8000','creatorwallet2-f02c1911c973.herokuapp.com']
 
 # Application definition
 
