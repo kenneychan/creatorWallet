@@ -15,15 +15,16 @@ heroku git:remote -a creatorwallet2
 Set environment variables
 
 ```
+heroku config:set AWS_ACCESS_KEY_ID=<id>
 heroku config:set AWS_SECRET_ACCESS_KEY=<key>
-heroku config:set DISABLE_COLLECTSTATIC=1
+heroku config:set DATABASE_URL=<url>
+heroku config:set DJANGO_ALLOWED_HOSTS=<url>
 heroku config:set S3_BASE_URL=<url>
 heroku config:set S3_BUCKET=<bucket>
+heroku config:set SECRET_KEY=<secret>
 heroku config:set TWITCH_APP_TOKEN=<token>
 heroku config:set TWITCH_CLIENT_ID=<id>
 heroku config:set YOUTUBE_API_KEY=<key>
-heroku config:set DATABASE_URL=<url>
-heroku config:set SECRET_KEY=<secret>
 
 ```
 
