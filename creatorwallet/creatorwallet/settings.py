@@ -13,8 +13,11 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import environ
 
-environ.Env()
+env = environ.Env()
 environ.Env.read_env()
+
+# Configure Django App for Heroku.
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$b$e5c(f%x4-#6zq4%92$3p95&9+77ta+ru_asdwo!o3a*pd97'
+SECRET_KEY= env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -81,15 +84,20 @@ WSGI_APPLICATION = 'creatorwallet.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'creatorwallet',
-        'USER': 'postgres',
-        'PASSWORD': '12345'
-    }
-}
+# DATABASES = {
+#     'default': {
+#     'ENGINE': 'django.db.backends.postgresql',
+#     'NAME': env('DATABASE_NAME'),
+#     'USER': env('DATABASE_USER'),
+#     'PASSWORD': env('DATABASE_PASS'),
+#     'HOST': env('DATABASE_HOST'),
+#     'PORT': env('DATABASE_PORT')
+#     }
+# }
 
+DATABASES = {
+    'default': env.db()
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -134,3 +142,5 @@ LOGOUT_REDIRECT_URL = '/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+django_heroku.settings(locals())
