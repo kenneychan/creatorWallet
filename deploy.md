@@ -30,6 +30,7 @@ heroku config:set YOUTUBE_API_KEY=<key>
 
 # Deploy updates
 
+
 Set heroku remote repository (do ONCE)
 
 ```
@@ -47,10 +48,10 @@ Make sure the main branch on your computer is up to date.
 Checkout deployment branch
 
 ```
-git checkout deploy-neon
+git checkout deploy
 ```
 
-Merge main into deployment branch
+Merge main into deploy branch
 
 ```
 git fetch
@@ -58,7 +59,6 @@ git merge origin/main -m "<comment>"
 ```
 
 Push heroku deployment branch to remote heroku repository
-Note: to deploy from a sub-directory of repository: `git subtree push --prefix=<folder> heroku <branch>:main`
 
 ```
 git subtree push --prefix=creatorwallet/ heroku deploy-neon:main
