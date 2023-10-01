@@ -25,7 +25,7 @@ Our mission is to provide you with an unparalleled user-centric experience. We'v
 
 ## A link to the deployed app (Heroku)
 
-[creatorWallet](https://creatorwallet-069546a7dcb0.herokuapp.com/)
+[creatorWallet](https://creatorwallet2-f02c1911c973.herokuapp.com/)
 
 ## Kanban
 
