@@ -48,7 +48,7 @@ Make sure the main branch on your computer is up to date.
 Checkout deployment branch
 
 ```
-git checkout deploy
+git checkout deploy-neon
 ```
 
 Merge main into deploy branch
